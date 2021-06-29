@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Mealplanner</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="add_gerichte_float_button">Add meal</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="gericht_name">Meal name</string>
+    <string name="zutat">Ingredient1, Ingredient2</string>
+    <string name="vegetarisch">Vegetarian</string>
+    <string name="hinzuf_gen">Add</string>
+    <string name="alle_gerichte">All meals</string>
+    <string name="wochenplaner">Weekly planner</string>
+    <string name="neuer_plan">New plan</string>
+    <string name="datenLoeschen">Delete data</string>
+    <string name="gericht">Meal:</string>
+    <string name="gericht_ndern">Edit meal:</string>
+    <string name="bearbeiten">Edit</string>
+    <string name="zutatenliste">Ingredient list</string>
+    <string name="gericht_bearbeiten">Edit meal</string>
+    <string name="gerichteliste">List of meals</string>
+    <string name="einkaufsliste">Shopping list</string>
+    <string name="deine_gerichte">Your meals</string>
+    <string name="gerichtPlaceholderText">Meal</string>
+    <string name="zutatenPlaceholderText">Ingredients</string>
+</resources>

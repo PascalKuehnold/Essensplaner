@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Essensplaner</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="add_gerichte_float_button">Füge Gericht hinzu</string>
+    <string name="gericht_name">Gericht Name</string>
+    <string name="zutat">Zutat1, Zutat2, …</string>
+    <string name="vegetarisch">Vegetarisch</string>
+    <string name="hinzuf_gen">Hinzufügen</string>
+    <string name="alle_gerichte">Alle Gerichte</string>
+    <string name="wochenplaner">Wochenplaner</string>
+    <string name="neuer_plan">Neuer Plan</string>
+    <string name="datenLoeschen">Daten löschen</string>
+    <string name="gericht">Gericht:</string>
+    <string name="gericht_ndern">Gericht Ändern:</string>
+    <string name="bearbeiten">Bearbeiten</string>
+    <string name="zutatenliste">Zutatenliste</string>
+    <string name="gericht_bearbeiten">Gericht bearbeiten</string>
+    <string name="gerichteliste">Gerichteliste</string>
+    <string name="einkaufsliste">Einkaufsliste</string>
+    <string name="deine_gerichte">Deine Gerichte</string>
+    <string name="gerichtPlaceholderText">Gericht</string>
+    <string name="zutatenPlaceholderText">Zutaten</string>
+</resources>
