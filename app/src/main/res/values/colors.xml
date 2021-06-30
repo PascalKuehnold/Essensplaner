@@ -15,4 +15,7 @@
     <color name="uiElementLinearGradientLast">#6DB375</color>
     <color name="mainGreen">#6DB375</color>
 
+    <color name="newBackgroundColor">#13344D</color>
+    <color name="newHeaderColor">#266799</color>
+
 </resources>

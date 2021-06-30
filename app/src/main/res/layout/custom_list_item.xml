@@ -38,7 +38,7 @@
     <Button
         android:id="@+id/btnHinzufuegenZurEinkaufsliste"
         android:layout_width="15dp"
-        android:layout_height="20dp"
+        android:layout_height="15dp"
         android:background="@drawable/clipboard"
         android:layout_marginRight="40dp"
         android:layout_marginEnd="40dp" />
@@ -46,7 +46,7 @@
     <Button
         android:id="@+id/btnBearbeiten"
         android:layout_width="15dp"
-        android:layout_height="20dp"
+        android:layout_height="15dp"
         android:background="@drawable/clipboard"
         />
 
