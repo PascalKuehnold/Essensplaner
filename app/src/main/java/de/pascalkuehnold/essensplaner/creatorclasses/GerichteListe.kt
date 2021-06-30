@@ -7,6 +7,7 @@ import android.widget.*
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.activities.GerichtEditierenActivity
 import de.pascalkuehnold.essensplaner.database.AppDatabase
+import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
 
 class GerichteListe : AppCompatActivity() {
@@ -36,7 +37,10 @@ class GerichteListe : AppCompatActivity() {
 
         val adapter = CustomAdapter(gerichteListe, this)
 
+
         listView.adapter = adapter
+
+
 
         listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             Toast.makeText(this, "Clicked item :"+" "+ position, Toast.LENGTH_SHORT).show()
@@ -51,7 +55,6 @@ class GerichteListe : AppCompatActivity() {
 
         //databaseConnection?.close()
     }
-
 
 
 

@@ -1,6 +1,7 @@
 package de.pascalkuehnold.essensplaner.layout
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,8 @@ import android.widget.BaseAdapter
 import android.widget.ListAdapter
 import android.widget.TextView
 import de.pascalkuehnold.essensplaner.R
+import de.pascalkuehnold.essensplaner.activities.GerichtEditierenActivity
+import de.pascalkuehnold.essensplaner.activities.GerichtHinzufuegenActivity
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 
 class CustomAdapter(newGerichte: List<Gericht>, newContext: Context): BaseAdapter(), ListAdapter {
@@ -43,6 +46,16 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context): BaseAdapte
             gerichtZutaten.text = gerichte[position].zutaten
         }
 
+        val btnGerichtBearbeiten = view?.findViewById<android.widget.Button>(R.id.btnBearbeiten)
+        btnGerichtBearbeiten?.setOnClickListener {
+            val intent = Intent(parent?.context, GerichtEditierenActivity::class.java).apply{
+                putExtra("GERICHT_NAME", gerichte[position].gerichtName)
+                putExtra("ZUTATEN_LISTE", gerichte[position].zutaten)
+                putExtra("IS_VEGETARISCH", gerichte[position].isVegetarisch)
+            }
+            println("Btn gericht bearbeiten wurde gedrückt")
+            parent?.context?.startActivity(intent)
+        }
 
         return view
     }

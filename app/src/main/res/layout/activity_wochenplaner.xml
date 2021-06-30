@@ -23,7 +23,7 @@
     <ListView
         android:id="@+id/listViewWochenplan"
         android:layout_width="match_parent"
-        android:layout_height="425dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/btnNeuerPlan"
         app:layout_constraintEnd_toEndOf="parent"
