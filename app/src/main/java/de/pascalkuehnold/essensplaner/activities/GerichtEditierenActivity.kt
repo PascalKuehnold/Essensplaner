@@ -3,11 +3,14 @@ package de.pascalkuehnold.essensplaner.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.BaseAdapter
 import android.widget.ListView
 import android.widget.TextView
 import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
+import de.pascalkuehnold.essensplaner.layout.CustomAdapter
 
 class GerichtEditierenActivity : AppCompatActivity() {
     lateinit var inputFieldGericht: TextView
@@ -34,6 +37,12 @@ class GerichtEditierenActivity : AppCompatActivity() {
         }
 
         inputFieldGericht.text = gerichtName
+
+        val zutaten = zutatenListe.split(", ")
+
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, zutaten)
+        listViewZutaten.adapter = adapter
+
 
         //TODO zutatenListe splitten und in die liste einfügen
         //TODO vegetarisch boolean setzen
