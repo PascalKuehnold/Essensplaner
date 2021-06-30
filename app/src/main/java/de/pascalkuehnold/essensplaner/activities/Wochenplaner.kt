@@ -3,7 +3,6 @@ package de.pascalkuehnold.essensplaner.activities
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
 import android.widget.Toast
@@ -12,8 +11,8 @@ import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
-import de.pascalkuehnold.essensplaner.interfaces.GerichtDao
 import de.pascalkuehnold.essensplaner.interfaces.WochenplanerDao
+import de.pascalkuehnold.essensplaner.layout.CustomAdapter
 import kotlin.random.Random
 
 class Wochenplaner : AppCompatActivity(){
@@ -88,7 +87,7 @@ class Wochenplaner : AppCompatActivity(){
         val wochenplanerDao = createConnection()
 
         for(gericht in weeksGerichte) {
-            gericht.gerichtName = "Wochenplaner" + gericht.gerichtName
+            gericht.gerichtName = gericht.gerichtName
             wochenplanerDao.insertAll(gericht)
         }
         println("Wochenplaner >> saveWeekgerichte() -> Neue Daten wurden gespeichert")
@@ -107,12 +106,9 @@ class Wochenplaner : AppCompatActivity(){
     private fun generateListOnScreen(){
         val gerichteListe = getWeeksGerichte()
 
-        val listItems = arrayOfNulls<String>(gerichteListe.size)
+        //val listItems = List<Gericht>(daysToGenerate)
 
-        for(i in 0 until gerichteListe.size){
-            listItems[i] = weeksGerichte[i].gerichtName.substringAfter("Wochenplaner")
-        }
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems)
+        val adapter =  CustomAdapter(weeksGerichte, this)
         listWochenplaner.adapter = adapter
 
         println("Wochenplaner >> generateListOnScreen() -> Daten wurden an den Screen übergeben")

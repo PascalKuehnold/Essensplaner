@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    >
 
 
     <LinearLayout
@@ -19,6 +20,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:text="@string/gerichtPlaceholderText"
+            android:textColor="@color/white"
 
             />
         <TextView
@@ -28,6 +30,7 @@
             android:textSize="12sp"
             android:textStyle="bold"
             android:text ="@string/zutatenPlaceholderText"
+            android:textColor="@color/white"
             />
 
     </LinearLayout>
@@ -41,7 +44,9 @@
         android:layout_height="15dp"
         android:background="@drawable/clipboard"
         android:layout_marginRight="40dp"
-        android:layout_marginEnd="40dp" />
+        android:layout_marginEnd="40dp"
+
+        />
 
     <Button
         android:id="@+id/btnBearbeiten"

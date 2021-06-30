@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".creatorclasses.GerichteListe">
+    tools:context=".creatorclasses.GerichteListe"
+    style="@style/Theme.Essensplaner.NoActionBar">
+
 
     <TextView
         android:id="@+id/gerichteListeHeader"
@@ -15,7 +17,9 @@
         app:layout_constraintBottom_toTopOf="@+id/gerichteAnzeige"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/white"
+        />
 
     <ListView
         android:id="@+id/gerichteAnzeige"
@@ -34,6 +38,7 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toTopOf="@+id/gerichteAnzeige"
         app:layout_constraintTop_toBottomOf="@+id/gerichteListeHeader"
-        tools:layout_editor_absoluteX="3dp" />
+        tools:layout_editor_absoluteX="3dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
