@@ -19,7 +19,7 @@ import kotlin.random.Random
 class Wochenplaner : AppCompatActivity(){
     private lateinit var listWochenplaner: ListView
 
-    val timeToRefresh = 8
+    val timeToRefresh = 7
 
     private var daysToGenerate = 7
     private var weeksGerichte = ArrayList<Gericht>()
