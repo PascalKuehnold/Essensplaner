@@ -21,4 +21,8 @@
     <string name="deine_gerichte">Deine Gerichte</string>
     <string name="gerichtPlaceholderText">Gericht</string>
     <string name="zutatenPlaceholderText">Zutaten</string>
+    <string name="sortierenNach">sortieren nach…</string>
+    <string name="alphabetischAtoZ">(a-z)</string>
+    <string name="alphabetischZtoA">(z-a)</string>
+    <string name="sortierenNachVegetarisch">veggie</string>
 </resources>

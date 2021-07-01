@@ -4,7 +4,6 @@
     <!-- Strings used for fragments for navigation -->
     <string name="add_gerichte_float_button">Add meal</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="gericht_name">Meal name</string>
     <string name="zutat">Ingredient1, Ingredient2</string>
     <string name="vegetarisch">Vegetarian</string>
@@ -23,4 +22,8 @@
     <string name="deine_gerichte">Your meals</string>
     <string name="gerichtPlaceholderText">Meal</string>
     <string name="zutatenPlaceholderText">Ingredients</string>
+    <string name="sortierenNach">sort by…</string>
+    <string name="alphabetischAtoZ">(a-z)</string>
+    <string name="alphabetischZtoA">(z-a)</string>
+    <string name="sortierenNachVegetarisch">veggie</string>
 </resources>

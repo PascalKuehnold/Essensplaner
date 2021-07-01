@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sortBarValues_array">
+        <item>@string/sortierenNach</item>
+        <item>@string/alphabetischAtoZ</item>
+        <item>@string/alphabetischZtoA</item>
+        <item>@string/sortierenNachVegetarisch</item>
+
+    </string-array>
+
+</resources>

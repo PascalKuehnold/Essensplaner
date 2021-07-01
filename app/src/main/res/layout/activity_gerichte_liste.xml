@@ -16,7 +16,7 @@
         android:text="@string/deine_gerichte"
         android:textColor="@color/white"
         android:textSize="@dimen/headline"
-        app:layout_constraintBottom_toTopOf="@+id/divider4"
+        app:layout_constraintBottom_toTopOf="@+id/searchBarGerichteliste"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,15 +35,14 @@
     <ListView
         android:id="@+id/gerichteAnzeige"
         android:layout_width="match_parent"
+        android:layout_height="465dp"
         android:layout_marginBottom="40dp"
-        android:layout_height="500dp"
         android:divider="@drawable/gradient_white_to_blue"
         android:dividerHeight="@dimen/cardview_compat_inset_shadow"
         app:layout_constraintBottom_toTopOf="@id/floatingActionButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/divider4"
-         />
+        app:layout_constraintTop_toTopOf="@id/divider4" />
 
     <View
         android:id="@+id/divider4"
@@ -53,7 +52,7 @@
         app:layout_constraintBottom_toTopOf="@+id/gerichteAnzeige"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gerichteListeHeader" />
+        app:layout_constraintTop_toBottomOf="@+id/searchBarGerichteliste" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -68,5 +67,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gerichteAnzeige"
         app:srcCompat="@android:drawable/ic_input_add" />
+
+    <LinearLayout
+        android:id="@+id/searchBarGerichteliste"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="40dp"
+        android:background="@color/newHeaderColor"
+        app:layout_constraintBottom_toTopOf="@+id/gerichteAnzeige"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gerichteListeHeader">
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="160dp"
+            android:layout_height="45dp"
+
+
+            android:spinnerMode="dropdown"
+            style="@style/Widget.AppCompat.Spinner.DropDown"
+            />
+
+        <SearchView
+            android:id="@+id/sbGerichteListe"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

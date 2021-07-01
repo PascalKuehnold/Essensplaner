@@ -3,6 +3,7 @@ package de.pascalkuehnold.essensplaner.creatorclasses
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.pascalkuehnold.essensplaner.R
@@ -18,6 +19,7 @@ class GerichteListe : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gerichte_liste)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
         listView = findViewById(R.id.gerichteAnzeige)
 
@@ -28,6 +30,19 @@ class GerichteListe : AppCompatActivity() {
             refreshGerichteListe()
         }
 
+        val spinner: Spinner = findViewById(R.id.spinner)
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter.createFromResource(
+                this,
+                R.array.sortBarValues_array,
+                android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            spinner.adapter = adapter
+        }
+        //TODO sort algorithm
 
         refreshGerichteListe()
     }
