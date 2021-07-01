@@ -4,8 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.activities.GerichtEditierenActivity
+import de.pascalkuehnold.essensplaner.activities.GerichtHinzufuegenActivity
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
@@ -19,11 +21,19 @@ class GerichteListe : AppCompatActivity() {
 
         listView = findViewById(R.id.gerichteAnzeige)
 
+        val btnAddGerichteButton = findViewById<FloatingActionButton>(R.id.floatingActionButton)
+        btnAddGerichteButton.setOnClickListener{
+            val intent = Intent(this, GerichtHinzufuegenActivity::class.java)
+            startActivity(intent)
+            refreshGerichteListe()
+        }
+
+
         refreshGerichteListe()
     }
 
 
-    fun refreshGerichteListe() {
+    private fun refreshGerichteListe() {
 
         val gerichtDao = AppDatabase.getDatabase(applicationContext).gerichtDao()
         val gerichteListe = gerichtDao.getAll()
@@ -36,22 +46,9 @@ class GerichteListe : AppCompatActivity() {
         }
 
         val adapter = CustomAdapter(gerichteListe, this)
-
+        adapter.notifyDataSetChanged()
 
         listView.adapter = adapter
-
-
-
-        listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            Toast.makeText(this, "Clicked item :"+" "+ position, Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, GerichtEditierenActivity::class.java).apply {
-                putExtra("GERICHT_NAME", gerichteListe[position].gerichtName)
-                putExtra("ZUTATEN_LISTE", gerichteListe[position].zutaten)
-                putExtra("IS_VEGETARISCH", gerichteListe[position].isVegetarisch)
-
-            }
-            startActivity(intent)
-        }
 
         //databaseConnection?.close()
     }

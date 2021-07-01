@@ -12,7 +12,6 @@ import de.pascalkuehnold.essensplaner.activities.GerichtHinzufuegenActivity
 import de.pascalkuehnold.essensplaner.activities.Wochenplaner
 import de.pascalkuehnold.essensplaner.creatorclasses.GerichteListe
 import de.pascalkuehnold.essensplaner.database.AppDatabase
-import de.pascalkuehnold.essensplaner.database.DatabaseCon
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,13 +19,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
-
-
-        val btnAddGerichteButton = findViewById<FloatingActionButton>(R.id.floatingActionButton)
-        btnAddGerichteButton.setOnClickListener{
-            val intent = Intent(this, GerichtHinzufuegenActivity::class.java)
-            startActivity(intent)
-        }
 
         val btnAlleGerichteAnzeigen = findViewById<Button>(R.id.btnAlleGerichteAnzeigen)
         btnAlleGerichteAnzeigen.setOnClickListener{

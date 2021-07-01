@@ -24,18 +24,13 @@
             android:id="@+id/btnAlleGerichteAnzeigen"
             android:layout_width="250dp"
             android:layout_height="78dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginLeft="48dp"
-            android:layout_marginEnd="48dp"
-            android:layout_marginRight="48dp"
-            android:layout_marginBottom="48dp"
-            android:layout_weight="1"
             android:text="@string/gerichteliste"
             android:textSize="22sp"
+            android:layout_marginTop="150dp"
 
             app:backgroundTint="@color/newHeaderColor"
             app:cornerRadius="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/floatingActionButton"
+            app:layout_constraintBottom_toTopOf="@+id/btnWochenplaner"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -44,51 +39,34 @@
             android:id="@+id/btnWochenplaner"
             android:layout_width="250dp"
             android:layout_height="78dp"
-            android:layout_margin="48dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginLeft="48dp"
-            android:layout_marginEnd="48dp"
-            android:layout_marginRight="48dp"
-            android:layout_weight="1"
             android:text="@string/wochenplaner"
             android:textSize="22sp"
             app:backgroundTint="@color/newHeaderColor"
             app:cornerRadius="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/btnEinkaufsliste"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnAlleGerichteAnzeigen" />
+            app:layout_constraintTop_toBottomOf="@+id/btnAlleGerichteAnzeigen"
+            />
 
         <Button
             android:id="@+id/btnEinkaufsliste"
             android:layout_width="250dp"
             android:layout_height="78dp"
-            android:layout_margin="48dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginLeft="48dp"
-            android:layout_marginEnd="48dp"
-            android:layout_marginRight="48dp"
-            android:layout_weight="1"
             android:text="@string/einkaufsliste"
             android:textSize="22sp"
+
+            android:layout_marginBottom="150dp"
+
             app:backgroundTint="@color/newHeaderColor"
             app:cornerRadius="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnWochenplaner" />
-
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="150dp"
-            android:clickable="true"
-            android:contentDescription="@string/add_gerichte_float_button"
-            android:focusable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@android:drawable/ic_input_add" />
+            app:layout_constraintTop_toBottomOf="@id/btnWochenplaner" />
+
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.Toolbar

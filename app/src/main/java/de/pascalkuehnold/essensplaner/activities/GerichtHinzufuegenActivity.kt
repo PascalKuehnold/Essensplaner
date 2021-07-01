@@ -8,7 +8,6 @@ import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
-import de.pascalkuehnold.essensplaner.database.DatabaseCon
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.interfaces.GerichtDao
 
