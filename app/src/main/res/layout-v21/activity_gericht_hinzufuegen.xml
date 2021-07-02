@@ -8,7 +8,22 @@ tools:context=".activities.GerichtHinzufuegenActivity">
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusableInTouchMode="true"
+    android:focusable="true">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/gericht_hinzuf_gen"
+        android:textSize="@dimen/headline"
+        android:textColor="@color/white"
+        android:gravity="center_horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayoutGericht"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnHinzufuegenGericht"
@@ -71,10 +86,7 @@ tools:context=".activities.GerichtHinzufuegenActivity">
             android:hint="@string/gericht_name"
             android:backgroundTint="@color/newHeaderColor"
             android:textColorHint="@color/newBackgroundColor"
-            android:textColor="@color/white"
-            android:clickable="true"
-            android:focusableInTouchMode="true"
-            android:focusable="true" />
+            android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -101,10 +113,7 @@ tools:context=".activities.GerichtHinzufuegenActivity">
             android:gravity="center_horizontal"
             android:hint="@string/zutat"
             android:textColor="@color/white"
-            android:textColorHint="@color/newBackgroundColor"
-            android:clickable="true"
-            android:focusableInTouchMode="true"
-            android:focusable="true" />
+            android:textColorHint="@color/newBackgroundColor" />
 
     </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

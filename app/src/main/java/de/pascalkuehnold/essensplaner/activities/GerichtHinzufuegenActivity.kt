@@ -34,29 +34,6 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         textInputZutat = findViewById(R.id.textInputTextZutat)
         switchVegetarisch = findViewById(R.id.switchVegetarisch)
 
-        setButtonListener(btnHinzufuegen)
-        setEditTextFocusListener()
-
-
-    }
-
-    private fun setEditTextFocusListener() {
-        //for the Input of the meal field
-        textInputGericht.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
-            if (!hasFocus) {
-                hideSoftKeyboard(v)
-            }
-        }
-
-        //for the input of the ingredients field
-        textInputZutat.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
-            if (!hasFocus) {
-                hideSoftKeyboard(v)
-            }
-        }
-    }
-
-    private fun setButtonListener(btnHinzufuegen: Button) {
         btnHinzufuegen.setOnClickListener {
             this.gerichtName = textInputGericht.text.toString()
             this.textZutaten = textInputZutat.text.toString()
@@ -72,10 +49,24 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
                 }
                 cleanInput()
             } else {
+                Toast.makeText(this, "Gericht konnte nicht hinzugefügt werden. Eingabe überprüfen?", Toast.LENGTH_SHORT).show()
                 println("Eine Eingabe ist fehlerhaft.")
                 println("Das Gericht wurde nicht hinzugefügt")
             }
         }
+
+        textInputGericht.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus) {
+                hideSoftKeyboard(v)
+            }
+        }
+        textInputZutat.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus) {
+                hideSoftKeyboard(v)
+            }
+        }
+
+
     }
 
     private fun hideSoftKeyboard(view: View) {

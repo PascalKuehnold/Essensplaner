@@ -26,4 +26,5 @@
     <string name="alphabetischAtoZ">(a-z)</string>
     <string name="alphabetischZtoA">(z-a)</string>
     <string name="sortierenNachVegetarisch">veggie</string>
+    <string name="gericht_hinzuf_gen">Add meal</string>
 </resources>
