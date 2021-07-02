@@ -48,6 +48,11 @@ class GerichteListe : AppCompatActivity() {
     }
 
 
+    override fun onResume() {
+        super.onResume()
+        refreshGerichteListe()
+    }
+
     private fun refreshGerichteListe() {
 
         val gerichtDao = AppDatabase.getDatabase(applicationContext).gerichtDao()

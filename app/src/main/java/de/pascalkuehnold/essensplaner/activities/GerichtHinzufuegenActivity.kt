@@ -1,12 +1,15 @@
 package de.pascalkuehnold.essensplaner.activities
 
+import android.database.sqlite.SQLiteConstraintException
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.Switch
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
+import de.pascalkuehnold.essensplaner.creatorclasses.GerichteListe
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.interfaces.GerichtDao
@@ -19,7 +22,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
 
     lateinit var textInputGericht: TextInputEditText
     lateinit var textInputZutat: TextInputEditText
-    lateinit var switchVegetarisch: Switch
+    lateinit var switchVegetarisch: CheckBox
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,9 +42,16 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
 
 
             if(this.gerichtName.isNotEmpty() && this.textZutaten.isNotEmpty()){
+
                 println("GerichteHinzufuegenActivity >> " + this.gerichtName + " Zutaten: " + this.textZutaten  + " Vegetarisch: " + this.isVegetarisch)
-                Toast.makeText(this, this.gerichtName + " wurde hinzugefügt", Toast.LENGTH_SHORT).show()
-                addGericht()
+
+                try{
+                    addGericht()
+                    Toast.makeText(this, this.gerichtName + " wurde hinzugefügt.", Toast.LENGTH_SHORT).show()
+                } catch (e: SQLiteConstraintException){
+                    Toast.makeText(this, this.gerichtName + " ist bereits in der Liste.", Toast.LENGTH_SHORT).show()
+                }
+
 
                 cleanInput()
 
@@ -53,18 +63,14 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         }
     }
 
-    fun cleanInput(){
+
+    private fun cleanInput(){
         textInputGericht.text?.clear()
 
         textInputZutat.text?.clear()
-        !switchVegetarisch.isChecked
+        switchVegetarisch.isChecked = false
         textInputGericht.requestFocus()
-    }
 
-    fun deleteDatabase() {
-        createConnection().delete()
-
-        println("Wochenplaner >> deleteWeekgerichte() -> Daten wurden gelöscht")
 
     }
 
@@ -75,7 +81,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
 
 
     //add a new Gericht
-    fun addGericht(){
+    private fun addGericht(){
 
         val gerichtDao = createConnection()
         val newGericht = Gericht(gerichtName, textZutaten, isVegetarisch)

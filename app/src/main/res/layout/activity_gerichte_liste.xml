@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".creatorclasses.GerichteListe"
-    style="@style/Theme.Essensplaner.NoActionBar">
+    >
 
 
     <TextView
@@ -35,14 +35,21 @@
     <ListView
         android:id="@+id/gerichteAnzeige"
         android:layout_width="match_parent"
-        android:layout_height="465dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHeight_min="350dp"
+        app:layout_constraintHeight_max="465dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="40dp"
         android:divider="@drawable/gradient_white_to_blue"
         android:dividerHeight="@dimen/cardview_compat_inset_shadow"
         app:layout_constraintBottom_toTopOf="@id/floatingActionButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/divider4" />
+        app:layout_constraintTop_toTopOf="@id/divider4"
+         />
 
     <View
         android:id="@+id/divider4"
@@ -58,14 +65,14 @@
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+
         android:clickable="true"
         android:contentDescription="@string/add_gerichte_float_button"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gerichteAnzeige"
+        app:layout_constraintTop_toBottomOf="@+id/divider5"
         app:srcCompat="@android:drawable/ic_input_add" />
 
     <LinearLayout
