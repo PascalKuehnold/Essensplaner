@@ -1,15 +1,16 @@
 package de.pascalkuehnold.essensplaner.activities
 
 import android.database.sqlite.SQLiteConstraintException
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.CheckBox
-import android.widget.Switch
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
-import de.pascalkuehnold.essensplaner.creatorclasses.GerichteListe
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.interfaces.GerichtDao
@@ -33,45 +34,62 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         textInputZutat = findViewById(R.id.textInputTextZutat)
         switchVegetarisch = findViewById(R.id.switchVegetarisch)
 
+        setButtonListener(btnHinzufuegen)
+        setEditTextFocusListener()
 
 
+    }
+
+    private fun setEditTextFocusListener() {
+        //for the Input of the meal field
+        textInputGericht.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                hideSoftKeyboard()
+            }
+        }
+
+        //for the input of the ingredients field
+        textInputZutat.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                hideSoftKeyboard()
+            }
+        }
+    }
+
+    private fun setButtonListener(btnHinzufuegen: Button) {
         btnHinzufuegen.setOnClickListener {
             this.gerichtName = textInputGericht.text.toString()
             this.textZutaten = textInputZutat.text.toString()
             this.isVegetarisch = switchVegetarisch.isChecked
 
-
-            if(this.gerichtName.isNotEmpty() && this.textZutaten.isNotEmpty()){
-
-                println("GerichteHinzufuegenActivity >> " + this.gerichtName + " Zutaten: " + this.textZutaten  + " Vegetarisch: " + this.isVegetarisch)
-
-                try{
+            if (this.gerichtName.isNotEmpty() && this.textZutaten.isNotEmpty()) {
+                println("GerichteHinzufuegenActivity >> " + this.gerichtName + " Zutaten: " + this.textZutaten + " Vegetarisch: " + this.isVegetarisch)
+                try {
                     addGericht()
                     Toast.makeText(this, this.gerichtName + " wurde hinzugefügt.", Toast.LENGTH_SHORT).show()
-                } catch (e: SQLiteConstraintException){
+                } catch (e: SQLiteConstraintException) {
                     Toast.makeText(this, this.gerichtName + " ist bereits in der Liste.", Toast.LENGTH_SHORT).show()
                 }
-
-
                 cleanInput()
-
             } else {
                 println("Eine Eingabe ist fehlerhaft.")
                 println("Das Gericht wurde nicht hinzugefügt")
             }
-
         }
     }
 
+    private fun hideSoftKeyboard() {
+        currentFocus?.let {
+            val inputMethodManager = ContextCompat.getSystemService(this, InputMethodManager::class.java)!!
+            inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
+        }
+    }
 
     private fun cleanInput(){
         textInputGericht.text?.clear()
-
         textInputZutat.text?.clear()
         switchVegetarisch.isChecked = false
         textInputGericht.requestFocus()
-
-
     }
 
     private fun createConnection(): GerichtDao {

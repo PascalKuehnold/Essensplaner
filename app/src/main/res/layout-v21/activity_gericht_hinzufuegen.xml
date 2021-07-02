@@ -29,6 +29,7 @@ tools:context=".activities.GerichtHinzufuegenActivity">
         android:text="@string/vegetarisch"
         android:textSize="18sp"
         android:layout_marginTop="32dp"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/switchVegetarisch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +51,16 @@ tools:context=".activities.GerichtHinzufuegenActivity">
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
         android:layout_marginBottom="400dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        app:boxCornerRadiusBottomEnd="20dp"
+        app:boxCornerRadiusBottomStart="20dp"
+        app:boxCornerRadiusTopEnd="20dp"
+        app:boxCornerRadiusTopStart="20dp"
+        app:hintTextColor="@color/newBackgroundColor"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -58,22 +68,43 @@ tools:context=".activities.GerichtHinzufuegenActivity">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:hint="@string/gericht_name" />
+            android:hint="@string/gericht_name"
+            android:backgroundTint="@color/newHeaderColor"
+            android:textColorHint="@color/newBackgroundColor"
+            android:textColor="@color/white"
+            android:clickable="true"
+            android:focusableInTouchMode="true"
+            android:focusable="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutZutat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="40dp"
+        app:boxCornerRadiusBottomEnd="20dp"
+        app:boxCornerRadiusBottomStart="20dp"
+        app:boxCornerRadiusTopEnd="20dp"
+        app:boxCornerRadiusTopStart="20dp"
+        app:hintTextColor="@color/newBackgroundColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutGericht">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputTextZutat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/newHeaderColor"
             android:gravity="center_horizontal"
-            android:hint="@string/zutat" />
+            android:hint="@string/zutat"
+            android:textColor="@color/white"
+            android:textColorHint="@color/newBackgroundColor"
+            android:clickable="true"
+            android:focusableInTouchMode="true"
+            android:focusable="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
