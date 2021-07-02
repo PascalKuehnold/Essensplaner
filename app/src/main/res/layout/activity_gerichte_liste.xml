@@ -36,19 +36,18 @@
         android:id="@+id/gerichteAnzeige"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintHeight_min="350dp"
+        app:layout_constraintHeight_min="300dp"
         app:layout_constraintHeight_max="465dp"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="40dp"
         android:divider="@drawable/gradient_white_to_blue"
         android:dividerHeight="@dimen/cardview_compat_inset_shadow"
         app:layout_constraintBottom_toTopOf="@id/floatingActionButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/divider4"
+        app:layout_constraintTop_toBottomOf="@id/searchBarGerichteliste"
          />
 
     <View
@@ -65,14 +64,14 @@
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:layout_marginBottom="40dp"
         android:clickable="true"
         android:contentDescription="@string/add_gerichte_float_button"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider5"
+        app:layout_constraintTop_toBottomOf="@+id/gerichteAnzeige"
         app:srcCompat="@android:drawable/ic_input_add" />
 
     <LinearLayout
@@ -80,7 +79,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="40dp"
         android:background="@color/newHeaderColor"
         app:layout_constraintBottom_toTopOf="@+id/gerichteAnzeige"
         app:layout_constraintEnd_toEndOf="parent"
