@@ -8,12 +8,12 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.interfaces.GerichtDao
+
 
 class GerichtHinzufuegenActivity : AppCompatActivity(){
     private var currentIndex = 1
@@ -42,16 +42,16 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
 
     private fun setEditTextFocusListener() {
         //for the Input of the meal field
-        textInputGericht.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+        textInputGericht.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
-                hideSoftKeyboard()
+                hideSoftKeyboard(v)
             }
         }
 
         //for the input of the ingredients field
-        textInputZutat.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+        textInputZutat.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
-                hideSoftKeyboard()
+                hideSoftKeyboard(v)
             }
         }
     }
@@ -78,11 +78,9 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         }
     }
 
-    private fun hideSoftKeyboard() {
-        currentFocus?.let {
-            val inputMethodManager = ContextCompat.getSystemService(this, InputMethodManager::class.java)!!
-            inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
-        }
+    private fun hideSoftKeyboard(view: View) {
+        val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun cleanInput(){
