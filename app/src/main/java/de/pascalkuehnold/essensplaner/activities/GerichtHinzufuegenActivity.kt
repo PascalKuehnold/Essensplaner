@@ -16,7 +16,6 @@ import de.pascalkuehnold.essensplaner.interfaces.GerichtDao
 
 
 class GerichtHinzufuegenActivity : AppCompatActivity(){
-    private var currentIndex = 1
     private var gerichtName = ""
     private var textZutaten = ""
     private var isVegetarisch = false

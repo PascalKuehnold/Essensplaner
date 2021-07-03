@@ -18,12 +18,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <Button
             android:id="@+id/btnAlleGerichteAnzeigen"
-            android:layout_width="250dp"
-            android:layout_height="78dp"
+            android:layout_width="300dp"
+            android:layout_height="80dp"
             android:text="@string/gerichteliste"
             android:textSize="22sp"
             android:layout_marginTop="150dp"
@@ -37,8 +38,8 @@
 
         <Button
             android:id="@+id/btnWochenplaner"
-            android:layout_width="250dp"
-            android:layout_height="78dp"
+            android:layout_width="300dp"
+            android:layout_height="80dp"
             android:text="@string/wochenplaner"
             android:textSize="22sp"
             app:backgroundTint="@color/newHeaderColor"
@@ -51,8 +52,8 @@
 
         <Button
             android:id="@+id/btnEinkaufsliste"
-            android:layout_width="250dp"
-            android:layout_height="78dp"
+            android:layout_width="300dp"
+            android:layout_height="80dp"
             android:text="@string/einkaufsliste"
             android:textSize="22sp"
 

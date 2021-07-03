@@ -24,11 +24,11 @@
         android:id="@+id/listViewWochenplan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginEnd="10dp"
+        android:maxHeight="415dp"
         android:divider="@drawable/gradient_white_to_blue"
         android:dividerHeight="@dimen/cardview_compat_inset_shadow"
         app:layout_constraintBottom_toTopOf="@+id/btnNeuerPlan"
@@ -42,7 +42,6 @@
         android:id="@+id/btnNeuerPlan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
         android:text="@string/neuer_plan"
         android:backgroundTint="@color/newHeaderColor"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -57,6 +56,7 @@
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toTopOf="@+id/listViewWochenplan"
-        app:layout_constraintTop_toBottomOf="@+id/textViewWochenplanHead"
-        tools:layout_editor_absoluteX="4dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWochenplanHead" />
 </androidx.constraintlayout.widget.ConstraintLayout>
