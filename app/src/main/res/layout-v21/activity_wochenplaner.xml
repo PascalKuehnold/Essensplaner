@@ -1,40 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.Wochenplaner"
     >
 
     <TextView
         android:id="@+id/textViewWochenplanHead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:text="@string/wochenplaner"
-        android:textSize="@dimen/headline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/divider5"
         android:textColor="@color/white"
+        android:textSize="@dimen/headline"
+        android:layout_marginTop="20dp"
         />
+
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/textViewWochenplanHead"
+        android:layout_centerHorizontal="true"
+        android:background="?android:attr/listDivider" />
 
     <ListView
         android:id="@+id/listViewWochenplan"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_above="@id/divider5"
+        android:layout_below="@id/divider4"
         android:layout_marginStart="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginEnd="10dp"
-        android:maxHeight="415dp"
+        android:layout_marginRight="10dp"
+
         android:divider="@drawable/gradient_white_to_blue"
-        android:dividerHeight="@dimen/cardview_compat_inset_shadow"
-        app:layout_constraintBottom_toTopOf="@+id/btnNeuerPlan"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/divider5">
+        android:dividerHeight="@dimen/cardview_compat_inset_shadow">
 
     </ListView>
 
@@ -42,21 +46,20 @@
         android:id="@+id/btnNeuerPlan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/neuer_plan"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:backgroundTint="@color/newHeaderColor"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/listViewWochenplan"
+        android:text="@string/neuer_plan"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         />
 
     <View
         android:id="@+id/divider5"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toTopOf="@+id/listViewWochenplan"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewWochenplanHead" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_above="@id/btnNeuerPlan"
+        android:layout_centerHorizontal="true"
+        android:background="?android:attr/listDivider" />
+
+</RelativeLayout>
