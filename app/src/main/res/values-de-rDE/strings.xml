@@ -26,4 +26,17 @@
     <string name="alphabetischZtoA">(z-a)</string>
     <string name="sortierenNachVegetarisch">veggie</string>
     <string name="gericht_hinzuf_gen">Gericht hinzufügen</string>
+    <string name="wasAddedText"> wurde hinzugefügt.</string>
+    <string name="textAlreadyInList"> ist bereits in der Liste.</string>
+    <string name="textErrorAtMealAdd">Gericht konnte nicht hinzugefügt werden. Eingabe überprüfen?</string>
+    <string name="textCreateNewPlan">Neuen Plan erstellen?</string>
+    <string name="textWarningLosingOldPlan">Der alte Plan geht dabei verloren.</string>
+    <string name="textOK">OK</string>
+    <string name="textNewPlanWasCreated">Neuer Plan wurde erstellt.</string>
+    <string name="textNotEnoughMeals">Nicht genügend Gerichte verfügbar.</string>
+    <string name="textNotEnoughMealsDesc">Die angelegte Gerichteliste beträgt nicht genug Gerichte um einen Wochenplan zu erstellen. (>=7)</string>
+    <string name="aendern">Ändern</string>
+    <string name="namen_ndern">Namen ändern:</string>
+    <string name="zutaten_ndern">Zutaten ändern:</string>
+    <string name="neuer_name">Neuer Name</string>
 </resources>

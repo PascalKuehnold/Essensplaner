@@ -2,15 +2,13 @@ package de.pascalkuehnold.essensplaner
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.Toast
-import de.pascalkuehnold.essensplaner.activities.GerichtHinzufuegenActivity
 import de.pascalkuehnold.essensplaner.activities.Wochenplaner
-import de.pascalkuehnold.essensplaner.creatorclasses.GerichteListe
+import de.pascalkuehnold.essensplaner.activities.GerichteListeActivity
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 
 class MainActivity : AppCompatActivity() {
@@ -22,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         val btnAlleGerichteAnzeigen = findViewById<Button>(R.id.btnAlleGerichteAnzeigen)
         btnAlleGerichteAnzeigen.setOnClickListener{
-            val intent = Intent(this, GerichteListe::class.java)
+            val intent = Intent(this, GerichteListeActivity::class.java)
             startActivity(intent)
         }
 

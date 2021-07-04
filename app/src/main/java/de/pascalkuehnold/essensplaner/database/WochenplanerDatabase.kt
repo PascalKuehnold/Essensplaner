@@ -5,7 +5,6 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
-import de.pascalkuehnold.essensplaner.interfaces.GerichtDao
 import de.pascalkuehnold.essensplaner.interfaces.WochenplanerDao
 
 @Database(entities = [Gericht::class], version = 1, exportSchema = false)

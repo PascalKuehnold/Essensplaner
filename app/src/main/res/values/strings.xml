@@ -27,4 +27,17 @@
     <string name="alphabetischZtoA">(z-a)</string>
     <string name="sortierenNachVegetarisch">veggie</string>
     <string name="gericht_hinzuf_gen">Add meal</string>
+    <string name="wasAddedText">" was added."</string>
+    <string name="textAlreadyInList">" is already in the list."</string>
+    <string name="textErrorAtMealAdd">Meal couldn\'t be added. Check input?</string>
+    <string name="textCreateNewPlan">Create new plan?</string>
+    <string name="textWarningLosingOldPlan">The old plan is lost.</string>
+    <string name="textOK">OK</string>
+    <string name="textNewPlanWasCreated">New plan was created.</string>
+    <string name="textNotEnoughMeals">Not enough meals available.</string>
+    <string name="textNotEnoughMealsDesc">Your list of meals does not have enough entries to create a weekly plan. (>=7)</string>
+    <string name="aendern">Submit</string>
+    <string name="namen_ndern">Change name:</string>
+    <string name="zutaten_ndern">Change Ingredients:</string>
+    <string name="neuer_name">New Name</string>
 </resources>

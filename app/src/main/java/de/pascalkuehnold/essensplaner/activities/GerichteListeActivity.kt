@@ -1,4 +1,4 @@
-package de.pascalkuehnold.essensplaner.creatorclasses
+package de.pascalkuehnold.essensplaner.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,13 +7,10 @@ import android.view.WindowManager
 import android.widget.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.pascalkuehnold.essensplaner.R
-import de.pascalkuehnold.essensplaner.activities.GerichtEditierenActivity
-import de.pascalkuehnold.essensplaner.activities.GerichtHinzufuegenActivity
 import de.pascalkuehnold.essensplaner.database.AppDatabase
-import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
 
-class GerichteListe : AppCompatActivity() {
+class GerichteListeActivity : AppCompatActivity() {
     private lateinit var listView: ListView
 
     override fun onCreate(savedInstanceState: Bundle?) {

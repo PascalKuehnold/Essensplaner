@@ -23,12 +23,12 @@
 
         <Button
             android:id="@+id/btnAlleGerichteAnzeigen"
-            android:layout_width="300dp"
+            android:layout_width="315dp"
             android:layout_height="80dp"
             android:text="@string/gerichteliste"
             android:textSize="22sp"
+            android:maxLines="1"
             android:layout_marginTop="150dp"
-            android:autoSizeMaxTextSize="@dimen/maxFontSize"
             app:backgroundTint="@color/newHeaderColor"
             app:cornerRadius="10dp"
             app:layout_constraintBottom_toTopOf="@+id/btnWochenplaner"
@@ -38,10 +38,11 @@
 
         <Button
             android:id="@+id/btnWochenplaner"
-            android:layout_width="300dp"
+            android:layout_width="315dp"
             android:layout_height="80dp"
             android:text="@string/wochenplaner"
             android:textSize="22sp"
+            android:maxLines="1"
             app:backgroundTint="@color/newHeaderColor"
             app:cornerRadius="10dp"
             app:layout_constraintBottom_toTopOf="@+id/btnEinkaufsliste"
@@ -52,11 +53,11 @@
 
         <Button
             android:id="@+id/btnEinkaufsliste"
-            android:layout_width="300dp"
+            android:layout_width="315dp"
             android:layout_height="80dp"
             android:text="@string/einkaufsliste"
             android:textSize="22sp"
-
+            android:maxLines="1"
             android:layout_marginBottom="150dp"
 
             app:backgroundTint="@color/newHeaderColor"

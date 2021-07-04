@@ -2,4 +2,5 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="btn_size">1.15</dimen>
     <dimen name="headline">36sp</dimen>
+    <dimen name="maxFontSize">22sp</dimen>
 </resources>

@@ -18,8 +18,6 @@ import kotlin.random.Random
 class Wochenplaner : AppCompatActivity(){
     private lateinit var listWochenplaner: ListView
 
-    val timeToRefresh = 7
-
     private var daysToGenerate = 7
     private var weeksGerichte = ArrayList<Gericht>()
 
@@ -47,9 +45,9 @@ class Wochenplaner : AppCompatActivity(){
             } else {
                 println("Wochenplaner >> AlertBox start")
                 val builder = AlertDialog.Builder(this)
-                        .setTitle("Neuen Plan erstellen?")
-                        .setMessage("Der alte Plan geht dabei verloren.")
-                        .setPositiveButton("OK", DialogInterface.OnClickListener(function = positiveButtonClick))
+                        .setTitle(getString(R.string.textCreateNewPlan))
+                        .setMessage(getString(R.string.textWarningLosingOldPlan))
+                        .setPositiveButton(getString(R.string.textOK), DialogInterface.OnClickListener(function = positiveButtonClick))
 
                 builder.show()
 
@@ -61,7 +59,7 @@ class Wochenplaner : AppCompatActivity(){
 
     val positiveButtonClick = {
         _: DialogInterface, _: Int ->
-        Toast.makeText(applicationContext, "Neuer Plan wurde erstellt", Toast.LENGTH_SHORT).show()
+        Toast.makeText(applicationContext, getString(R.string.textNewPlanWasCreated), Toast.LENGTH_SHORT).show()
         println("Wochenplaner >> positiveButtonClick on AlertDialog clicked")
 
         deleteDatabase()
@@ -129,8 +127,8 @@ class Wochenplaner : AppCompatActivity(){
         } else {
             println("Wochenplan konnte nicht erstellt werden, keine Gericht verfügbar")
             val alert = AlertDialog.Builder(this)
-                    .setTitle("Nicht genügend Gerichte verfügbar")
-                    .setMessage("Die angelegte Gerichteliste beträgt nicht genug Gerichte um einen Wochenplan zu erstellen.")
+                    .setTitle(getString(R.string.textNotEnoughMeals))
+                    .setMessage(getString(R.string.textNotEnoughMealsDesc))
                     .setCancelable(true)
             alert.show()
 

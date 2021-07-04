@@ -42,13 +42,13 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
                 println("GerichteHinzufuegenActivity >> " + this.gerichtName + " Zutaten: " + this.textZutaten + " Vegetarisch: " + this.isVegetarisch)
                 try {
                     addGericht()
-                    Toast.makeText(this, this.gerichtName + " wurde hinzugefügt.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, this.gerichtName + getString(R.string.wasAddedText), Toast.LENGTH_SHORT).show()
                 } catch (e: SQLiteConstraintException) {
-                    Toast.makeText(this, this.gerichtName + " ist bereits in der Liste.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, this.gerichtName + getString(R.string.textAlreadyInList), Toast.LENGTH_SHORT).show()
                 }
                 cleanInput()
             } else {
-                Toast.makeText(this, "Gericht konnte nicht hinzugefügt werden. Eingabe überprüfen?", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.textErrorAtMealAdd), Toast.LENGTH_SHORT).show()
                 println("Eine Eingabe ist fehlerhaft.")
                 println("Das Gericht wurde nicht hinzugefügt")
             }
@@ -68,11 +68,13 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
 
     }
 
+    //Method for hiding the keyboard after pressing on an empty space on screen
     private fun hideSoftKeyboard(view: View) {
         val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
+    //method to clear all the input fields for the user
     private fun cleanInput(){
         textInputGericht.text?.clear()
         textInputZutat.text?.clear()
@@ -80,41 +82,42 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         textInputGericht.requestFocus()
     }
 
+    //method to create a connection to the database
     private fun createConnection(): GerichtDao {
         return AppDatabase.getDatabase(applicationContext).gerichtDao()
     }
 
 
 
-    //add a new Gericht
+    //method for adding a new meal
     private fun addGericht(){
 
         val gerichtDao = createConnection()
         val newGericht = Gericht(gerichtName, textZutaten, isVegetarisch)
 
-        gerichtDao.insertAll(newGericht);
-        println("GerichtHandler >> " + newGericht.gerichtName + " was added successfully");
+        gerichtDao.insertAll(newGericht)
+        println("GerichtHandler >> " + newGericht.gerichtName + " was added successfully")
     }
 
-
+    //TODO delete?
     fun deleteGericht(gericht: Gericht){
         val gerichtDao = createConnection()
 
-        gerichtDao.delete(gericht);
-        println("GerichtHandler >> " + gericht.gerichtName + " was deleted successfully");
+        gerichtDao.delete(gericht)
+        println("GerichtHandler >> " + gericht.gerichtName + " was deleted successfully")
 
     }
 
-
+    //TODO delete?
     fun deleteGericht(gerichtName: String?){
         val gerichtDao = createConnection()
 
         val gerichtToDelete = gerichtName?.let { gerichtDao.findByName(it) }
         if (gerichtToDelete != null) {
             gerichtDao.delete(gerichtToDelete)
-            println("GerichtHandler >> $gerichtName was deleted successfully");
+            println("GerichtHandler >> $gerichtName was deleted successfully")
         } else {
-            println("GerichtHandler >> $gerichtName could not be deleted");
+            println("GerichtHandler >> $gerichtName could not be deleted")
         }
 
 
