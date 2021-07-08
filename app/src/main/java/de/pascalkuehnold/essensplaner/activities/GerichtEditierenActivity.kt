@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
+import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -17,13 +18,20 @@ import kotlinx.coroutines.runBlocking
 import kotlin.text.StringBuilder
 
 class GerichtEditierenActivity : AppCompatActivity() {
-    lateinit var inputFieldGericht: TextView
-    lateinit var oldGerichtName: TextView
-    lateinit var listViewZutaten: ListView
-    lateinit var switchVegetarisch: CheckBox
-    var gerichtName =""
-    var zutatenListe = ""
-    var isVegetarisch = false
+    private lateinit var inputFieldGericht: TextView
+    private lateinit var oldGerichtName: TextView
+    private lateinit var listViewZutaten: ListView
+    private lateinit var switchVegetarisch: CheckBox
+    private lateinit var btnSubmit: Button
+
+    private var gerichtName =""
+    private var zutatenListe = ""
+    private var isVegetarisch = false
+    private var newGericht: Gericht? = null
+    private lateinit var adapter: ArrayAdapter<String>
+
+    private lateinit var zutaten: ArrayList<String>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gericht_editieren)
@@ -32,6 +40,19 @@ class GerichtEditierenActivity : AppCompatActivity() {
         oldGerichtName = findViewById(R.id.gerichtAlterName)
         listViewZutaten = findViewById(R.id.listViewZutatenlisteGerichtAendern)
         switchVegetarisch = findViewById(R.id.switchGerichteEditierenVegetarisch)
+        btnSubmit = findViewById(R.id.btnSubmit)
+
+        btnSubmit.setOnClickListener{
+            if(newGericht == null){
+                Toast.makeText(this, ("Es wurden keine Änderungen vorgenommen."),Toast.LENGTH_SHORT).show()
+            } else {
+                saveEditedGericht(newGericht!!)
+                Toast.makeText(this, (newGericht!!.gerichtName + " wurde erfolgreich bearbeitet."), Toast.LENGTH_SHORT).show()
+            }
+
+
+        }
+
 
         val gericht: Bundle? = intent.extras
         var inputText = ""
@@ -43,15 +64,16 @@ class GerichtEditierenActivity : AppCompatActivity() {
             isVegetarisch = gericht.getBoolean("IS_VEGETARISCH")
         }
 
-        inputFieldGericht.text = gerichtName
+        inputFieldGericht.hint = gerichtName
 
         val regex = "\\W+".toRegex()
 
-        val zutaten = zutatenListe.split(regex)
+        zutaten = zutatenListe.split(regex) as ArrayList<String>
 
 
 
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, zutaten)
+        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, zutaten)
+
         listViewZutaten.adapter = adapter
 
         listViewZutaten.setOnItemClickListener{ adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
@@ -79,7 +101,7 @@ class GerichtEditierenActivity : AppCompatActivity() {
 
     }
 
-    private fun createChangeZutatDialog(zutat: Bundle, zutatenNew: List<String>, position: Int) {
+    private fun createChangeZutatDialog(zutat: Bundle, zutatenNew: ArrayList<String>, position: Int) {
         // Use the Builder class for convenient dialog construction
         var inputText = ""
         val builder = AlertDialog.Builder(this)
@@ -95,7 +117,6 @@ class GerichtEditierenActivity : AppCompatActivity() {
             val gericht = AppDatabase.getDatabase(applicationContext).gerichtDao().findByName(gerichtName)
             updateZutat(gericht, inputText, zutatenNew, position)
 
-            println("ChangeZutatFragment Input -> " + inputText)
         })
 
         builder.setNegativeButton(R.string.abbrechen,
@@ -113,32 +134,44 @@ class GerichtEditierenActivity : AppCompatActivity() {
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    fun updateZutat(gericht: Gericht, inputText: String, zutaten: List<String>, position: Int) = runBlocking {
-        launch {
-            println(gericht.gerichtName + " was edited")
-            val newZutaten = zutaten.toMutableList()
+    private fun updateZutat(gericht: Gericht, inputText: String, zutaten: ArrayList<String>, position: Int){
 
-            newZutaten[position] = inputText
-            val stringBuilder = StringBuilder()
-            for(element: String in newZutaten){
-                stringBuilder.append("$element, ")
-            }
-            if(stringBuilder.endsWith(", ")){
-                stringBuilder.deleteCharAt(stringBuilder.length - 1)
-                stringBuilder.deleteCharAt(stringBuilder.length - 1)
-            }
+            val tempZutat = zutaten[position]
+            val stringBuilder = createNewZutatenString(zutaten, position, inputText)
 
+            println(stringBuilder)
 
+            newGericht = Gericht(gerichtName, stringBuilder, isVegetarisch)
+            println(newGericht!!.zutaten)
 
-            println(stringBuilder.toString())
+            zutaten[position] = inputText
+            saveEditedGericht(newGericht!!)
+            adapter.notifyDataSetChanged()
 
-            val newGericht = Gericht(gerichtName, stringBuilder.toString(), isVegetarisch)
-            println(newGericht.zutaten)
-            AppDatabase.getDatabase(applicationContext).gerichtDao().update(gericht = newGericht)
+            Toast.makeText(this, ("$tempZutat wurde erfolgreich zu $inputText bearbeitet."), Toast.LENGTH_SHORT).show()
 
-        }
+            println("ChangeZutatFragment Input -> " + inputText)
 
     }
 
+    private fun saveEditedGericht(newGericht: Gericht) = runBlocking {
+        AppDatabase.getDatabase(applicationContext).gerichtDao().update(gericht = newGericht)
+    }
+
+
+    private fun createNewZutatenString(zutaten: List<String>, position: Int, inputText: String): String {
+        val newZutaten = zutaten.toMutableList()
+
+        newZutaten[position] = inputText
+        val stringBuilder = StringBuilder()
+        for (element: String in newZutaten) {
+            stringBuilder.append("$element, ")
+        }
+        if (stringBuilder.endsWith(", ")) {
+            stringBuilder.deleteCharAt(stringBuilder.length - 1)
+            stringBuilder.deleteCharAt(stringBuilder.length - 1)
+        }
+        return stringBuilder.toString()
+    }
 
 }

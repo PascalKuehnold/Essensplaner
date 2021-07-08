@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun deleteDatabase(){
+    private fun deleteDatabase(){
         println("Datenbank löschen gedrückt")
 
         AppDatabase.getDatabase(applicationContext).gerichtDao().delete()
