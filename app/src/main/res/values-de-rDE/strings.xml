@@ -39,4 +39,6 @@
     <string name="namen_ndern">Namen ändern:</string>
     <string name="zutaten_ndern">Zutaten ändern:</string>
     <string name="neuer_name">Neuer Name</string>
+    <string name="textZutatBearbeiten">Zutat bearbeiten</string>
+    <string name="abbrechen">Abbrechen</string>
 </resources>

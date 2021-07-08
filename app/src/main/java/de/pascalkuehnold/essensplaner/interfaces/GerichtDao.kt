@@ -26,4 +26,5 @@ interface GerichtDao {
     @Update
     suspend fun update(gericht: Gericht)
 
+
 }

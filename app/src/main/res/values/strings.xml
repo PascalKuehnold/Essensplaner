@@ -40,4 +40,6 @@
     <string name="namen_ndern">Change name:</string>
     <string name="zutaten_ndern">Change Ingredients:</string>
     <string name="neuer_name">New Name</string>
+    <string name="textZutatBearbeiten">Change ingredient</string>
+    <string name="abbrechen">Cancel</string>
 </resources>

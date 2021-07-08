@@ -3,6 +3,7 @@ package de.pascalkuehnold.essensplaner.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
 import android.widget.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -54,6 +55,7 @@ class GerichteListeActivity : AppCompatActivity() {
 
         val gerichtDao = AppDatabase.getDatabase(applicationContext).gerichtDao()
         val gerichteListe = gerichtDao.getAll()
+
         val listItems = arrayOfNulls<String>(gerichteListe.size)
 
 

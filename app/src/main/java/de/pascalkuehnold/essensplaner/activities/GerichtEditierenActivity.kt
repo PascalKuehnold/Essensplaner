@@ -1,23 +1,29 @@
 package de.pascalkuehnold.essensplaner.activities
 
 
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.ArrayAdapter
-import android.widget.CheckBox
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import de.pascalkuehnold.essensplaner.R
-
+import de.pascalkuehnold.essensplaner.database.AppDatabase
+import de.pascalkuehnold.essensplaner.dataclasses.Gericht
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlin.text.StringBuilder
 
 class GerichtEditierenActivity : AppCompatActivity() {
     lateinit var inputFieldGericht: TextView
     lateinit var oldGerichtName: TextView
     lateinit var listViewZutaten: ListView
     lateinit var switchVegetarisch: CheckBox
-
+    var gerichtName =""
+    var zutatenListe = ""
+    var isVegetarisch = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gericht_editieren)
@@ -28,23 +34,36 @@ class GerichtEditierenActivity : AppCompatActivity() {
         switchVegetarisch = findViewById(R.id.switchGerichteEditierenVegetarisch)
 
         val gericht: Bundle? = intent.extras
-        val gerichtName = ""
-        var zutatenListe = ""
-        var isVegetarisch = false
+        var inputText = ""
 
         if(gericht != null){
             oldGerichtName.text = gericht.getString("GERICHT_NAME").toString()
-
+            gerichtName = gericht.getString("GERICHT_NAME").toString()
             zutatenListe = gericht.getString("ZUTATEN_LISTE").toString()
             isVegetarisch = gericht.getBoolean("IS_VEGETARISCH")
         }
 
         inputFieldGericht.text = gerichtName
 
-        val zutaten = zutatenListe.split(", ")
+        val regex = "\\W+".toRegex()
+
+        val zutaten = zutatenListe.split(regex)
+
+
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, zutaten)
         listViewZutaten.adapter = adapter
+
+        listViewZutaten.setOnItemClickListener{ adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
+            println("GerichtEditierenActivity -> pressed item $i")
+            println(listViewZutaten.getItemAtPosition(i).toString())
+
+            val zutat = Bundle()
+            zutat.putString("Zutat", listViewZutaten.getItemAtPosition(i).toString())
+
+            createChangeZutatDialog(zutat, zutaten, i)
+
+        }
 
         inputFieldGericht.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
@@ -59,10 +78,67 @@ class GerichtEditierenActivity : AppCompatActivity() {
 
 
     }
+
+    private fun createChangeZutatDialog(zutat: Bundle, zutatenNew: List<String>, position: Int) {
+        // Use the Builder class for convenient dialog construction
+        var inputText = ""
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(getString(R.string.textZutatBearbeiten) + " \"${zutat.get("Zutat")}\"")
+
+        val input = EditText(this)
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.inputType = InputType.TYPE_CLASS_TEXT
+        builder.setView(input)
+
+        builder.setPositiveButton(R.string.aendern, DialogInterface.OnClickListener { dialog, id ->
+            inputText = input.text.toString()
+            val gericht = AppDatabase.getDatabase(applicationContext).gerichtDao().findByName(gerichtName)
+            updateZutat(gericht, inputText, zutatenNew, position)
+
+            println("ChangeZutatFragment Input -> " + inputText)
+        })
+
+        builder.setNegativeButton(R.string.abbrechen,
+                DialogInterface.OnClickListener { dialog, id ->
+                    dialog.cancel()
+                })
+        // Create the AlertDialog object and return it
+        builder.create()
+        builder.show()
+    }
+
     //Method for hiding the keyboard after pressing on an empty space on screen
     private fun hideSoftKeyboard(view: View) {
         val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
+
+    fun updateZutat(gericht: Gericht, inputText: String, zutaten: List<String>, position: Int) = runBlocking {
+        launch {
+            println(gericht.gerichtName + " was edited")
+            val newZutaten = zutaten.toMutableList()
+
+            newZutaten[position] = inputText
+            val stringBuilder = StringBuilder()
+            for(element: String in newZutaten){
+                stringBuilder.append("$element, ")
+            }
+            if(stringBuilder.endsWith(", ")){
+                stringBuilder.deleteCharAt(stringBuilder.length - 1)
+                stringBuilder.deleteCharAt(stringBuilder.length - 1)
+            }
+
+
+
+            println(stringBuilder.toString())
+
+            val newGericht = Gericht(gerichtName, stringBuilder.toString(), isVegetarisch)
+            println(newGericht.zutaten)
+            AppDatabase.getDatabase(applicationContext).gerichtDao().update(gericht = newGericht)
+
+        }
+
+    }
+
 
 }
