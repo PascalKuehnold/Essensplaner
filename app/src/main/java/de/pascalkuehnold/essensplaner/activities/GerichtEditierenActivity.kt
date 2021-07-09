@@ -2,19 +2,19 @@ package de.pascalkuehnold.essensplaner.activities
 
 
 import android.content.DialogInterface
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import kotlinx.coroutines.runBlocking
-import java.lang.Exception
-import kotlin.text.StringBuilder
+
 
 class GerichtEditierenActivity : AppCompatActivity() {
     private lateinit var inputFieldGericht: TextView
@@ -22,6 +22,7 @@ class GerichtEditierenActivity : AppCompatActivity() {
     private lateinit var listViewZutaten: ListView
     private lateinit var switchVegetarisch: CheckBox
     private lateinit var btnSubmit: Button
+    private lateinit var btnDeleteGericht: AppCompatButton
 
     private var gerichtName =""
     private var zutatenListe = ""
@@ -40,17 +41,18 @@ class GerichtEditierenActivity : AppCompatActivity() {
         listViewZutaten = findViewById(R.id.listViewZutatenlisteGerichtAendern)
         switchVegetarisch = findViewById(R.id.switchGerichteEditierenVegetarisch)
         btnSubmit = findViewById(R.id.btnSubmit)
+        btnDeleteGericht = findViewById(R.id.btnDeleteGericht)
 
         btnSubmit.setOnClickListener{
             if(newGericht == null){
-                Toast.makeText(this, ("Es wurden keine Änderungen vorgenommen."),Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, ("Es wurden keine Änderungen vorgenommen."), Toast.LENGTH_SHORT).show()
             } else {
                 saveEditedGericht(newGericht!!)
                 Toast.makeText(this, (newGericht!!.gerichtName + " wurde erfolgreich bearbeitet."), Toast.LENGTH_SHORT).show()
             }
-
-
         }
+
+
 
 
         val gericht: Bundle? = intent.extras
@@ -98,11 +100,43 @@ class GerichtEditierenActivity : AppCompatActivity() {
         }
 
 
+        btnDeleteGericht.setOnClickListener{
+            val alert = AlertDialog.Builder(this)
+            alert.setTitle(getString(R.string.deleteGericht))
+            alert.setIcon(R.drawable.ic_delete)
+
+            alert.setMessage(getString(R.string.deleteGerichtText))
+                    .setPositiveButton(R.string.delete, DialogInterface.OnClickListener() { _: DialogInterface, _: Int ->
+                        val tempDao = AppDatabase.getDatabase(applicationContext).gerichtDao()
+                        val tempGericht = tempDao.findByName(gerichtName)
+                        tempDao.delete(tempGericht)
+                        Toast.makeText(this, "TODO() Gericht was successfully deleted", Toast.LENGTH_SHORT).show()
+                        waitForToastShortThread.start()
+                    })
+                    .setNegativeButton(R.string.cancel, DialogInterface.OnClickListener() { dialog: DialogInterface, _: Int ->
+                        dialog.cancel()
+                    })
+            alert.create()
+            alert.show()
+
+        }
+
 
         //TODO zutatenListe splitten und in die liste einfügen
         //TODO vegetarisch boolean setzen
 
 
+    }
+
+    private var waitForToastShortThread: Thread = object : Thread() {
+        override fun run() {
+            try {
+                sleep(Toast.LENGTH_SHORT.toLong())
+                finish()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     private fun createChangeZutatDialog(zutat: Bundle, zutatenNew: ArrayList<String>, position: Int) {

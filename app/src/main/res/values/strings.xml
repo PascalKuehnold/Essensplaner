@@ -50,4 +50,6 @@
     <string name="textZutatHinzufuegen">Add ingredient to meal</string>
     <string name="zutat_hinzuf_gen">Add ingredient</string>
     <string name="addedSuccessfully">was added successfully.</string>
+    <string name="deleteGericht">Delete Meal</string>
+    <string name="deleteGerichtText">Are you sure you want to delete this meal? It\'s no longer available after this action.</string>
 </resources>

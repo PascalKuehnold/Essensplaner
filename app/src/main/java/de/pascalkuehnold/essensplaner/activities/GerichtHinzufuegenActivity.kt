@@ -83,7 +83,8 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         input.requestFocus()
 
         builder.setPositiveButton(R.string.hinzuf_gen, DialogInterface.OnClickListener { dialog, id ->
-            val inputText = input.text.toString().trim()
+            val inputText = input.text.toString().replace(',',' ').trim()
+            inputText.split("\\s*,\\s*")
             Toast.makeText(this, getString(R.string.zutat) + " " + inputText + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
             textZutaten += "$inputText,"
             zutatHinzufuegen()
@@ -128,6 +129,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         if(textZutaten.endsWith(',')){
             tempZutaten = textZutaten.removeSuffix(','.toString())
         }
+
 
         val gerichtDao = createConnection()
         val newGericht = Gericht(gerichtName, tempZutaten, isVegetarisch)

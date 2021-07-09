@@ -49,4 +49,6 @@
     <string name="textZutatHinzufuegen">Zutat zum Gericht hinzufügen</string>
     <string name="zutat_hinzuf_gen">Zutat hinzufügen</string>
     <string name="addedSuccessfully">wurde erfolgreich hinzugefügt.</string>
+    <string name="deleteGericht">Gericht löschen</string>
+    <string name="deleteGerichtText">Sind Sie sicher, dass Sie dieses Gericht löschen wollen? Nach diesem Vorgang ist es nicht mehr verfügbar.</string>
 </resources>
