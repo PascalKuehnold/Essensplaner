@@ -5,11 +5,13 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
@@ -23,6 +25,7 @@ class GerichtEditierenActivity : AppCompatActivity() {
     private lateinit var switchVegetarisch: CheckBox
     private lateinit var btnSubmit: Button
     private lateinit var btnDeleteGericht: AppCompatButton
+    private lateinit var btnZutatHinzufuegen: FloatingActionButton
 
     private var gerichtName =""
     private var zutatenListe = ""
@@ -42,16 +45,47 @@ class GerichtEditierenActivity : AppCompatActivity() {
         switchVegetarisch = findViewById(R.id.switchGerichteEditierenVegetarisch)
         btnSubmit = findViewById(R.id.btnSubmit)
         btnDeleteGericht = findViewById(R.id.btnDeleteGericht)
+        btnZutatHinzufuegen = findViewById(R.id.btnAddZutat)
 
         btnSubmit.setOnClickListener{
             if(newGericht == null){
                 Toast.makeText(this, ("Es wurden keine Änderungen vorgenommen."), Toast.LENGTH_SHORT).show()
             } else {
-                saveEditedGericht(newGericht!!)
+                saveEditedGericht()
                 Toast.makeText(this, (newGericht!!.gerichtName + " wurde erfolgreich bearbeitet."), Toast.LENGTH_SHORT).show()
             }
         }
 
+        btnZutatHinzufuegen.setOnClickListener{
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle(getString(R.string.textZutatHinzufuegen))
+
+            val input = EditText(this)
+            // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+            input.inputType = InputType.TYPE_CLASS_TEXT
+            builder.setView(input)
+            input.requestFocus()
+
+            builder.setPositiveButton(R.string.hinzuf_gen, DialogInterface.OnClickListener { _, _ ->
+                val inputText = input.text.toString().replace(',',' ').trim()
+                inputText.split("\\s*,\\s*")
+                Toast.makeText(this, getString(R.string.zutat) + " " + inputText + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
+                zutaten.add(inputText)
+                adapter.notifyDataSetChanged()
+                newGericht = Gericht(gerichtName, createNewZutatenString(zutaten), isVegetarisch)
+            })
+
+            builder.setNegativeButton(R.string.abbrechen,
+                    DialogInterface.OnClickListener { dialog, _ ->
+                        dialog.cancel()
+                    })
+            // Create the AlertDialog object and return it
+
+
+            builder.create()
+            val alert = builder.show()
+            alert.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        }
 
 
 
@@ -175,15 +209,14 @@ class GerichtEditierenActivity : AppCompatActivity() {
     private fun updateZutat(gericht: Gericht, inputText: String, zutaten: ArrayList<String>, position: Int){
 
             val tempZutat = zutaten[position]
-            val stringBuilder = createNewZutatenString(zutaten, position, inputText)
 
-            println(stringBuilder)
-
-            newGericht = Gericht(gerichtName, stringBuilder, isVegetarisch)
-            println(newGericht!!.zutaten)
 
             zutaten[position] = inputText
-            saveEditedGericht(newGericht!!)
+
+            createNewZutatenString(zutaten)
+
+            newGericht = Gericht(gerichtName, createNewZutatenString(zutaten), isVegetarisch)
+
             adapter.notifyDataSetChanged()
 
             Toast.makeText(this, ("$tempZutat wurde erfolgreich zu $inputText bearbeitet."), Toast.LENGTH_SHORT).show()
@@ -192,20 +225,20 @@ class GerichtEditierenActivity : AppCompatActivity() {
 
     }
 
-    private fun saveEditedGericht(newGericht: Gericht) = runBlocking {
-        AppDatabase.getDatabase(applicationContext).gerichtDao().update(gericht = newGericht)
+    private fun saveEditedGericht() = runBlocking {
+
+        AppDatabase.getDatabase(applicationContext).gerichtDao().update(gericht = newGericht!!)
     }
 
 
-    private fun createNewZutatenString(zutaten: List<String>, position: Int, inputText: String): String {
+    private fun createNewZutatenString(zutaten: List<String>): String {
         val newZutaten = zutaten.toMutableList()
 
-        newZutaten[position] = inputText
         val stringBuilder = StringBuilder()
         for (element: String in newZutaten) {
-            stringBuilder.append("$element, ")
+            stringBuilder.append("$element,")
         }
-        if (stringBuilder.endsWith(", ")) {
+        if (stringBuilder.endsWith(",")) {
             stringBuilder.deleteCharAt(stringBuilder.length - 1)
             stringBuilder.deleteCharAt(stringBuilder.length - 1)
         }

@@ -82,16 +82,18 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         builder.setView(input)
         input.requestFocus()
 
-        builder.setPositiveButton(R.string.hinzuf_gen, DialogInterface.OnClickListener { dialog, id ->
+        builder.setPositiveButton(R.string.hinzuf_gen, DialogInterface.OnClickListener { _, _ ->
             val inputText = input.text.toString().replace(',',' ').trim()
             inputText.split("\\s*,\\s*")
             Toast.makeText(this, getString(R.string.zutat) + " " + inputText + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
+
+
             textZutaten += "$inputText,"
             zutatHinzufuegen()
         })
 
         builder.setNegativeButton(R.string.abbrechen,
-            DialogInterface.OnClickListener { dialog, id ->
+            DialogInterface.OnClickListener { dialog, _ ->
                 dialog.cancel()
             })
         // Create the AlertDialog object and return it

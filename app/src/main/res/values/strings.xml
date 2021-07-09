@@ -52,4 +52,5 @@
     <string name="addedSuccessfully">was added successfully.</string>
     <string name="deleteGericht">Delete Meal</string>
     <string name="deleteGerichtText">Are you sure you want to delete this meal? It\'s no longer available after this action.</string>
+    <string name="add_ingredient">Add Ingredient</string>
 </resources>

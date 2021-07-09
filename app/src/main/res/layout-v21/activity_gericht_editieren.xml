@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
@@ -20,7 +21,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginBottom="5dp"
 
-        />
+        tools:ignore="RelativeOverlap" />
 
     <TextView
         android:id="@+id/gerichtAlterName"
@@ -135,8 +136,21 @@
         android:id="@+id/divider8"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_above="@id/tvVegetarisch"
+        android:layout_above="@id/btnAddZutat"
         android:background="?android:attr/listDivider" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnAddZutat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tvVegetarisch"
+        android:layout_centerHorizontal="true"
+        app:fabCustomSize="30dp"
+        android:contentDescription="@string/add_ingredient"
+
+        android:src="@android:drawable/ic_input_add"
+
+        />
 
     <TextView
         android:id="@+id/tvVegetarisch"
