@@ -4,7 +4,7 @@
     <string name="action_settings">Einstellungen</string>
     <string name="add_gerichte_float_button">Füge Gericht hinzu</string>
     <string name="gericht_name">Gericht Name</string>
-    <string name="zutat">Zutat1, Zutat2, …</string>
+    <string name="zutat">Zutat</string>
     <string name="vegetarisch">Vegetarisch</string>
     <string name="hinzuf_gen">Hinzufügen</string>
     <string name="alle_gerichte">Alle Gerichte</string>
@@ -41,4 +41,12 @@
     <string name="neuer_name">Neuer Name</string>
     <string name="textZutatBearbeiten">Zutat bearbeiten</string>
     <string name="abbrechen">Abbrechen</string>
+    <string name="deleteDataFromPhone">Alle Daten vom Gerät löschen?</string>
+    <string name="deleteDataFromPhoneMessage">Sind Sie sicher, dass Sie alle Daten vom Gerät löschen wollen? Dieser Schritt kann nicht rückgängig gemacht werden.</string>
+    <string name="allDataDeletedText">Alle Daten wurden erfolgreich gelöscht.</string>
+    <string name="delete">Löschen</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="textZutatHinzufuegen">Zutat zum Gericht hinzufügen</string>
+    <string name="zutat_hinzuf_gen">Zutat hinzufügen</string>
+    <string name="addedSuccessfully">wurde erfolgreich hinzugefügt.</string>
 </resources>

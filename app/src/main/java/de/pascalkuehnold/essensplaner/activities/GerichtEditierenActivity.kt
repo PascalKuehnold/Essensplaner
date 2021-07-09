@@ -5,7 +5,6 @@ import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
-import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -13,8 +12,8 @@ import androidx.appcompat.app.AlertDialog
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.lang.Exception
 import kotlin.text.StringBuilder
 
 class GerichtEditierenActivity : AppCompatActivity() {
@@ -66,13 +65,18 @@ class GerichtEditierenActivity : AppCompatActivity() {
 
         inputFieldGericht.hint = gerichtName
 
-        val regex = "\\W+".toRegex()
+        try{
+            zutaten = zutatenListe.split(",") as ArrayList<String>
+        } catch (e: Exception){
+            zutaten = ArrayList()
+            zutaten.add(zutatenListe)
+        }
 
-        zutaten = zutatenListe.split(regex) as ArrayList<String>
 
 
 
-        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, zutaten)
+
+        adapter = ArrayAdapter(this, R.layout.custom_list_item_zutat, R.id.gerichtName, zutaten)
 
         listViewZutaten.adapter = adapter
 

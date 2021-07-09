@@ -43,6 +43,7 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context): BaseAdapte
         val gerichtZutaten = view?.findViewById<TextView>(R.id.zutaten)
         if (gerichtZutaten != null) {
             gerichtZutaten.text = gerichte[position].zutaten
+            
         }
 
         val btnGerichtBearbeiten = view?.findViewById<android.widget.Button>(R.id.btnBearbeiten)

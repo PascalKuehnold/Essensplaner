@@ -5,7 +5,7 @@
     <string name="add_gerichte_float_button">Add meal</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="gericht_name">Meal name</string>
-    <string name="zutat">Ingredient1, Ingredient2</string>
+    <string name="zutat">Ingredient</string>
     <string name="vegetarisch">Vegetarian</string>
     <string name="hinzuf_gen">Add</string>
     <string name="alle_gerichte">All meals</string>
@@ -42,4 +42,12 @@
     <string name="neuer_name">New Name</string>
     <string name="textZutatBearbeiten">Change ingredient</string>
     <string name="abbrechen">Cancel</string>
+    <string name="deleteDataFromPhone">Delete all data from the device?</string>
+    <string name="deleteDataFromPhoneMessage">Are you sure that you want do delete all data from the device? This can not be undone.</string>
+    <string name="allDataDeletedText">All data was successfully deleted.</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="textZutatHinzufuegen">Add ingredient to meal</string>
+    <string name="zutat_hinzuf_gen">Add ingredient</string>
+    <string name="addedSuccessfully">was added successfully.</string>
 </resources>

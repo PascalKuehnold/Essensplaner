@@ -1,12 +1,17 @@
 package de.pascalkuehnold.essensplaner.activities
 
+import android.content.DialogInterface
 import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
@@ -20,9 +25,9 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
     private var textZutaten = ""
     private var isVegetarisch = false
 
-    lateinit var textInputGericht: TextInputEditText
-    lateinit var textInputZutat: TextInputEditText
-    lateinit var switchVegetarisch: CheckBox
+    private lateinit var textInputGericht: TextInputEditText
+    private lateinit var btnZutatHinzufuegen: Button
+    private lateinit var switchVegetarisch: CheckBox
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,21 +35,25 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
 
         val btnHinzufuegen = findViewById<Button>(R.id.btnHinzufuegenGericht)
         textInputGericht = findViewById(R.id.textInputTextGericht)
-        textInputZutat = findViewById(R.id.textInputTextZutat)
+        btnZutatHinzufuegen = findViewById(R.id.btnZutatHinzufügen)
+        btnZutatHinzufuegen.setOnClickListener{
+            zutatHinzufuegen()
+        }
+
+
         switchVegetarisch = findViewById(R.id.switchVegetarisch)
 
         btnHinzufuegen.setOnClickListener {
             this.gerichtName = textInputGericht.text.toString()
-            this.textZutaten = textInputZutat.text.toString()
             this.isVegetarisch = switchVegetarisch.isChecked
 
             if (this.gerichtName.isNotEmpty() && this.textZutaten.isNotEmpty()) {
                 println("GerichteHinzufuegenActivity >> " + this.gerichtName + " Zutaten: " + this.textZutaten + " Vegetarisch: " + this.isVegetarisch)
                 try {
                     addGericht()
-                    Toast.makeText(this, this.gerichtName + getString(R.string.wasAddedText), Toast.LENGTH_SHORT).show()
+
                 } catch (e: SQLiteConstraintException) {
-                    Toast.makeText(this, this.gerichtName + getString(R.string.textAlreadyInList), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, this.gerichtName + " " +getString(R.string.textAlreadyInList), Toast.LENGTH_SHORT).show()
                 }
                 cleanInput()
             } else {
@@ -59,12 +68,37 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
                 hideSoftKeyboard(v)
             }
         }
-        textInputZutat.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
-            if (!hasFocus) {
-                hideSoftKeyboard(v)
-            }
-        }
 
+
+    }
+
+    fun zutatHinzufuegen(){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(getString(R.string.textZutatHinzufuegen))
+
+        val input = EditText(this)
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.inputType = InputType.TYPE_CLASS_TEXT
+        builder.setView(input)
+        input.requestFocus()
+
+        builder.setPositiveButton(R.string.hinzuf_gen, DialogInterface.OnClickListener { dialog, id ->
+            val inputText = input.text.toString().trim()
+            Toast.makeText(this, getString(R.string.zutat) + " " + inputText + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
+            textZutaten += "$inputText,"
+            zutatHinzufuegen()
+        })
+
+        builder.setNegativeButton(R.string.abbrechen,
+            DialogInterface.OnClickListener { dialog, id ->
+                dialog.cancel()
+            })
+        // Create the AlertDialog object and return it
+
+
+        builder.create()
+        val alert = builder.show()
+        alert.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 
     }
 
@@ -77,7 +111,6 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
     //method to clear all the input fields for the user
     private fun cleanInput(){
         textInputGericht.text?.clear()
-        textInputZutat.text?.clear()
         switchVegetarisch.isChecked = false
         textInputGericht.requestFocus()
     }
@@ -91,12 +124,17 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
 
     //method for adding a new meal
     private fun addGericht(){
+        var tempZutaten = ""
+        if(textZutaten.endsWith(',')){
+            tempZutaten = textZutaten.removeSuffix(','.toString())
+        }
 
         val gerichtDao = createConnection()
-        val newGericht = Gericht(gerichtName, textZutaten, isVegetarisch)
+        val newGericht = Gericht(gerichtName, tempZutaten, isVegetarisch)
 
         gerichtDao.insertAll(newGericht)
         println("GerichtHandler >> " + newGericht.gerichtName + " was added successfully")
+        Toast.makeText(this, this.gerichtName + " " + getString(R.string.wasAddedText), Toast.LENGTH_SHORT).show()
     }
 
     //TODO delete?

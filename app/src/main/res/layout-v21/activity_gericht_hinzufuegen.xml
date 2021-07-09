@@ -27,11 +27,12 @@ tools:context=".activities.GerichtHinzufuegenActivity">
 
     <Button
         android:id="@+id/btnHinzufuegenGericht"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="256dp"
+        android:layout_height="76dp"
         android:layout_marginTop="64dp"
         android:backgroundTint="@color/newHeaderColor"
         android:text="@string/hinzuf_gen"
+        app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +49,7 @@ tools:context=".activities.GerichtHinzufuegenActivity">
         app:layout_constraintBottom_toTopOf="@+id/switchVegetarisch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutZutat" />
+        app:layout_constraintTop_toBottomOf="@+id/btnZutatHinzufügen" />
 
     <android.widget.CheckBox
         android:id="@+id/switchVegetarisch"
@@ -65,7 +66,6 @@ tools:context=".activities.GerichtHinzufuegenActivity">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
-        android:layout_marginBottom="400dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         app:boxCornerRadiusBottomEnd="20dp"
@@ -73,7 +73,7 @@ tools:context=".activities.GerichtHinzufuegenActivity">
         app:boxCornerRadiusTopEnd="20dp"
         app:boxCornerRadiusTopStart="20dp"
         app:hintTextColor="@color/newBackgroundColor"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnZutatHinzufügen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -89,33 +89,23 @@ tools:context=".activities.GerichtHinzufuegenActivity">
             android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutZutat"
+
+    <Button
+        android:id="@+id/btnZutatHinzufügen"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="40dp"
-        app:boxCornerRadiusBottomEnd="20dp"
-        app:boxCornerRadiusBottomStart="20dp"
-        app:boxCornerRadiusTopEnd="20dp"
-        app:boxCornerRadiusTopStart="20dp"
-        app:hintTextColor="@color/newBackgroundColor"
+        android:backgroundTint="@color/newHeaderColor"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="@string/zutat_hinzuf_gen"
+        android:textColor="@color/newBackgroundColor"
+        app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutGericht">
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutGericht" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputTextZutat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/newHeaderColor"
-            android:gravity="center_horizontal"
-            android:hint="@string/zutat"
-            android:textColor="@color/white"
-            android:textColorHint="@color/newBackgroundColor" />
-
-    </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
