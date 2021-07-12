@@ -2,7 +2,6 @@ package de.pascalkuehnold.essensplaner.activities
 
 
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
@@ -77,20 +76,21 @@ class GerichtEditierenActivity : AppCompatActivity() {
             builder.setView(input)
             input.requestFocus()
 
-            builder.setPositiveButton(R.string.hinzuf_gen, DialogInterface.OnClickListener { _, _ ->
-                val inputText = input.text.toString().replace(',',' ').trim()
+            builder.setPositiveButton(R.string.hinzuf_gen) { _, _ ->
+                val inputText = input.text.toString().replace(',', ' ').trim()
                 inputText.split("\\s*,\\s*")
-                Toast.makeText(this, getString(R.string.zutat) + " " + inputText + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
+
                 zutaten.add(inputText)
-                adapter.notifyDataSetChanged()
                 changeGericht(zutaten)
                 isSaved = false
-            })
 
-            builder.setNegativeButton(R.string.abbrechen,
-                    DialogInterface.OnClickListener { dialog, _ ->
-                        dialog.cancel()
-                    })
+                adapter.notifyDataSetChanged()
+                Toast.makeText(this, getString(R.string.zutat) + " " + inputText + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
+            }
+
+            builder.setNegativeButton(R.string.abbrechen) { dialog, _ ->
+                dialog.cancel()
+            }
             // Create the AlertDialog object and return it
 
 
@@ -154,19 +154,20 @@ class GerichtEditierenActivity : AppCompatActivity() {
             alert.setIcon(R.drawable.ic_delete)
 
             alert.setMessage(getString(R.string.deleteGerichtText))
-                    .setPositiveButton(R.string.delete, DialogInterface.OnClickListener() { _: DialogInterface, _: Int ->
+                    .setPositiveButton(R.string.delete) { _: DialogInterface, _: Int ->
                         val tempDao = AppDatabase.getDatabase(applicationContext).gerichtDao()
                         val tempGericht = tempDao.findByName(gerichtName)
+
                         tempDao.delete(tempGericht)
+
                         Toast.makeText(this, "TODO() Gericht was successfully deleted", Toast.LENGTH_SHORT).show()
                         waitForToastShortThread.start()
-                    })
-                    .setNegativeButton(R.string.cancel, DialogInterface.OnClickListener() { dialog: DialogInterface, _: Int ->
+                    }
+                    .setNegativeButton(R.string.cancel) { dialog: DialogInterface, _: Int ->
                         dialog.cancel()
-                    })
+                    }
             alert.create()
             alert.show()
-
         }
     }
 
