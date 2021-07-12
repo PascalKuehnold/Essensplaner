@@ -53,4 +53,6 @@
     <string name="deleteGericht">Delete Meal</string>
     <string name="deleteGerichtText">Are you sure you want to delete this meal? It\'s no longer available after this action.</string>
     <string name="add_ingredient">Add Ingredient</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

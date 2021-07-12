@@ -52,4 +52,6 @@
     <string name="deleteGericht">Gericht löschen</string>
     <string name="deleteGerichtText">Sind Sie sicher, dass Sie dieses Gericht löschen wollen? Nach diesem Vorgang ist es nicht mehr verfügbar.</string>
     <string name="add_ingredient">Zutat hinzufügen</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
 </resources>

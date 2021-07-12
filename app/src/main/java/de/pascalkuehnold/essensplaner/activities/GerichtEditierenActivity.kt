@@ -1,10 +1,15 @@
 package de.pascalkuehnold.essensplaner.activities
 
 
+import android.annotation.SuppressLint
+import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.text.InputType
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -31,13 +36,19 @@ class GerichtEditierenActivity : AppCompatActivity() {
     private var zutatenListe = ""
     private var isVegetarisch = false
     private var newGericht: Gericht? = null
-    private lateinit var adapter: ArrayAdapter<String>
+    private lateinit var adapter: CustomZutatenAdapter
 
     private lateinit var zutaten: ArrayList<String>
+
+    private var isSaved = false
+
+    lateinit var mContext: Context
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gericht_editieren)
+
+        mContext = this
 
         inputFieldGericht = findViewById(R.id.textGerichtEditierenName)
         oldGerichtName = findViewById(R.id.gerichtAlterName)
@@ -72,7 +83,8 @@ class GerichtEditierenActivity : AppCompatActivity() {
                 Toast.makeText(this, getString(R.string.zutat) + " " + inputText + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
                 zutaten.add(inputText)
                 adapter.notifyDataSetChanged()
-                newGericht = Gericht(gerichtName, createNewZutatenString(zutaten), isVegetarisch)
+                changeGericht(zutaten)
+                isSaved = false
             })
 
             builder.setNegativeButton(R.string.abbrechen,
@@ -90,17 +102,23 @@ class GerichtEditierenActivity : AppCompatActivity() {
 
 
         val gericht: Bundle? = intent.extras
-        var inputText = ""
 
         if(gericht != null){
             oldGerichtName.text = gericht.getString("GERICHT_NAME").toString()
             gerichtName = gericht.getString("GERICHT_NAME").toString()
             zutatenListe = gericht.getString("ZUTATEN_LISTE").toString()
             isVegetarisch = gericht.getBoolean("IS_VEGETARISCH")
+
+            switchVegetarisch.isChecked = isVegetarisch
         }
 
+        //TODO Method for changing the meal name
+
+        //sets the hint text of the meal name
         inputFieldGericht.hint = gerichtName
 
+        //fills the array of ingredients by seperating it
+        //if there is nothing to seperate, the array is filled with one item
         try{
             zutaten = zutatenListe.split(",") as ArrayList<String>
         } catch (e: Exception){
@@ -108,32 +126,28 @@ class GerichtEditierenActivity : AppCompatActivity() {
             zutaten.add(zutatenListe)
         }
 
-
-
-
-
-        adapter = ArrayAdapter(this, R.layout.custom_list_item_zutat, R.id.gerichtName, zutaten)
-
-        listViewZutaten.adapter = adapter
-
-        listViewZutaten.setOnItemClickListener{ adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
-            println("GerichtEditierenActivity -> pressed item $i")
-            println(listViewZutaten.getItemAtPosition(i).toString())
-
-            val zutat = Bundle()
-            zutat.putString("Zutat", listViewZutaten.getItemAtPosition(i).toString())
-
-            createChangeZutatDialog(zutat, zutaten, i)
-
+        //for the checkbox if the meal is vegetarian or not
+        switchVegetarisch.setOnCheckedChangeListener{ _, isChecked ->
+            isVegetarisch = isChecked
+            isSaved = false
+            changeGericht(zutaten)
         }
 
+        //creates the custom adapter
+        adapter = CustomZutatenAdapter(zutaten)
+
+        //setting the adapter for the listview of ingredients
+        listViewZutaten.adapter = adapter
+
+        //Creates an FocusChangeListener and hides the keyboard is the inputfield is no longer focused
         inputFieldGericht.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
                 hideSoftKeyboard(v)
             }
         }
 
-
+        //OnClickListener for the Delete Meal Button
+        //Creates a Dialog so that the user can be sure if he wants to delete the entire meal
         btnDeleteGericht.setOnClickListener{
             val alert = AlertDialog.Builder(this)
             alert.setTitle(getString(R.string.deleteGericht))
@@ -154,14 +168,16 @@ class GerichtEditierenActivity : AppCompatActivity() {
             alert.show()
 
         }
-
-
-        //TODO zutatenListe splitten und in die liste einfügen
-        //TODO vegetarisch boolean setzen
-
-
     }
 
+    //Method for changing the entire meal
+    private fun changeGericht(inZutaten: ArrayList<String>) {
+        val tempZutaten = createNewZutatenString(inZutaten)
+
+        newGericht = Gericht(gerichtName, tempZutaten, isVegetarisch)
+    }
+
+    //Method for waiting an amount of Toast.LENGTH_SHORT, before leaving the activity
     private var waitForToastShortThread: Thread = object : Thread() {
         override fun run() {
             try {
@@ -173,64 +189,19 @@ class GerichtEditierenActivity : AppCompatActivity() {
         }
     }
 
-    private fun createChangeZutatDialog(zutat: Bundle, zutatenNew: ArrayList<String>, position: Int) {
-        // Use the Builder class for convenient dialog construction
-        var inputText = ""
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle(getString(R.string.textZutatBearbeiten) + " \"${zutat.get("Zutat")}\"")
-
-        val input = EditText(this)
-        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.inputType = InputType.TYPE_CLASS_TEXT
-        builder.setView(input)
-
-        builder.setPositiveButton(R.string.aendern, DialogInterface.OnClickListener { dialog, id ->
-            inputText = input.text.toString()
-            val gericht = AppDatabase.getDatabase(applicationContext).gerichtDao().findByName(gerichtName)
-            updateZutat(gericht, inputText, zutatenNew, position)
-
-        })
-
-        builder.setNegativeButton(R.string.abbrechen,
-                DialogInterface.OnClickListener { dialog, id ->
-                    dialog.cancel()
-                })
-        // Create the AlertDialog object and return it
-        builder.create()
-        builder.show()
-    }
-
     //Method for hiding the keyboard after pressing on an empty space on screen
     private fun hideSoftKeyboard(view: View) {
         val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    private fun updateZutat(gericht: Gericht, inputText: String, zutaten: ArrayList<String>, position: Int){
-
-            val tempZutat = zutaten[position]
-
-
-            zutaten[position] = inputText
-
-            createNewZutatenString(zutaten)
-
-            newGericht = Gericht(gerichtName, createNewZutatenString(zutaten), isVegetarisch)
-
-            adapter.notifyDataSetChanged()
-
-            Toast.makeText(this, ("$tempZutat wurde erfolgreich zu $inputText bearbeitet."), Toast.LENGTH_SHORT).show()
-
-            println("ChangeZutatFragment Input -> " + inputText)
-
-    }
-
+    //method for saving the meal
     private fun saveEditedGericht() = runBlocking {
-
         AppDatabase.getDatabase(applicationContext).gerichtDao().update(gericht = newGericht!!)
+        isSaved = true
     }
 
-
+    //Method for creating ingredient string, after it was edited by the user
     private fun createNewZutatenString(zutaten: List<String>): String {
         val newZutaten = zutaten.toMutableList()
 
@@ -240,9 +211,143 @@ class GerichtEditierenActivity : AppCompatActivity() {
         }
         if (stringBuilder.endsWith(",")) {
             stringBuilder.deleteCharAt(stringBuilder.length - 1)
-            stringBuilder.deleteCharAt(stringBuilder.length - 1)
         }
         return stringBuilder.toString()
     }
+
+    //Method that creates a dialog for changing an ingredient
+    private fun createChangeZutatDialog(zutatenNew: ArrayList<String>, position: Int) {
+        // Use the Builder class for convenient dialog construction
+        var inputText: String
+       
+
+        val builder = AlertDialog.Builder(mContext)
+        builder.setTitle(getString(R.string.textZutatBearbeiten))
+
+        val input = EditText(mContext)
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.inputType = InputType.TYPE_CLASS_TEXT
+        builder.setView(input)
+
+        builder.setPositiveButton(R.string.aendern) { _, _ ->
+            inputText = input.text.toString()
+            updateZutat(inputText, zutatenNew, position)
+            isSaved = false
+        }
+
+        builder.setNegativeButton(R.string.abbrechen) { dialog, _ ->
+            dialog.cancel()
+        }
+        // Create the AlertDialog object and return it
+        builder.create()
+        builder.show()
+    }
+
+    //Method for updating the ingredient and refresh the ingredient listview
+    private fun updateZutat(inputText: String, zutaten: ArrayList<String>, position: Int){
+        val tempZutat = zutaten[position]
+
+        zutaten[position] = inputText
+
+        createNewZutatenString(zutaten)
+        changeGericht(zutaten)
+
+        Toast.makeText(this, ("$tempZutat wurde erfolgreich zu $inputText bearbeitet."), Toast.LENGTH_SHORT).show()
+        adapter.notifyDataSetChanged()
+    }
+
+    //Method was modified to alert the user if the changes were not saved
+    override fun onBackPressed() {
+
+        if (newGericht != null && !isSaved){
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Eingabe wurde nicht gespeichert.")
+            builder.setMessage("Sollen die Änderungen gespeichert werden?")
+            builder.setIcon(android.R.drawable.ic_dialog_alert)
+
+            builder.setPositiveButton(R.string.yes) { _, _ ->
+                saveEditedGericht()
+                super.onBackPressed()
+            }
+
+            builder.setNegativeButton(R.string.no) { _, _ ->
+                super.onBackPressed()
+            }
+            // Create the AlertDialog object and return it
+            builder.create()
+            builder.show()
+        } else {
+            super.onBackPressed()
+        }
+
+    }
+
+    //Inner class for the CustomArrayAdapter for the listItems for the ingredients
+    inner class CustomZutatenAdapter(zutaten: ArrayList<String>): BaseAdapter(), ListAdapter{
+        private val mZutaten = zutaten
+
+        override fun getCount(): Int {
+            return mZutaten.size
+        }
+
+        override fun getItem(position: Int): Any {
+            return mZutaten[position]
+        }
+
+        override fun getItemId(position: Int): Long {
+            return 0
+        }
+
+        @SuppressLint("InflateParams")
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
+            var view = convertView
+            if(view == null){
+                val inflater: LayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                view = inflater.inflate(R.layout.custom_list_item_zutat, null)
+            }
+
+            val zutatenName = view?.findViewById<TextView>(R.id.zutatenName)
+            if (zutatenName != null) {
+                zutatenName.text = mZutaten[position]
+            }
+
+
+            val btnZutatBearbeiten = view?.findViewById<Button>(R.id.btnZutatBearbeiten)
+            btnZutatBearbeiten?.setOnClickListener {
+                createChangeZutatDialog(mZutaten, position)
+            }
+
+            val btnDeleteZutat = view?.findViewById<Button>(R.id.btnDeleteZutat)
+            btnDeleteZutat?.setOnClickListener{
+                deleteZutat(position)
+            }
+
+            return view
+        }
+
+        private fun deleteZutat(position: Int){
+            val tempZutat = mZutaten[position]
+
+            val alert = AlertDialog.Builder(mContext)
+            alert.setMessage("Delete?")
+            alert.setPositiveButton(R.string.yes){ _: DialogInterface, _: Int ->
+                mZutaten.removeAt(position)
+                adapter.notifyDataSetChanged()
+                isSaved = false
+                changeGericht(mZutaten)
+
+                Toast.makeText(mContext, ("$tempZutat was deleted successfully."), Toast.LENGTH_SHORT).show()
+            }
+            alert.setNegativeButton(R.string.no){ dialog: DialogInterface, _: Int ->
+                dialog.cancel()
+            }
+            alert.create()
+            alert.show()
+        }
+    }
+
+
+
+
 
 }
