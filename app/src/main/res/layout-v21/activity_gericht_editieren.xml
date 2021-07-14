@@ -20,7 +20,9 @@
         android:textSize="@dimen/headline"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="5dp"
-
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         tools:ignore="RelativeOverlap" />
 
     <TextView
@@ -34,6 +36,10 @@
         android:textColor="@color/white"
         android:alpha="0.5"
         android:textSize="12sp"
+
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         />
 
 
@@ -42,7 +48,12 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/gerichtAlterName"
-        android:background="?android:attr/listDivider" />
+        android:background="?android:attr/listDivider"
+
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        />
 
     <TextView
         android:id="@+id/gerichtBearbeitenName"
@@ -55,6 +66,10 @@
         android:textColor="@color/white"
         android:layout_marginBottom="20dp"
 
+
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -62,7 +77,11 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_alignParentEnd="true"
-        android:background="@drawable/ic_delete" />
+        android:background="@drawable/ic_delete"
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        />
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -78,6 +97,7 @@
         app:boxCornerRadiusTopStart="20dp"
         android:layout_marginBottom="20dp"
         android:layout_below="@id/gerichtBearbeitenName"
+
         >
 
         <com.google.android.material.textfield.TextInputEditText
@@ -91,6 +111,10 @@
             android:backgroundTint="@color/newHeaderColor"
             android:textColorHint="@color/newBackgroundColor"
             android:textColor="@color/white"
+
+            android:clickable="true"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
             />
 
 
@@ -107,6 +131,10 @@
         android:textSize="@dimen/maxFontSize"
         android:textColor="@color/white"
 
+
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         />
 
     <View
@@ -114,7 +142,12 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/gerichtBearbeitenZutaten"
-        android:background="?android:attr/listDivider" />
+        android:background="?android:attr/listDivider"
+
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        />
 
     <ListView
         android:id="@+id/listViewZutatenlisteGerichtAendern"
@@ -128,6 +161,10 @@
         android:layout_marginEnd="10dp"
         android:divider="@drawable/gradient_white_to_blue"
         android:dividerHeight="@dimen/cardview_compat_inset_shadow"
+
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         >
 
     </ListView>
@@ -150,6 +187,9 @@
 
         android:src="@android:drawable/ic_input_add"
 
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         />
 
     <TextView
@@ -163,6 +203,11 @@
         android:textSize="@dimen/maxFontSize"
         android:layout_marginTop="30dp"
 
+
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+
         />
 
     <android.widget.CheckBox
@@ -172,6 +217,10 @@
         android:layout_centerHorizontal="true"
         android:layout_above="@id/btnSubmit"
         android:layout_marginBottom="10dp"
+
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         />
 
     <Button
@@ -183,6 +232,11 @@
         android:text="@string/aendern"
         android:layout_marginBottom="40dp"
         android:backgroundTint="@color/newHeaderColor"
+
+
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         />
 
 

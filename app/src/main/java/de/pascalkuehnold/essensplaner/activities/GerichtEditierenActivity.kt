@@ -6,25 +6,26 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.text.InputType
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import android.widget.TextView.OnEditorActionListener
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import kotlinx.coroutines.runBlocking
 
+
 //TODO() GerichtNamen editieren möglich machen
 class GerichtEditierenActivity : AppCompatActivity() {
-    private lateinit var inputFieldGericht: TextView
+    private lateinit var inputFieldGericht: TextInputEditText
     private lateinit var oldGerichtName: TextView
     private lateinit var listViewZutaten: ListView
     private lateinit var switchVegetarisch: CheckBox
@@ -42,7 +43,7 @@ class GerichtEditierenActivity : AppCompatActivity() {
     private lateinit var zutaten: ArrayList<String>
 
     private var isSaved = false
-    private var GERICHT_ID: Long = -1
+    private var GERICHTID: Long = -1
 
     lateinit var mContext: Context
 
@@ -104,20 +105,18 @@ class GerichtEditierenActivity : AppCompatActivity() {
         }
 
 
-
         val gericht: Bundle? = intent.extras
 
         if(gericht != null){
-            GERICHT_ID = gericht.getLong("ID")
+            GERICHTID = gericht.getLong("ID")
 
-            val tempGericht = AppDatabase.getDatabase(applicationContext).gerichtDao().loadByID(GERICHT_ID)
+            val tempGericht = AppDatabase.getDatabase(applicationContext).gerichtDao().loadByID(GERICHTID)
 
             if (tempGericht != null) {
                 oldGerichtName.text = tempGericht.gerichtName
                 gerichtName = tempGericht.gerichtName
                 zutatenListe = tempGericht.zutaten
                 isVegetarisch = tempGericht.isVegetarisch
-
             }
 
             switchVegetarisch.isChecked = isVegetarisch
@@ -154,6 +153,9 @@ class GerichtEditierenActivity : AppCompatActivity() {
         inputFieldGericht.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
                 hideSoftKeyboard(v)
+                gerichtName = inputFieldGericht.text.toString()
+                isSaved = false
+                changeGericht(zutaten)
             }
         }
 
@@ -186,11 +188,8 @@ class GerichtEditierenActivity : AppCompatActivity() {
     //Method for changing the entire meal
     private fun changeGericht(inZutaten: ArrayList<String>) {
         val tempZutaten = createNewZutatenString(inZutaten)
-        if(!inputFieldGericht.text.isNullOrEmpty()){
-            gerichtName = inputFieldGericht.text as String
-        }
 
-        newGericht = Gericht(GERICHT_ID, gerichtName, tempZutaten, isVegetarisch)
+        newGericht = Gericht(GERICHTID, gerichtName, tempZutaten, isVegetarisch)
     }
 
     //Method for waiting an amount of Toast.LENGTH_SHORT, before leaving the activity
@@ -204,6 +203,7 @@ class GerichtEditierenActivity : AppCompatActivity() {
             }
         }
     }
+
 
     //Method for hiding the keyboard after pressing on an empty space on screen
     private fun hideSoftKeyboard(view: View) {

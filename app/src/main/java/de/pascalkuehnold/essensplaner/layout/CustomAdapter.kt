@@ -51,9 +51,6 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context): BaseAdapte
         btnGerichtBearbeiten?.setOnClickListener {
             val intent = Intent(parent?.context, GerichtEditierenActivity::class.java).apply{
                 putExtra("ID", gerichte[position].id)
-//                putExtra("GERICHT_NAME", gerichte[position].gerichtName)
-//                putExtra("ZUTATEN_LISTE", gerichte[position].zutaten)
-//                putExtra("IS_VEGETARISCH", gerichte[position].isVegetarisch)
             }
             println("Btn gericht bearbeiten wurde gedrückt")
             parent?.context?.startActivity(intent)
