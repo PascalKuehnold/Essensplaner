@@ -15,6 +15,7 @@ import de.pascalkuehnold.essensplaner.interfaces.WochenplanerDao
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
 import kotlin.random.Random
 
+
 class Wochenplaner : AppCompatActivity(){
     private lateinit var listWochenplaner: ListView
 
@@ -57,8 +58,13 @@ class Wochenplaner : AppCompatActivity(){
 
     }
 
-    val positiveButtonClick = {
-        _: DialogInterface, _: Int ->
+    override fun onResume() {
+        super.onResume()
+        weeksGerichte = getWeeksGerichte()
+        generateListOnScreen()
+    }
+
+    private val positiveButtonClick = { _: DialogInterface, _: Int ->
         Toast.makeText(applicationContext, getString(R.string.textNewPlanWasCreated), Toast.LENGTH_SHORT).show()
         println("Wochenplaner >> positiveButtonClick on AlertDialog clicked")
 
@@ -109,6 +115,7 @@ class Wochenplaner : AppCompatActivity(){
         val adapter =  CustomAdapter(weeksGerichte, this)
         listWochenplaner.adapter = adapter
 
+        adapter.notifyDataSetChanged()
         println("Wochenplaner >> generateListOnScreen() -> Daten wurden an den Screen übergeben")
     }
 
@@ -130,7 +137,11 @@ class Wochenplaner : AppCompatActivity(){
                     .setTitle(getString(R.string.textNotEnoughMeals))
                     .setMessage(getString(R.string.textNotEnoughMealsDesc))
                     .setCancelable(true)
+                    .setOnCancelListener(){
+                        finish()
+                    }
             alert.show()
+
 
             return
         }

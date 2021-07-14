@@ -12,8 +12,9 @@ import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.activities.GerichtEditierenActivity
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 
+//TODO() EinkaufslistenButton und funktion einführen
 class CustomAdapter(newGerichte: List<Gericht>, newContext: Context): BaseAdapter(), ListAdapter {
-    val gerichte = newGerichte
+    private val gerichte = newGerichte
     val context = newContext
 
     override fun getCount(): Int {
@@ -49,9 +50,10 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context): BaseAdapte
         val btnGerichtBearbeiten = view?.findViewById<android.widget.Button>(R.id.btnBearbeiten)
         btnGerichtBearbeiten?.setOnClickListener {
             val intent = Intent(parent?.context, GerichtEditierenActivity::class.java).apply{
-                putExtra("GERICHT_NAME", gerichte[position].gerichtName)
-                putExtra("ZUTATEN_LISTE", gerichte[position].zutaten)
-                putExtra("IS_VEGETARISCH", gerichte[position].isVegetarisch)
+                putExtra("ID", gerichte[position].id)
+//                putExtra("GERICHT_NAME", gerichte[position].gerichtName)
+//                putExtra("ZUTATEN_LISTE", gerichte[position].zutaten)
+//                putExtra("IS_VEGETARISCH", gerichte[position].isVegetarisch)
             }
             println("Btn gericht bearbeiten wurde gedrückt")
             parent?.context?.startActivity(intent)

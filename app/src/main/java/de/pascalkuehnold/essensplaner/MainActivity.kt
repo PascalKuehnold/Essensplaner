@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import de.pascalkuehnold.essensplaner.activities.Wochenplaner
 import de.pascalkuehnold.essensplaner.activities.GerichteListeActivity
 import de.pascalkuehnold.essensplaner.database.AppDatabase
+import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
 
 class MainActivity : AppCompatActivity() {
 
@@ -68,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         alert.setMessage(getString(R.string.deleteDataFromPhoneMessage))
         alert.setPositiveButton(getString(R.string.delete)) { _: DialogInterface, _: Int ->
             AppDatabase.getDatabase(applicationContext).gerichtDao().delete()
+            WochenplanerDatabase.getDatabase(applicationContext).wochenGerichteDao().delete()
             Toast.makeText(this, getString(R.string.allDataDeletedText), Toast.LENGTH_LONG).show()
         }
         alert.setNegativeButton(getString(R.string.cancel)) { dialog: DialogInterface, _: Int ->

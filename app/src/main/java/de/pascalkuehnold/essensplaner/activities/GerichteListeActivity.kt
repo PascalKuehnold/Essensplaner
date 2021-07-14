@@ -11,13 +11,20 @@ import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
 
+//TODO sort algorithm
 class GerichteListeActivity : AppCompatActivity() {
     private lateinit var listView: ListView
+    private lateinit var searchView: SearchView
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gerichte_liste)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+
+
+        searchView = findViewById(R.id.sbGerichteListe)
 
         listView = findViewById(R.id.gerichteAnzeige)
 
@@ -28,6 +35,7 @@ class GerichteListeActivity : AppCompatActivity() {
             refreshGerichteListe()
         }
 
+        //TODO sort algorithm
         val spinner: Spinner = findViewById(R.id.spinner)
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
@@ -40,8 +48,6 @@ class GerichteListeActivity : AppCompatActivity() {
             // Apply the adapter to the spinner
             spinner.adapter = adapter
         }
-        //TODO sort algorithm
-
         refreshGerichteListe()
     }
 
@@ -52,26 +58,19 @@ class GerichteListeActivity : AppCompatActivity() {
     }
 
     private fun refreshGerichteListe() {
-
         val gerichtDao = AppDatabase.getDatabase(applicationContext).gerichtDao()
         val gerichteListe = gerichtDao.getAll()
 
-        val listItems = arrayOfNulls<String>(gerichteListe.size)
-
-
-        for(i in gerichteListe.indices){
-            val gericht = gerichteListe[i]
-            listItems[i] = gericht.gerichtName
-        }
+//        val listItems = arrayOfNulls<String>(gerichteListe.size)
+//
+//        for(i in gerichteListe.indices){
+//            val gericht = gerichteListe[i]
+//            listItems[i] = gericht.gerichtName
+//        }
 
         val adapter = CustomAdapter(gerichteListe, this)
         adapter.notifyDataSetChanged()
 
         listView.adapter = adapter
-
-        //databaseConnection?.close()
     }
-
-
-
 }

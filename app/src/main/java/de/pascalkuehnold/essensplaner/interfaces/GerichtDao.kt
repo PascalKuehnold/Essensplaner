@@ -8,6 +8,9 @@ interface GerichtDao {
     @Query("SELECT * FROM gericht")
     fun getAll(): List<Gericht>
 
+    @Query("SELECT * FROM gericht WHERE id =:id")
+    fun loadByID(id: Long): Gericht?
+
     @Query("SELECT * FROM gericht WHERE gericht_name LIKE :gerichtName")
     fun findByName(gerichtName: String): Gericht
 

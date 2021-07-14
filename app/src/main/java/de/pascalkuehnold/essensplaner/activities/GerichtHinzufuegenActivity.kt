@@ -21,6 +21,7 @@ import de.pascalkuehnold.essensplaner.interfaces.GerichtDao
 
 
 class GerichtHinzufuegenActivity : AppCompatActivity(){
+    private final var GERICHT_ID = -1
     private var gerichtName = ""
     private var textZutaten = ""
     private var isVegetarisch = false
@@ -51,15 +52,12 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
                 println("GerichteHinzufuegenActivity >> " + this.gerichtName + " Zutaten: " + this.textZutaten + " Vegetarisch: " + this.isVegetarisch)
                 try {
                     addGericht()
-
                 } catch (e: SQLiteConstraintException) {
                     Toast.makeText(this, this.gerichtName + " " +getString(R.string.textAlreadyInList), Toast.LENGTH_SHORT).show()
                 }
                 cleanInput()
             } else {
                 Toast.makeText(this, getString(R.string.textErrorAtMealAdd), Toast.LENGTH_SHORT).show()
-                println("Eine Eingabe ist fehlerhaft.")
-                println("Das Gericht wurde nicht hinzugefügt")
             }
         }
 
@@ -72,7 +70,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
 
     }
 
-    fun zutatHinzufuegen(){
+    private fun zutatHinzufuegen(){
         val builder = AlertDialog.Builder(this)
         builder.setTitle(getString(R.string.textZutatHinzufuegen))
 
@@ -82,20 +80,24 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         builder.setView(input)
         input.requestFocus()
 
-        builder.setPositiveButton(R.string.hinzuf_gen, DialogInterface.OnClickListener { _, _ ->
-            val inputText = input.text.toString().replace(',',' ').trim()
-            inputText.split("\\s*,\\s*")
-            Toast.makeText(this, getString(R.string.zutat) + " " + inputText + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
+        builder.setPositiveButton(R.string.hinzuf_gen) { _, _ ->
+            if(!input.text.isNullOrEmpty()){
+                val inputText = input.text.toString().replace(',', ' ').trim()
 
+                inputText.split("\\s*,\\s*")
+                Toast.makeText(this, getString(R.string.zutat) + " " + inputText + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
 
-            textZutaten += "$inputText,"
-            zutatHinzufuegen()
-        })
+                textZutaten += "$inputText,"
+                zutatHinzufuegen()
+            } else {
+                Toast.makeText(this, "TODO()005 Keine Eingabe...", Toast.LENGTH_SHORT).show()
+            }
 
-        builder.setNegativeButton(R.string.abbrechen,
-            DialogInterface.OnClickListener { dialog, _ ->
-                dialog.cancel()
-            })
+        }
+
+        builder.setNegativeButton(R.string.abbrechen) { dialog, _ ->
+            dialog.cancel()
+        }
         // Create the AlertDialog object and return it
 
 
@@ -116,6 +118,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         textInputGericht.text?.clear()
         switchVegetarisch.isChecked = false
         textInputGericht.requestFocus()
+        textZutaten = ""
     }
 
     //method to create a connection to the database
@@ -134,7 +137,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
 
 
         val gerichtDao = createConnection()
-        val newGericht = Gericht(gerichtName, tempZutaten, isVegetarisch)
+        val newGericht = Gericht(0 ,gerichtName, tempZutaten, isVegetarisch)
 
         gerichtDao.insertAll(newGericht)
         println("GerichtHandler >> " + newGericht.gerichtName + " was added successfully")
@@ -161,10 +164,5 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         } else {
             println("GerichtHandler >> $gerichtName could not be deleted")
         }
-
-
     }
-
-
-
 }

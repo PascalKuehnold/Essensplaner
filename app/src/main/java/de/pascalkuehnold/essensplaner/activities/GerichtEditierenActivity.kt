@@ -18,10 +18,11 @@ import androidx.appcompat.widget.AppCompatButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
+import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import kotlinx.coroutines.runBlocking
 
-
+//TODO() GerichtNamen editieren möglich machen
 class GerichtEditierenActivity : AppCompatActivity() {
     private lateinit var inputFieldGericht: TextView
     private lateinit var oldGerichtName: TextView
@@ -30,6 +31,7 @@ class GerichtEditierenActivity : AppCompatActivity() {
     private lateinit var btnSubmit: Button
     private lateinit var btnDeleteGericht: AppCompatButton
     private lateinit var btnZutatHinzufuegen: FloatingActionButton
+
 
     private var gerichtName =""
     private var zutatenListe = ""
@@ -40,6 +42,7 @@ class GerichtEditierenActivity : AppCompatActivity() {
     private lateinit var zutaten: ArrayList<String>
 
     private var isSaved = false
+    private var GERICHT_ID: Long = -1
 
     lateinit var mContext: Context
 
@@ -56,6 +59,7 @@ class GerichtEditierenActivity : AppCompatActivity() {
         btnSubmit = findViewById(R.id.btnSubmit)
         btnDeleteGericht = findViewById(R.id.btnDeleteGericht)
         btnZutatHinzufuegen = findViewById(R.id.btnAddZutat)
+
 
         btnSubmit.setOnClickListener{
             if(newGericht == null){
@@ -104,10 +108,17 @@ class GerichtEditierenActivity : AppCompatActivity() {
         val gericht: Bundle? = intent.extras
 
         if(gericht != null){
-            oldGerichtName.text = gericht.getString("GERICHT_NAME").toString()
-            gerichtName = gericht.getString("GERICHT_NAME").toString()
-            zutatenListe = gericht.getString("ZUTATEN_LISTE").toString()
-            isVegetarisch = gericht.getBoolean("IS_VEGETARISCH")
+            GERICHT_ID = gericht.getLong("ID")
+
+            val tempGericht = AppDatabase.getDatabase(applicationContext).gerichtDao().loadByID(GERICHT_ID)
+
+            if (tempGericht != null) {
+                oldGerichtName.text = tempGericht.gerichtName
+                gerichtName = tempGericht.gerichtName
+                zutatenListe = tempGericht.zutaten
+                isVegetarisch = tempGericht.isVegetarisch
+
+            }
 
             switchVegetarisch.isChecked = isVegetarisch
         }
@@ -160,7 +171,7 @@ class GerichtEditierenActivity : AppCompatActivity() {
 
                         tempDao.delete(tempGericht)
 
-                        Toast.makeText(this, "TODO() Gericht was successfully deleted", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "TODO()000 Gericht was successfully deleted", Toast.LENGTH_SHORT).show()
                         waitForToastShortThread.start()
                     }
                     .setNegativeButton(R.string.cancel) { dialog: DialogInterface, _: Int ->
@@ -169,13 +180,17 @@ class GerichtEditierenActivity : AppCompatActivity() {
             alert.create()
             alert.show()
         }
+
     }
 
     //Method for changing the entire meal
     private fun changeGericht(inZutaten: ArrayList<String>) {
         val tempZutaten = createNewZutatenString(inZutaten)
+        if(!inputFieldGericht.text.isNullOrEmpty()){
+            gerichtName = inputFieldGericht.text as String
+        }
 
-        newGericht = Gericht(gerichtName, tempZutaten, isVegetarisch)
+        newGericht = Gericht(GERICHT_ID, gerichtName, tempZutaten, isVegetarisch)
     }
 
     //Method for waiting an amount of Toast.LENGTH_SHORT, before leaving the activity
@@ -199,6 +214,7 @@ class GerichtEditierenActivity : AppCompatActivity() {
     //method for saving the meal
     private fun saveEditedGericht() = runBlocking {
         AppDatabase.getDatabase(applicationContext).gerichtDao().update(gericht = newGericht!!)
+        WochenplanerDatabase.getDatabase(applicationContext).wochenGerichteDao().update(gericht = newGericht!!)
         isSaved = true
     }
 
@@ -253,7 +269,7 @@ class GerichtEditierenActivity : AppCompatActivity() {
         createNewZutatenString(zutaten)
         changeGericht(zutaten)
 
-        Toast.makeText(this, ("$tempZutat wurde erfolgreich zu $inputText bearbeitet."), Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, ("TODO()004 $tempZutat wurde erfolgreich zu $inputText bearbeitet."), Toast.LENGTH_SHORT).show()
         adapter.notifyDataSetChanged()
     }
 
@@ -262,8 +278,8 @@ class GerichtEditierenActivity : AppCompatActivity() {
 
         if (newGericht != null && !isSaved){
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Eingabe wurde nicht gespeichert.")
-            builder.setMessage("Sollen die Änderungen gespeichert werden?")
+            builder.setTitle("TODO()003 Eingabe wurde nicht gespeichert.")
+            builder.setMessage("TODO()004 Sollen die Änderungen gespeichert werden?")
             builder.setIcon(android.R.drawable.ic_dialog_alert)
 
             builder.setPositiveButton(R.string.yes) { _, _ ->
@@ -330,14 +346,14 @@ class GerichtEditierenActivity : AppCompatActivity() {
             val tempZutat = mZutaten[position]
 
             val alert = AlertDialog.Builder(mContext)
-            alert.setMessage("Delete?")
+            alert.setMessage("TODO()001 Delete?")
             alert.setPositiveButton(R.string.yes){ _: DialogInterface, _: Int ->
                 mZutaten.removeAt(position)
                 adapter.notifyDataSetChanged()
                 isSaved = false
                 changeGericht(mZutaten)
 
-                Toast.makeText(mContext, ("$tempZutat was deleted successfully."), Toast.LENGTH_SHORT).show()
+                Toast.makeText(mContext, ("TODO()002 $tempZutat was deleted successfully."), Toast.LENGTH_SHORT).show()
             }
             alert.setNegativeButton(R.string.no){ dialog: DialogInterface, _: Int ->
                 dialog.cancel()
