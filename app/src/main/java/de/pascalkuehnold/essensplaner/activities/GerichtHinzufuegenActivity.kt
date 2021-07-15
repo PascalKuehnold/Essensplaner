@@ -33,7 +33,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gericht_hinzufuegen)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
+        supportActionBar?.setTitle(R.string.gericht_hinzuf_gen)
 
         val btnHinzufuegen = findViewById<Button>(R.id.btnHinzufuegenGericht)
         textInputGericht = findViewById(R.id.textInputTextGericht)

@@ -9,33 +9,20 @@
     android:focusable="true">
 
 
-    <TextView
-        android:id="@+id/gerichtBearbeitenHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/gericht_bearbeiten"
-        android:textColor="@color/white"
-        android:textSize="@dimen/headline"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="5dp"
-        android:clickable="true"
-        android:focusableInTouchMode="true"
-        android:focusable="true"
-        tools:ignore="RelativeOverlap" />
+
 
     <TextView
         android:id="@+id/gerichtAlterName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxLines="1"
-        android:layout_below="@id/gerichtBearbeitenHeader"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:textColor="@color/white"
         android:alpha="0.5"
-        android:textSize="12sp"
+        android:textSize="18sp"
+        android:layout_marginTop="30dp"
 
         android:clickable="true"
         android:focusableInTouchMode="true"

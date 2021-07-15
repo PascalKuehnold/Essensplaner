@@ -5,25 +5,13 @@
     android:layout_height="match_parent"
     >
 
-    <TextView
-        android:id="@+id/gerichteListeHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/deine_gerichte"
-        android:textColor="@color/white"
-        android:textSize="@dimen/headline"
-        android:layout_marginTop="20dp"
-        />
 
     <LinearLayout
         android:id="@+id/gerichteListeSearchBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/gerichteListeHeader"
+        android:layout_alignParentTop="true"
         android:background="@color/newHeaderColor"
-        android:layout_marginTop="20dp"
         >
 
         <Spinner
@@ -44,26 +32,19 @@
 
     </LinearLayout>
 
-
-    <View
-        android:id="@+id/divider6"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/gerichteListeSearchBar"
-        android:background="?android:attr/listDivider" />
-
     <ListView
         android:id="@+id/gerichteAnzeige"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/floatingActionButton"
-        android:layout_below="@id/divider6"
+        android:layout_below="@id/gerichteListeSearchBar"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginEnd="10dp"
         android:divider="@drawable/gradient_white_to_blue"
         android:dividerHeight="@dimen/cardview_compat_inset_shadow"
+        android:layout_marginTop="10dp"
         >
 
     </ListView>

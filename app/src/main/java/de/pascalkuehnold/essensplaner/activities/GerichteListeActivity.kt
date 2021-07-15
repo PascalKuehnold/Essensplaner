@@ -24,6 +24,7 @@ class GerichteListeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_gerichte_liste)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setTitle(R.string.deine_gerichte)
 
         searchView = findViewById(R.id.sbGerichteListe)
 

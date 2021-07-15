@@ -27,6 +27,7 @@ class Wochenplaner : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wochenplaner)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setTitle(R.string.wochenplaner)
 
         listWochenplaner = findViewById(R.id.listViewWochenplan)
 

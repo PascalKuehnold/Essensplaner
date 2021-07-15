@@ -52,6 +52,7 @@ class GerichtEditierenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gericht_editieren)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setTitle(R.string.gericht_bearbeiten)
 
         mContext = this
 

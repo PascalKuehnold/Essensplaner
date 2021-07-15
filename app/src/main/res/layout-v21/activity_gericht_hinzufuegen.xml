@@ -13,54 +13,6 @@ tools:context=".activities.GerichtHinzufuegenActivity">
     android:focusableInTouchMode="true"
     android:focusable="true">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/gericht_hinzuf_gen"
-        android:textSize="@dimen/headline"
-        android:textColor="@color/white"
-        android:gravity="center_horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayoutGericht"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnHinzufuegenGericht"
-        android:layout_width="256dp"
-        android:layout_height="76dp"
-        android:layout_marginTop="64dp"
-        android:backgroundTint="@color/newHeaderColor"
-        android:text="@string/hinzuf_gen"
-        app:cornerRadius="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switchVegetarisch" />
-
-    <TextView
-        android:id="@+id/tvVegetarisch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/vegetarisch"
-        android:textSize="18sp"
-        android:layout_marginTop="32dp"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/switchVegetarisch"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnZutatHinzufügen" />
-
-    <android.widget.CheckBox
-        android:id="@+id/switchVegetarisch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_weight="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvVegetarisch" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutGericht"
         android:layout_width="match_parent"
@@ -89,7 +41,6 @@ tools:context=".activities.GerichtHinzufuegenActivity">
             android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
     <Button
         android:id="@+id/btnZutatHinzufügen"
         android:layout_width="match_parent"
@@ -105,6 +56,48 @@ tools:context=".activities.GerichtHinzufuegenActivity">
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutGericht" />
+
+    <TextView
+        android:id="@+id/tvVegetarisch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/vegetarisch"
+        android:textSize="18sp"
+        android:layout_marginTop="64dp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/switchVegetarisch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnZutatHinzufügen" />
+
+
+
+
+
+    <android.widget.CheckBox
+        android:id="@+id/switchVegetarisch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvVegetarisch" />
+
+
+    <Button
+        android:id="@+id/btnHinzufuegenGericht"
+        android:layout_width="256dp"
+        android:layout_height="76dp"
+        android:backgroundTint="@color/newHeaderColor"
+        android:text="@string/hinzuf_gen"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switchVegetarisch" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
