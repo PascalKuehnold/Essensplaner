@@ -3,6 +3,7 @@ package de.pascalkuehnold.essensplaner.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
@@ -22,7 +23,7 @@ class GerichteListeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gerichte_liste)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         searchView = findViewById(R.id.sbGerichteListe)
 
@@ -72,5 +73,15 @@ class GerichteListeActivity : AppCompatActivity() {
         adapter.notifyDataSetChanged()
 
         listView.adapter = adapter
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

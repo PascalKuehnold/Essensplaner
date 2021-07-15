@@ -3,6 +3,7 @@ package de.pascalkuehnold.essensplaner.activities
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.ListView
 import android.widget.Toast
@@ -25,6 +26,7 @@ class Wochenplaner : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wochenplaner)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         listWochenplaner = findViewById(R.id.listViewWochenplan)
 
@@ -170,4 +172,14 @@ class Wochenplaner : AppCompatActivity(){
         return createConnection().getAll() as ArrayList<Gericht>
     }
 
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }

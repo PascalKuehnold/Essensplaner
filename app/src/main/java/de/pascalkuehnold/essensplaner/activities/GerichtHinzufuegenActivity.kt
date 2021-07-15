@@ -1,10 +1,9 @@
 package de.pascalkuehnold.essensplaner.activities
 
-import android.content.Context
-import android.content.DialogInterface
 import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
 import android.text.InputType
+import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
@@ -22,7 +21,6 @@ import de.pascalkuehnold.essensplaner.interfaces.GerichtDao
 
 
 class GerichtHinzufuegenActivity : AppCompatActivity(){
-    private final var GERICHT_ID = -1
     private var gerichtName = ""
     private var textZutaten = ""
     private var isVegetarisch = false
@@ -34,6 +32,8 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gericht_hinzufuegen)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
 
         val btnHinzufuegen = findViewById<Button>(R.id.btnHinzufuegenGericht)
         textInputGericht = findViewById(R.id.textInputTextGericht)
@@ -41,6 +41,9 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         btnZutatHinzufuegen.setOnClickListener{
             zutatHinzufuegen()
         }
+
+
+
 
 
         switchVegetarisch = findViewById(R.id.switchVegetarisch)
@@ -56,7 +59,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
                 try {
                     addGericht()
                 } catch (e: SQLiteConstraintException) {
-                    Toast.makeText(this, this.gerichtName + " " +getString(R.string.textAlreadyInList), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, this.gerichtName + " " + getString(R.string.textAlreadyInList), Toast.LENGTH_SHORT).show()
                 }
                 cleanInput()
             } else {
@@ -122,6 +125,9 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
+
+
+
     //method to clear all the input fields for the user
     private fun cleanInput(){
         textInputGericht.text?.clear()
@@ -148,7 +154,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
 
 
         val gerichtDao = createConnection()
-        val newGericht = Gericht(0 ,gerichtName, tempZutaten, isVegetarisch)
+        val newGericht = Gericht(0, gerichtName, tempZutaten, isVegetarisch)
 
         gerichtDao.insertAll(newGericht)
         println("GerichtHandler >> " + newGericht.gerichtName + " was added successfully")
@@ -175,5 +181,15 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         } else {
             println("GerichtHandler >> $gerichtName could not be deleted")
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
