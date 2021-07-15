@@ -76,7 +76,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
 
     }
 
-    fun EditText.showSoftKeyboard(){
+    private fun EditText.showSoftKeyboard(){
         (this.context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager)
                 .showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
     }
@@ -161,27 +161,6 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         Toast.makeText(this, this.gerichtName + " " + getString(R.string.wasAddedText), Toast.LENGTH_SHORT).show()
     }
 
-    //TODO delete?
-    fun deleteGericht(gericht: Gericht){
-        val gerichtDao = createConnection()
-
-        gerichtDao.delete(gericht)
-        println("GerichtHandler >> " + gericht.gerichtName + " was deleted successfully")
-
-    }
-
-    //TODO delete?
-    fun deleteGericht(gerichtName: String?){
-        val gerichtDao = createConnection()
-
-        val gerichtToDelete = gerichtName?.let { gerichtDao.findByName(it) }
-        if (gerichtToDelete != null) {
-            gerichtDao.delete(gerichtToDelete)
-            println("GerichtHandler >> $gerichtName was deleted successfully")
-        } else {
-            println("GerichtHandler >> $gerichtName could not be deleted")
-        }
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

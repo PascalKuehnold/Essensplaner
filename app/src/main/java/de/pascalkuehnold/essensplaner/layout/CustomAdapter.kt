@@ -1,5 +1,6 @@
 package de.pascalkuehnold.essensplaner.layout
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -29,6 +30,7 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context): BaseAdapte
         return 0
     }
 
+    @SuppressLint("InflateParams")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
         var view = convertView
         if(view == null){

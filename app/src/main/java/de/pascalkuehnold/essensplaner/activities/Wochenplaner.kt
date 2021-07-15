@@ -111,10 +111,6 @@ class Wochenplaner : AppCompatActivity(){
 
 
     private fun generateListOnScreen(){
-        val gerichteListe = getWeeksGerichte()
-
-        //val listItems = List<Gericht>(daysToGenerate)
-
         val adapter =  CustomAdapter(weeksGerichte, this)
         listWochenplaner.adapter = adapter
 
@@ -140,7 +136,7 @@ class Wochenplaner : AppCompatActivity(){
                     .setTitle(getString(R.string.textNotEnoughMeals))
                     .setMessage(getString(R.string.textNotEnoughMealsDesc))
                     .setCancelable(true)
-                    .setOnCancelListener(){
+                    .setOnCancelListener {
                         finish()
                     }
             alert.show()
@@ -163,10 +159,6 @@ class Wochenplaner : AppCompatActivity(){
             weeksGerichte.add(gerichte[rnd])
             println(gerichte[rnd].gerichtName + " was added to the weekly list")
         }
-    }
-
-    fun printWochenplan(){
-        for(gericht in weeksGerichte) println(gericht.gerichtName)
     }
 
     private fun getWeeksGerichte(): ArrayList<Gericht> {

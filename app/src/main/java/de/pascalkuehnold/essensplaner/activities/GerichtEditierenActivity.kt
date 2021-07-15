@@ -7,10 +7,8 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.text.InputType
 import android.view.*
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import android.widget.TextView.OnEditorActionListener
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
@@ -20,7 +18,6 @@ import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
-import de.pascalkuehnold.essensplaner.interfaces.WochenplanerDao
 import kotlinx.coroutines.runBlocking
 
 
@@ -44,7 +41,7 @@ class GerichtEditierenActivity : AppCompatActivity() {
     private lateinit var zutaten: ArrayList<String>
 
     private var isSaved = false
-    private var GERICHTID: Long = -1
+    private var gerichtID: Long = -1
 
     lateinit var mContext: Context
 
@@ -111,9 +108,9 @@ class GerichtEditierenActivity : AppCompatActivity() {
         val gericht: Bundle? = intent.extras
 
         if(gericht != null){
-            GERICHTID = gericht.getLong("ID")
+            gerichtID = gericht.getLong("ID")
 
-            val tempGericht = AppDatabase.getDatabase(applicationContext).gerichtDao().loadByID(GERICHTID)
+            val tempGericht = AppDatabase.getDatabase(applicationContext).gerichtDao().loadByID(gerichtID)
 
             if (tempGericht != null) {
                 oldGerichtName.text = tempGericht.gerichtName
@@ -199,7 +196,7 @@ class GerichtEditierenActivity : AppCompatActivity() {
     private fun changeGericht(inZutaten: ArrayList<String>) {
         val tempZutaten = createNewZutatenString(inZutaten)
 
-        newGericht = Gericht(GERICHTID, gerichtName, tempZutaten, isVegetarisch)
+        newGericht = Gericht(gerichtID, gerichtName, tempZutaten, isVegetarisch)
     }
 
     //Method for waiting an amount of Toast.LENGTH_SHORT, before leaving the activity

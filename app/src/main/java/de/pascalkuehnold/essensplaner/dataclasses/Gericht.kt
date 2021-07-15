@@ -1,7 +1,6 @@
 package de.pascalkuehnold.essensplaner.dataclasses
 
 import androidx.room.*
-import java.lang.reflect.Type
 
 
 @Entity
