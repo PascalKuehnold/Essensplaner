@@ -20,6 +20,7 @@ import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
+import de.pascalkuehnold.essensplaner.interfaces.WochenplanerDao
 import kotlinx.coroutines.runBlocking
 
 
@@ -171,7 +172,14 @@ class GerichtEditierenActivity : AppCompatActivity() {
                         val tempDao = AppDatabase.getDatabase(applicationContext).gerichtDao()
                         val tempGericht = tempDao.findByName(gerichtName)
 
+                        val wochenPlanerDao = WochenplanerDatabase.getDatabase(applicationContext).wochenGerichteDao()
+
                         tempDao.delete(tempGericht)
+                        wochenPlanerDao.delete(tempGericht)
+
+                        if(wochenPlanerDao.getAll().size <= 7){
+                            Toast.makeText(this, "TODO()007 Not enough meals for 7 days...", Toast.LENGTH_SHORT).show()
+                        }
 
                         Toast.makeText(this, "TODO()000 Gericht was successfully deleted", Toast.LENGTH_SHORT).show()
                         waitForToastShortThread.start()
@@ -275,6 +283,11 @@ class GerichtEditierenActivity : AppCompatActivity() {
 
     //Method was modified to alert the user if the changes were not saved
     override fun onBackPressed() {
+        if(!inputFieldGericht.text.isNullOrBlank()){
+            gerichtName = inputFieldGericht.text.toString()
+            changeGericht(zutaten)
+        }
+
 
         if (newGericht != null && !isSaved){
             val builder = AlertDialog.Builder(this)
@@ -283,6 +296,7 @@ class GerichtEditierenActivity : AppCompatActivity() {
             builder.setIcon(android.R.drawable.ic_dialog_alert)
 
             builder.setPositiveButton(R.string.yes) { _, _ ->
+
                 saveEditedGericht()
                 super.onBackPressed()
             }

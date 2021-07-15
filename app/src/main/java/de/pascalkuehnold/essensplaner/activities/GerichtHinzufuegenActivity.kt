@@ -1,5 +1,6 @@
 package de.pascalkuehnold.essensplaner.activities
 
+import android.content.Context
 import android.content.DialogInterface
 import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
@@ -45,6 +46,8 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         switchVegetarisch = findViewById(R.id.switchVegetarisch)
 
         btnHinzufuegen.setOnClickListener {
+            btnHinzufuegen.requestFocus()
+
             this.gerichtName = textInputGericht.text.toString()
             this.isVegetarisch = switchVegetarisch.isChecked
 
@@ -70,6 +73,11 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
 
     }
 
+    fun EditText.showSoftKeyboard(){
+        (this.context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager)
+                .showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+    }
+
     private fun zutatHinzufuegen(){
         val builder = AlertDialog.Builder(this)
         builder.setTitle(getString(R.string.textZutatHinzufuegen))
@@ -79,6 +87,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         input.inputType = InputType.TYPE_CLASS_TEXT
         builder.setView(input)
         input.requestFocus()
+        textInputGericht.clearFocus()
 
         builder.setPositiveButton(R.string.hinzuf_gen) { _, _ ->
             if(!input.text.isNullOrEmpty()){
@@ -117,8 +126,10 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
     private fun cleanInput(){
         textInputGericht.text?.clear()
         switchVegetarisch.isChecked = false
-        textInputGericht.requestFocus()
         textZutaten = ""
+
+        textInputGericht.requestFocus()
+        textInputGericht.showSoftKeyboard()
     }
 
     //method to create a connection to the database
