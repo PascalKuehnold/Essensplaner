@@ -56,4 +56,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="search_hint">search…</string>
+    <string name="about">About</string>
+
+    <string name="aboutText">©Pascal Kühnold - This app is developed by Pascal Kühnold.</string>
 </resources>

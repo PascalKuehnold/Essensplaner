@@ -55,4 +55,6 @@
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="search_hint">suche…</string>
+    <string name="about">Info</string>
+    <string name="aboutText">©Pascal Kühnold - Diese App wird von Pascal Kühnold entwickelt.</string>
 </resources>

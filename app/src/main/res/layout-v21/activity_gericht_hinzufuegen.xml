@@ -14,6 +14,7 @@ tools:context=".activities.GerichtHinzufuegenActivity">
     android:focusable="true">
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/EditTextHint"
         android:id="@+id/textInputLayoutGericht"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +25,7 @@ tools:context=".activities.GerichtHinzufuegenActivity">
         app:boxCornerRadiusBottomStart="20dp"
         app:boxCornerRadiusTopEnd="20dp"
         app:boxCornerRadiusTopStart="20dp"
-        app:hintTextColor="@color/newBackgroundColor"
+        app:hintTextColor="@color/lightGrey"
         app:layout_constraintBottom_toTopOf="@id/btnZutatHinzufügen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +38,7 @@ tools:context=".activities.GerichtHinzufuegenActivity">
             android:gravity="center_horizontal"
             android:hint="@string/gericht_name"
             android:backgroundTint="@color/newHeaderColor"
-            android:textColorHint="@color/newBackgroundColor"
+            android:textColorHint="@color/lightGrey"
             android:textColor="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -51,7 +52,7 @@ tools:context=".activities.GerichtHinzufuegenActivity">
         android:backgroundTint="@color/newHeaderColor"
         android:gravity="center_horizontal|center_vertical"
         android:text="@string/zutat_hinzuf_gen"
-        android:textColor="@color/newBackgroundColor"
+        android:textColor="@color/lightGrey"
         app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

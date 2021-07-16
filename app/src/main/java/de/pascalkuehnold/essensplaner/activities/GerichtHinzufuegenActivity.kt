@@ -1,6 +1,8 @@
 package de.pascalkuehnold.essensplaner.activities
 
 import android.database.sqlite.SQLiteConstraintException
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.InputType
 import android.view.MenuItem
@@ -34,6 +36,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         setContentView(R.layout.activity_gericht_hinzufuegen)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.gericht_hinzuf_gen)
+        supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
 
         val btnHinzufuegen = findViewById<Button>(R.id.btnHinzufuegenGericht)
         textInputGericht = findViewById(R.id.textInputTextGericht)

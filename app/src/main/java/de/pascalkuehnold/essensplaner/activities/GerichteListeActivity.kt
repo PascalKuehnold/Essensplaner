@@ -1,6 +1,8 @@
 package de.pascalkuehnold.essensplaner.activities
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -24,6 +26,7 @@ class GerichteListeActivity : AppCompatActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.deine_gerichte)
+        supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
 
         searchView = findViewById(R.id.sbGerichteListe)
 

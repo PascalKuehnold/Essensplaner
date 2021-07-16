@@ -4,6 +4,8 @@ package de.pascalkuehnold.essensplaner.activities
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.InputType
 import android.view.*
@@ -50,6 +52,7 @@ class GerichtEditierenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_gericht_editieren)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.gericht_bearbeiten)
+        supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
 
         mContext = this
 

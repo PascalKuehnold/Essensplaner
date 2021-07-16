@@ -17,5 +17,6 @@
 
     <color name="newBackgroundColor">#13344D</color>
     <color name="newHeaderColor">#266799</color>
+    <color name="lightGrey">#F0F0F0F0</color>
 
 </resources>

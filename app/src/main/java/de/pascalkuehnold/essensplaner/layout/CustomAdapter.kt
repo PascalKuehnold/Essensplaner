@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import android.widget.ListAdapter
 import android.widget.TextView
+import androidx.core.view.isVisible
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.activities.GerichtEditierenActivity
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
@@ -46,8 +48,17 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context): BaseAdapte
         val gerichtZutaten = view?.findViewById<TextView>(R.id.zutaten)
         if (gerichtZutaten != null) {
             gerichtZutaten.text = gerichte[position].zutaten
-            
         }
+
+        val isVegetarianView = view?.findViewById<ImageView>(R.id.imageViewVegetarian)
+        if (isVegetarianView != null) {
+            if(gerichte[position].isVegetarisch){
+                isVegetarianView.visibility = View.VISIBLE
+            } else {
+                isVegetarianView.visibility = View.INVISIBLE
+            }
+        }
+
 
         val btnGerichtBearbeiten = view?.findViewById<android.widget.Button>(R.id.btnBearbeiten)
         btnGerichtBearbeiten?.setOnClickListener {

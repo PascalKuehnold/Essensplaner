@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
     android:focusableInTouchMode="true"
     android:focusable="true">
+
+
 
 
     <TextView
@@ -18,7 +21,12 @@
         android:layout_marginBottom="20dp"
         android:textColor="@color/white"
         android:alpha="0.5"
-        android:textSize="12sp"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         />
 
 
@@ -27,7 +35,12 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/gerichtAlterName"
-        android:background="?android:attr/listDivider" />
+        android:background="?android:attr/listDivider"
+
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        />
 
     <TextView
         android:id="@+id/gerichtBearbeitenName"
@@ -40,13 +53,28 @@
         android:textColor="@color/white"
         android:layout_marginBottom="20dp"
 
+
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnDeleteGericht"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/ic_delete"
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:layout_alignParentRight="true" />
 
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutGericht"
-        android:layout_width="225dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:layout_centerHorizontal="true"
@@ -56,19 +84,24 @@
         app:boxCornerRadiusTopStart="20dp"
         android:layout_marginBottom="20dp"
         android:layout_below="@id/gerichtBearbeitenName"
+
         >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textGerichtEditierenName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:scrollbars="vertical"
             android:maxLines="2"
-            android:gravity="center_horizontal"
-            android:hint="@string/neuer_name"
-            android:backgroundTint="@color/newHeaderColor"
+            android:paddingTop="10dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:background="@color/newHeaderColor"
             android:textColorHint="@color/newBackgroundColor"
             android:textColor="@color/white"
+
+            android:clickable="true"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
             />
 
 
@@ -85,6 +118,10 @@
         android:textSize="@dimen/maxFontSize"
         android:textColor="@color/white"
 
+
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         />
 
     <View
@@ -92,7 +129,12 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/gerichtBearbeitenZutaten"
-        android:background="?android:attr/listDivider" />
+        android:background="?android:attr/listDivider"
+
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        />
 
     <ListView
         android:id="@+id/listViewZutatenlisteGerichtAendern"
@@ -106,6 +148,10 @@
         android:layout_marginEnd="10dp"
         android:divider="@drawable/gradient_white_to_blue"
         android:dividerHeight="@dimen/cardview_compat_inset_shadow"
+
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         >
 
     </ListView>
@@ -114,8 +160,25 @@
         android:id="@+id/divider8"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_above="@id/tvVegetarisch"
+        android:layout_above="@id/btnAddZutat"
         android:background="?android:attr/listDivider" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnAddZutat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tvVegetarisch"
+        android:layout_centerHorizontal="true"
+        app:fabCustomSize="30dp"
+        android:contentDescription="@string/add_ingredient"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:src="@android:drawable/ic_input_add"
+
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        />
 
     <TextView
         android:id="@+id/tvVegetarisch"
@@ -126,7 +189,11 @@
         android:text="@string/vegetarisch"
         android:textColor="@color/white"
         android:textSize="@dimen/maxFontSize"
-        android:layout_marginTop="30dp"
+
+
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
 
         />
 
@@ -136,7 +203,10 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_above="@id/btnSubmit"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="25dp"
+
+        android:clickable="true"
+        android:focusable="true"
         />
 
     <Button
@@ -147,7 +217,11 @@
         android:layout_centerHorizontal="true"
         android:text="@string/aendern"
         android:layout_marginBottom="40dp"
-        android:backgroundTint="@color/newHeaderColor"
+        android:background="@color/newHeaderColor"
+
+
+        android:clickable="true"
+        android:focusable="true"
         />
 
 

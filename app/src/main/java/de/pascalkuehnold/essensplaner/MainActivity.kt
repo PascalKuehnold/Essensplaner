@@ -2,6 +2,8 @@ package de.pascalkuehnold.essensplaner
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
@@ -9,6 +11,7 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import de.pascalkuehnold.essensplaner.activities.AboutActivity
 import de.pascalkuehnold.essensplaner.activities.Wochenplaner
 import de.pascalkuehnold.essensplaner.activities.GerichteListeActivity
 import de.pascalkuehnold.essensplaner.database.AppDatabase
@@ -19,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
         //setSupportActionBar(findViewById(R.id.toolbar))
 
         val btnAlleGerichteAnzeigen = findViewById<Button>(R.id.btnAlleGerichteAnzeigen)
@@ -51,6 +55,12 @@ class MainActivity : AppCompatActivity() {
         when(item.itemId){
             R.id.datenbankLoeschen -> deleteDatabase()
 
+        }
+
+        when(item.itemId){
+            R.id.about -> {
+                startActivity(Intent(this, AboutActivity::class.java))
+            }
         }
 
         return when (item.itemId) {

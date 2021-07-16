@@ -1,6 +1,8 @@
 package de.pascalkuehnold.essensplaner.activities
 
 import android.content.DialogInterface
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -28,6 +30,7 @@ class Wochenplaner : AppCompatActivity(){
         setContentView(R.layout.activity_wochenplaner)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.wochenplaner)
+        supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
 
         listWochenplaner = findViewById(R.id.listViewWochenplan)
 
