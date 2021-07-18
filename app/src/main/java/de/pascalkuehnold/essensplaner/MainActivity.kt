@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import de.pascalkuehnold.essensplaner.activities.AboutActivity
 import de.pascalkuehnold.essensplaner.activities.GerichteListeActivity
+import de.pascalkuehnold.essensplaner.activities.SettingsActivity
 import de.pascalkuehnold.essensplaner.activities.Wochenplaner
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
@@ -101,6 +102,12 @@ class MainActivity : AppCompatActivity() {
         when(item.itemId){
             R.id.about -> {
                 startActivity(Intent(this, AboutActivity::class.java))
+            }
+        }
+
+        when(item.itemId){
+            R.id.action_settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
             }
         }
 

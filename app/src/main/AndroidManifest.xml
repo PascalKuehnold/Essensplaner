@@ -11,7 +11,10 @@
         android:theme="@style/Theme.Essensplaner">
         <activity
             android:name=".activities.AboutActivity"
-            android:theme="@style/Theme.Essensplaner.NoActionBar"></activity>
+            android:theme="@style/Theme.Essensplaner.NoActionBar" />
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:theme="@style/Theme.Essensplaner.NoActionBar" />
         <activity
             android:name=".activities.GerichtEditierenActivity"
             android:configChanges="orientation"
