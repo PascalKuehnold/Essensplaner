@@ -3,15 +3,18 @@ package de.pascalkuehnold.essensplaner.activities
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Looper
+import android.os.MessageQueue.IdleHandler
 import android.view.MenuItem
 import android.view.WindowManager
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
+
 
 //TODO sort algorithm
 class GerichteListeActivity : AppCompatActivity() {
@@ -27,6 +30,7 @@ class GerichteListeActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.deine_gerichte)
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
+
 
         searchView = findViewById(R.id.sbGerichteListe)
 
@@ -61,10 +65,15 @@ class GerichteListeActivity : AppCompatActivity() {
         refreshGerichteListe()
     }
 
-    private fun refreshGerichteListe() {
+    private fun refreshGerichteListe(){
         val gerichtDao = AppDatabase.getDatabase(applicationContext).gerichtDao()
         val gerichteListe = gerichtDao.getAll()
 
+
+        //for(i in 1..100) {
+        //    val gericht = Gericht(0, "Gericht $i", "Zutat $i", true)
+        //   gerichtDao.insert(gericht)
+        //}
 //        val listItems = arrayOfNulls<String>(gerichteListe.size)
 //
 //        for(i in gerichteListe.indices){

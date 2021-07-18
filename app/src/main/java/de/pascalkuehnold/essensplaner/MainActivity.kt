@@ -5,41 +5,62 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.text.method.ScrollingMovementMethod
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import de.pascalkuehnold.essensplaner.activities.AboutActivity
-import de.pascalkuehnold.essensplaner.activities.Wochenplaner
 import de.pascalkuehnold.essensplaner.activities.GerichteListeActivity
+import de.pascalkuehnold.essensplaner.activities.Wochenplaner
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
 
 class MainActivity : AppCompatActivity() {
+    var introMessage: RelativeLayout? = null
+    var appContent: LinearLayout? = null
+    var welcomeText: TextView? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.welcome_message_android)
+        introMessage = findViewById<View>(R.id.welcome_message_layout) as RelativeLayout
+        appContent = findViewById<View>(R.id.app_content_layout) as LinearLayout
+        welcomeText = findViewById<View>(R.id.welcome_message) as TextView
+
+        welcomeText!!.movementMethod = ScrollingMovementMethod()
+
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
         //setSupportActionBar(findViewById(R.id.toolbar))
 
+    }
+
+    fun dismisWelcomeMessageBox(view: View?) {
+        introMessage!!.visibility = View.INVISIBLE
+        appContent!!.visibility = View.VISIBLE
+
+        setMainLayout()
+    }
+
+    private fun setMainLayout() {
+        setContentView(R.layout.activity_main)
+
         val btnAlleGerichteAnzeigen = findViewById<Button>(R.id.btnAlleGerichteAnzeigen)
-        btnAlleGerichteAnzeigen.setOnClickListener{
+        btnAlleGerichteAnzeigen.setOnClickListener {
             val intent = Intent(this, GerichteListeActivity::class.java)
             startActivity(intent)
         }
 
         val btnWochenplaner = findViewById<Button>(R.id.btnWochenplaner)
-        btnWochenplaner.setOnClickListener{
+        btnWochenplaner.setOnClickListener {
             val intent = Intent(this, Wochenplaner::class.java)
             startActivity(intent)
         }
-
-
-
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.

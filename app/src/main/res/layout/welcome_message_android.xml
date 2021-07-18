@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/welcome_message_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/newHeaderColor"
+        android:orientation="vertical"
+        android:layout_margin="16dp"
+        android:padding="16dp"
+        android:visibility="visible"
+        >
+
+        <TextView
+            android:id="@+id/welcome_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Willkommen beim Essensplaner"
+            android:textColor="#ddd"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/welcome_message"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/welcome_title"
+            android:layout_above="@id/btnOK"
+            android:text="v0.0.1-DEMO\nHey, danke dass du meine App testest!\n\nDie App befindet sich noch in der Entwicklung, daher ist es möglich, dass du auf Probleme stoßen könntest.\n\nFalls dem so ist, würde ich mich freuen, wenn du mir sagen könntest wo dieses Problem aufgetaucht ist.\nFalls es zu schwerwiegenden Fehlern kommen sollte, wie z.B. der Absturz der App, bitte ich auch um eine Nachricht.\nAm besten wäre es, wenn du hinzufügst, wo es passiert ist und was du vor dem Absturz gemacht hast.\n\nDa sich die App noch in der Entwicklung befindet, kann es sein dass im Verlauf größere Teile im Hintergrund geändert werden, was dazu führen kann, dass die App eine Neuinstallation benötigt.\n\nDabei werden sämtliche vorher eingetragenen Daten gelöscht. Bitte sei dir dessen bewusst.\n\nBei Verbesserungsvorschlägen oder Ideen, kannst du dich gerne auch an mich wenden. (Dazu zählt auch die Benutzerfreundlichkeit, Aussehen)\n\nViel Spaß beim Testen!\nPascal"
+            android:scrollbars="vertical"
+            android:textColor="#ddd"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btnOK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="bottom"
+            android:background="@color/newBackgroundColor"
+            android:onClick="dismisWelcomeMessageBox"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:text="Alles klar"
+            android:textColor="#fff"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/app_content_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#9c3125"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_info" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome Message For Android Application with Source Code. Welcome Message For Android Application with Source Code"
+            android:textColor="#fff"
+            android:textSize="25sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="30sp" />
+
+    </LinearLayout>
+</RelativeLayout>

@@ -24,7 +24,7 @@ interface GerichtDao {
     fun delete(gericht: Gericht)
 
     @Insert
-    suspend fun insert(gericht: Gericht)
+    fun insert(gericht: Gericht)
 
     @Update
     suspend fun update(gericht: Gericht)
