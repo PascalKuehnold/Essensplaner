@@ -31,11 +31,13 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_below="@+id/welcome_title"
-            android:layout_above="@id/btnOK"
-            android:text="v0.0.1-DEMO\nHey, danke dass du meine App testest!\n\nDie App befindet sich noch in der Entwicklung, daher ist es möglich, dass du auf Probleme stoßen könntest.\n\nFalls dem so ist, würde ich mich freuen, wenn du mir sagen könntest wo dieses Problem aufgetaucht ist.\nFalls es zu schwerwiegenden Fehlern kommen sollte, wie z.B. der Absturz der App, bitte ich auch um eine Nachricht.\nAm besten wäre es, wenn du hinzufügst, wo es passiert ist und was du vor dem Absturz gemacht hast.\n\nDa sich die App noch in der Entwicklung befindet, kann es sein dass im Verlauf größere Teile im Hintergrund geändert werden, was dazu führen kann, dass die App eine Neuinstallation benötigt.\n\nDabei werden sämtliche vorher eingetragenen Daten gelöscht. Bitte sei dir dessen bewusst.\n\nBei Verbesserungsvorschlägen oder Ideen, kannst du dich gerne auch an mich wenden. (Dazu zählt auch die Benutzerfreundlichkeit, Aussehen)\n\nViel Spaß beim Testen!\nPascal"
+            android:layout_above="@id/btnNichtMehrAnzeigen"
+            android:text="@string/welcomeText"
             android:scrollbars="vertical"
             android:textColor="#ddd"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+
+            />
 
         <Button
             android:id="@+id/btnOK"
@@ -43,6 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_below="@id/welcome_message"
             android:layout_gravity="bottom"
             android:background="@color/newBackgroundColor"
             android:onClick="dismisWelcomeMessageBox"
@@ -51,6 +54,21 @@
             android:text="Alles klar"
             android:textColor="#fff"
             android:layout_alignParentEnd="true" />
+
+        <Button
+            android:id="@+id/btnNichtMehrAnzeigen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/btnOK"
+            android:layout_gravity="bottom"
+            android:background="@color/newBackgroundColor"
+            android:onClick="nichtMehrAnzeigen"
+            android:text="Nicht mehr anzeigen"
+            android:textColor="#fff"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/btnOK" />
     </RelativeLayout>
 
     <LinearLayout

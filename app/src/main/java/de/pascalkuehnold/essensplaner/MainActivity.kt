@@ -2,6 +2,7 @@ package de.pascalkuehnold.essensplaner
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -12,40 +13,59 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
 import de.pascalkuehnold.essensplaner.activities.AboutActivity
 import de.pascalkuehnold.essensplaner.activities.GerichteListeActivity
 import de.pascalkuehnold.essensplaner.activities.Wochenplaner
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
 
+
 class MainActivity : AppCompatActivity() {
     var introMessage: RelativeLayout? = null
     var appContent: LinearLayout? = null
     var welcomeText: TextView? = null
 
+    lateinit var mPrefs: SharedPreferences
+    val welcomeScreenShownPref = "welcomeScreenShown"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.welcome_message_android)
-        introMessage = findViewById<View>(R.id.welcome_message_layout) as RelativeLayout
-        appContent = findViewById<View>(R.id.app_content_layout) as LinearLayout
-        welcomeText = findViewById<View>(R.id.welcome_message) as TextView
 
-        welcomeText!!.movementMethod = ScrollingMovementMethod()
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(this)
+
+        // second argument is the default to use if the preference can't be found
+        val welcomeScreenShown = mPrefs.getBoolean(welcomeScreenShownPref, false)
+
+        if(!welcomeScreenShown){
+            showWelcomeText()
+        } else {
+            showMainLayout()
+        }
+        
 
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
         //setSupportActionBar(findViewById(R.id.toolbar))
 
     }
 
+    private fun showWelcomeText() {
+        setContentView(R.layout.welcome_message_android)
+        introMessage = findViewById<View>(R.id.welcome_message_layout) as RelativeLayout
+        appContent = findViewById<View>(R.id.app_content_layout) as LinearLayout
+        welcomeText = findViewById<View>(R.id.welcome_message) as TextView
+
+        welcomeText!!.movementMethod = ScrollingMovementMethod()
+    }
+
     fun dismisWelcomeMessageBox(view: View?) {
         introMessage!!.visibility = View.INVISIBLE
         appContent!!.visibility = View.VISIBLE
 
-        setMainLayout()
+        showMainLayout()
     }
 
-    private fun setMainLayout() {
+    private fun showMainLayout() {
         setContentView(R.layout.activity_main)
 
         val btnAlleGerichteAnzeigen = findViewById<Button>(R.id.btnAlleGerichteAnzeigen)
@@ -111,5 +131,14 @@ class MainActivity : AppCompatActivity() {
 
 
         println("Datenbank wurde gelöscht")
+    }
+
+    fun nichtMehrAnzeigen(view: View) {
+
+        val editor = mPrefs.edit()
+        editor.putBoolean(welcomeScreenShownPref, true)
+        editor.apply() // Very important to save the preference
+
+        Toast.makeText(this, "Die Nachricht wird nun nicht mehr beim Start angezeigt.", Toast.LENGTH_LONG).show()
     }
 }
