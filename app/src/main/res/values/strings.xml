@@ -58,7 +58,7 @@
     <string name="search_hint">search…</string>s
     <string name="about">About</string>
 
-    <string name="aboutText">©Pascal Kühnold - This app is developed by Pascal Kühnold.</string>
+    <string name="aboutText">©Pascal Kühnold\nThis app is developed by Pascal Kühnold.</string>
 
     <string name="iconAttribution"><div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
     <string name="welcomeText">v0.0.1-DEMO\nHey, vielen Dank, dass du meine App testest!\n\nDie App befindet sich noch in der Entwicklung, daher ist es möglich, dass du auf Probleme stoßen könntest.\n\nFalls dem so ist, würde ich mich freuen, wenn du mir sagen könntest wo dieses Problem aufgetaucht ist.\nFalls es zu schwerwiegenden Fehlern kommen sollte, wie z.B. der Absturz der App, bitte ich auch um eine Nachricht.\nAm besten wäre es, wenn du hinzufügst, wo es passiert ist und was du vor dem Absturz gemacht hast.\n\nDa sich die App noch in der Entwicklung befindet, kann es sein dass im Verlauf größere Teile im Hintergrund geändert werden, was dazu führen kann, dass die App eine Neuinstallation benötigt.\n\nDabei werden sämtliche, vorher eingetragenen Daten gelöscht. Bitte sei dir dessen bewusst.\n\nBei Verbesserungsvorschlägen oder Ideen, kannst du dich gerne auch an mich wenden. (Dazu zählt auch die Benutzerfreundlichkeit, Aussehen)\n\nViel Spaß beim Testen!\nPascal</string>

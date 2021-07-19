@@ -14,10 +14,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
-import de.pascalkuehnold.essensplaner.activities.AboutActivity
-import de.pascalkuehnold.essensplaner.activities.GerichteListeActivity
-import de.pascalkuehnold.essensplaner.activities.SettingsActivity
-import de.pascalkuehnold.essensplaner.activities.Wochenplaner
+import de.pascalkuehnold.essensplaner.activities.*
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
 

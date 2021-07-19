@@ -6,8 +6,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.CompoundButton
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
@@ -41,7 +39,7 @@ class SettingsActivity : AppCompatActivity(){
             editor.putBoolean(welcomeScreenShownPref, !b)
             editor.apply()
 
-            var message =""
+            val message: String
             if(b == true){
                 message = "Die Willkommensnachricht wird nun wieder angezeigt."
             } else {

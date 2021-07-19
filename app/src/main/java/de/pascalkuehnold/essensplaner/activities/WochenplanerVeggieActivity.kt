@@ -12,14 +12,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
-import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
+import de.pascalkuehnold.essensplaner.database.WochenplanerVeggieDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
-import de.pascalkuehnold.essensplaner.interfaces.WochenplanerDao
+import de.pascalkuehnold.essensplaner.interfaces.WochenplanerVeggieDao
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
 import kotlin.random.Random
 
 
-open class Wochenplaner : AppCompatActivity(){
+open class WochenplanerVeggieActivity : AppCompatActivity(){
     private lateinit var listWochenplaner: ListView
 
     var daysToGenerate = 7
@@ -78,33 +78,33 @@ open class Wochenplaner : AppCompatActivity(){
     }
 
     open fun deleteDatabase() {
-        val wochenplanerDao = createConnection()
+        val wochenplanerVeggieDao = createConnection()
 
-        wochenplanerDao.delete()
+        wochenplanerVeggieDao.delete()
         println("Wochenplaner >> deleteWeekgerichte() -> Daten wurden gelöscht")
 
     }
 
-    open fun createConnection(): WochenplanerDao {
-        return WochenplanerDatabase.getDatabase(applicationContext).wochenGerichteDao()
+    open fun createConnection(): WochenplanerVeggieDao {
+        return WochenplanerVeggieDatabase.getDatabase(applicationContext).wochenGerichteVeggieDao()
     }
 
 
     open fun saveWeekgerichte() {
-        val wochenplanerDao = createConnection()
+        val wochenplanerVeggieDao = createConnection()
 
         for(gericht in weeksGerichte) {
             gericht.gerichtName = gericht.gerichtName
-            wochenplanerDao.insertAll(gericht)
+            wochenplanerVeggieDao.insertAll(gericht)
         }
         println("Wochenplaner >> saveWeekgerichte() -> Neue Daten wurden gespeichert")
 
     }
 
     open fun loadWeekgerichte(){
-        val wochenplanerDao = createConnection()
+        val wochenplanerVeggieDao = createConnection()
 
-        weeksGerichte = wochenplanerDao.getAll() as ArrayList<Gericht>
+        weeksGerichte = wochenplanerVeggieDao.getAll() as ArrayList<Gericht>
         println("Wochenplaner >> loadWeekgerichte() -> Daten wurden geladen")
 
     }
@@ -153,9 +153,10 @@ open class Wochenplaner : AppCompatActivity(){
         weeksGerichte.clear()
         while(weeksGerichte.size < daysToGenerate){
             val rnd = Random.nextInt(0, gerichte.lastIndex + 1)
-            if(weeksGerichte.contains(gerichte[rnd])){
+            if(weeksGerichte.contains(gerichte[rnd]) && !gerichte[rnd].isVegetarisch){
                 continue
             }
+
             weeksGerichte.add(gerichte[rnd])
             println(gerichte[rnd].gerichtName + " was added to the weekly list")
         }

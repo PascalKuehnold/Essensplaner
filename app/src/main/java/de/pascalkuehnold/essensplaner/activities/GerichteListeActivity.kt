@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
+import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
 
 
@@ -66,8 +67,7 @@ class GerichteListeActivity : AppCompatActivity() {
     }
 
     private fun refreshGerichteListe(){
-        val gerichtDao = AppDatabase.getDatabase(applicationContext).gerichtDao()
-        val gerichteListe = gerichtDao.getAll()
+        val gerichteListe = getGerichteListe()
 
 
         //for(i in 1..100) {
@@ -96,4 +96,11 @@ class GerichteListeActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    fun getGerichteListe(): List<Gericht> {
+        val gerichtDao = AppDatabase.getDatabase(applicationContext).gerichtDao()
+
+        return gerichtDao.getAll()
+    }
+
 }
