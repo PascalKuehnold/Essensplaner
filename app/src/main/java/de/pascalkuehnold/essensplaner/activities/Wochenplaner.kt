@@ -14,12 +14,13 @@ import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
+import de.pascalkuehnold.essensplaner.interfaces.Wochenplan
 import de.pascalkuehnold.essensplaner.interfaces.WochenplanerDao
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
 import kotlin.random.Random
 
 
-open class Wochenplaner : AppCompatActivity(){
+open class Wochenplaner : Wochenplan() {
     private lateinit var listWochenplaner: ListView
 
     var daysToGenerate = 7
@@ -77,7 +78,7 @@ open class Wochenplaner : AppCompatActivity(){
         generateListOnScreen()
     }
 
-    open fun deleteDatabase() {
+    override fun deleteDatabase() {
         val wochenplanerDao = createConnection()
 
         wochenplanerDao.delete()
@@ -85,12 +86,12 @@ open class Wochenplaner : AppCompatActivity(){
 
     }
 
-    open fun createConnection(): WochenplanerDao {
+    private fun createConnection(): WochenplanerDao {
         return WochenplanerDatabase.getDatabase(applicationContext).wochenGerichteDao()
     }
 
 
-    open fun saveWeekgerichte() {
+    override fun saveWeekgerichte() {
         val wochenplanerDao = createConnection()
 
         for(gericht in weeksGerichte) {
@@ -101,7 +102,7 @@ open class Wochenplaner : AppCompatActivity(){
 
     }
 
-    open fun loadWeekgerichte(){
+    override fun loadWeekgerichte(){
         val wochenplanerDao = createConnection()
 
         weeksGerichte = wochenplanerDao.getAll() as ArrayList<Gericht>
@@ -175,7 +176,4 @@ open class Wochenplaner : AppCompatActivity(){
         return super.onOptionsItemSelected(item)
     }
 
-    fun setWeeksGerichte(inWeeksGerichte: ArrayList<Gericht>){
-        weeksGerichte = inWeeksGerichte
-    }
 }
