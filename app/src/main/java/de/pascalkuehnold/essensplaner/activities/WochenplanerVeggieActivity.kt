@@ -4,12 +4,12 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import de.pascalkuehnold.essensplaner.MainActivity
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerVeggieDatabase
@@ -38,11 +38,12 @@ open class WochenplanerVeggieActivity :Wochenplan(),AdapterView.OnItemSelectedLi
         supportActionBar!!.setCustomView(R.layout.wochenplan_title)
         supportActionBar!!.setDisplayShowCustomEnabled(true)
 
-        listOfTitles = arrayOf(getString(R.string.wochenplanerveggie), getString(R.string.wochenplaner))
+        listOfTitles = arrayOf(getString(R.string.wochenplanerveggie),getString(R.string.wochenplaner))
 
         dropdownTitleSpinner = supportActionBar!!.customView.findViewById<Spinner>(R.id.spinnerWochenplanerTitle)
         dropdownTitleSpinner.onItemSelectedListener = this
         val dropdownAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listOfTitles)
+        dropdownTitleSpinner.setSelection(1)
 
         dropdownTitleSpinner.adapter = dropdownAdapter
 
@@ -151,7 +152,7 @@ open class WochenplanerVeggieActivity :Wochenplan(),AdapterView.OnItemSelectedLi
 
 
 
-        val gerichte = gerichtDao.getAll()
+        val gerichte = gerichtDao.findByIsVegetarisch(true)
         if(gerichte.size >= 7){
             generateRandomGerichte(gerichte)
             saveWeekgerichte()
@@ -162,7 +163,7 @@ open class WochenplanerVeggieActivity :Wochenplan(),AdapterView.OnItemSelectedLi
                     .setMessage(getString(R.string.textNotEnoughMealsDesc))
                     .setCancelable(true)
                     .setOnCancelListener {
-                        finish()
+                        onBackPressed()
                     }
             alert.show()
 
@@ -176,13 +177,17 @@ open class WochenplanerVeggieActivity :Wochenplan(),AdapterView.OnItemSelectedLi
 
     private fun generateRandomGerichte(gerichte: List<Gericht>) {
         weeksGerichte.clear()
+
+
         while(weeksGerichte.size < daysToGenerate){
             val rnd = Random.nextInt(0, gerichte.lastIndex + 1)
-            if(weeksGerichte.contains(gerichte[rnd]) && !gerichte[rnd].isVegetarisch){
+            if(weeksGerichte.contains(gerichte[rnd])){
                 continue
             }
 
             weeksGerichte.add(gerichte[rnd])
+
+
             println(gerichte[rnd].gerichtName + " was added to the weekly list")
         }
     }
@@ -201,4 +206,10 @@ open class WochenplanerVeggieActivity :Wochenplan(),AdapterView.OnItemSelectedLi
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onBackPressed() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("inAppWelcScreen", true)
+        startActivity(intent)
+
+    }
 }

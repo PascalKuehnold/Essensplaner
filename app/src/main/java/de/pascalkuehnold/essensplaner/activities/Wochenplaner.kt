@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import de.pascalkuehnold.essensplaner.MainActivity
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
@@ -45,7 +46,6 @@ open class Wochenplaner : Wochenplan(),AdapterView.OnItemSelectedListener {
         val dropdownAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listOfTitles)
 
         dropdownTitleSpinner.adapter = dropdownAdapter
-
 
 
 
@@ -204,5 +204,11 @@ open class Wochenplaner : Wochenplan(),AdapterView.OnItemSelectedListener {
         return super.onOptionsItemSelected(item)
     }
 
+
+    override fun onBackPressed() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("inAppWelcScreen", true)
+        startActivity(intent)
+    }
 
 }

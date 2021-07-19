@@ -14,6 +14,9 @@ interface GerichtDao {
     @Query("SELECT * FROM gericht WHERE gericht_name LIKE :gerichtName")
     fun findByName(gerichtName: String): Gericht
 
+    @Query("SELECT * FROM gericht WHERE vegetarisch LIKE :isVegetarisch")
+    fun findByIsVegetarisch(isVegetarisch: Boolean): List<Gericht>
+
     @Query("DELETE FROM gericht")
     fun delete()
 

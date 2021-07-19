@@ -25,12 +25,16 @@
             android:name=".activities.Wochenplaner"
             android:configChanges="orientation"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity"
+            />
         <activity
             android:name=".activities.WochenplanerVeggieActivity"
             android:configChanges="orientation"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity"
+            />
         <activity
             android:name=".activities.GerichteListeActivity"
             android:configChanges="orientation"

@@ -32,10 +32,14 @@ class MainActivity : AppCompatActivity() {
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this)
 
+        val intent = intent
+
+        val inAppWelcScreen = intent.getBooleanExtra("inAppWelcScreen", false)
+
         // second argument is the default to use if the preference can't be found
         val welcomeScreenShown = mPrefs.getBoolean(welcomeScreenShownPref, false)
 
-        if(!welcomeScreenShown){
+        if(!welcomeScreenShown && !inAppWelcScreen){
             showWelcomeText()
         } else {
             showMainLayout()

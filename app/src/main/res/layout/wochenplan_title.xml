@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+
     >
 
 
@@ -12,6 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
         />
 
 
