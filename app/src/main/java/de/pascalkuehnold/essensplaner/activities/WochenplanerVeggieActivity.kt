@@ -1,14 +1,14 @@
 package de.pascalkuehnold.essensplaner.activities
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.ListView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
@@ -20,8 +20,11 @@ import de.pascalkuehnold.essensplaner.layout.CustomAdapter
 import kotlin.random.Random
 
 
-open class WochenplanerVeggieActivity :Wochenplan(){
+open class WochenplanerVeggieActivity :Wochenplan(),AdapterView.OnItemSelectedListener{
     private lateinit var listWochenplaner: ListView
+    private lateinit var dropdownTitleSpinner: Spinner
+    private lateinit var listOfTitles: Array<String>
+
 
     var daysToGenerate = 7
     private var weeksGerichte = ArrayList<Gericht>()
@@ -30,8 +33,18 @@ open class WochenplanerVeggieActivity :Wochenplan(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wochenplaner)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setTitle(R.string.wochenplaner)
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
+
+        supportActionBar!!.setCustomView(R.layout.wochenplan_title)
+        supportActionBar!!.setDisplayShowCustomEnabled(true)
+
+        listOfTitles = arrayOf(getString(R.string.wochenplanerveggie), getString(R.string.wochenplaner))
+
+        dropdownTitleSpinner = supportActionBar!!.customView.findViewById<Spinner>(R.id.spinnerWochenplanerTitle)
+        dropdownTitleSpinner.onItemSelectedListener = this
+        val dropdownAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listOfTitles)
+
+        dropdownTitleSpinner.adapter = dropdownAdapter
 
         listWochenplaner = findViewById(R.id.listViewWochenplan)
 
@@ -61,6 +74,17 @@ open class WochenplanerVeggieActivity :Wochenplan(){
             }
         }
     }
+
+    override fun onItemSelected(arg0: AdapterView<*>, arg1: View, position: Int, id: Long) {
+        if(listOfTitles[position] == getString(R.string.wochenplaner)){
+            startActivity(Intent(this, Wochenplaner::class.java))
+        }
+    }
+
+    override fun onNothingSelected(arg0: AdapterView<*>) {
+
+    }
+
 
     override fun onResume() {
         super.onResume()
