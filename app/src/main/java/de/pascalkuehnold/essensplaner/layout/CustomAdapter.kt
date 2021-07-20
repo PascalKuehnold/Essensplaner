@@ -10,10 +10,11 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.ListAdapter
 import android.widget.TextView
-import androidx.core.view.isVisible
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.activities.GerichtEditierenActivity
+import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
+import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 
 //TODO() EinkaufslistenButton und funktion einführen
 class CustomAdapter(newGerichte: List<Gericht>, newContext: Context): BaseAdapter(), ListAdapter {
@@ -57,6 +58,22 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context): BaseAdapte
             } else {
                 isVegetarianView.visibility = View.INVISIBLE
             }
+        }
+
+        val btnGerichtZurEinkaufslisteHinzufuegen = view?.findViewById<android.widget.Button>(R.id.btnHinzufuegenZurEinkaufsliste)
+        btnGerichtZurEinkaufslisteHinzufuegen?.setOnClickListener{
+
+            val alleZutaten = gerichte[position].zutaten
+            val alleZutatenList = alleZutaten.split(",")
+
+
+            val einkauflisteDao = EinkaufslisteDatabase.getDatabase(parent!!.context).einkaufslisteDao()
+            for(zutat in alleZutatenList){
+                val tempZutat = Zutat(0, zutat)
+
+                einkauflisteDao.insertAll(tempZutat)
+            }
+
         }
 
 

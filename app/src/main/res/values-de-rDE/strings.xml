@@ -64,4 +64,5 @@
     <string name="welcomeHeadline">Willkommen beim Essensplaner</string>
     <string name="dontDisplayAnymore">Nicht mehr anzeigen</string>
     <string name="wochenplanerveggie">Wochenplaner Vegetarisch</string>
+    <string name="liste_loeschen">Liste Löschen</string>
 </resources>

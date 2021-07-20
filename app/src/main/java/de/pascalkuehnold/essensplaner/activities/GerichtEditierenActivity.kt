@@ -38,11 +38,11 @@ class GerichtEditierenActivity : AppCompatActivity() {
     private var zutatenListe = ""
     private var isVegetarisch = false
     private var newGericht: Gericht? = null
-    private lateinit var adapter: CustomZutatenAdapter
+    lateinit var adapter: CustomZutatenAdapter
 
     private lateinit var zutaten: ArrayList<String>
 
-    private var isSaved = false
+    var isSaved = false
     private var gerichtID: Long = -1
 
     lateinit var mContext: Context
@@ -54,8 +54,6 @@ class GerichtEditierenActivity : AppCompatActivity() {
         supportActionBar?.setTitle(R.string.gericht_bearbeiten)
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
 
-        mContext = this
-
         inputFieldGericht = findViewById(R.id.textGerichtEditierenName)
         oldGerichtName = findViewById(R.id.gerichtAlterName)
         listViewZutaten = findViewById(R.id.listViewZutatenlisteGerichtAendern)
@@ -64,6 +62,7 @@ class GerichtEditierenActivity : AppCompatActivity() {
         btnDeleteGericht = findViewById(R.id.btnDeleteGericht)
         btnZutatHinzufuegen = findViewById(R.id.btnAddZutat)
 
+        mContext = this
 
         btnSubmit.setOnClickListener{
             if(newGericht == null){
@@ -196,7 +195,7 @@ class GerichtEditierenActivity : AppCompatActivity() {
     }
 
     //Method for changing the entire meal
-    private fun changeGericht(inZutaten: ArrayList<String>) {
+    fun changeGericht(inZutaten: ArrayList<String>) {
         val tempZutaten = createNewZutatenString(inZutaten)
 
         newGericht = Gericht(gerichtID, gerichtName, tempZutaten, isVegetarisch)
@@ -243,7 +242,7 @@ class GerichtEditierenActivity : AppCompatActivity() {
     }
 
     //Method that creates a dialog for changing an ingredient
-    private fun createChangeZutatDialog(zutatenNew: ArrayList<String>, position: Int) {
+    fun createChangeZutatDialog(zutatenNew: ArrayList<String>, position: Int) {
         // Use the Builder class for convenient dialog construction
         var inputText: String
        
@@ -325,8 +324,7 @@ class GerichtEditierenActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    //Inner class for the CustomArrayAdapter for the listItems for the ingredients
-    inner class CustomZutatenAdapter(zutaten: ArrayList<String>): BaseAdapter(), ListAdapter{
+   inner class CustomZutatenAdapter(zutaten: ArrayList<String>): BaseAdapter(), ListAdapter {
         private val mZutaten = zutaten
 
         override fun getCount(): Int {
@@ -387,10 +385,6 @@ class GerichtEditierenActivity : AppCompatActivity() {
             alert.create()
             alert.show()
         }
+
     }
-
-
-
-
-
 }

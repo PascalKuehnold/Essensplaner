@@ -17,6 +17,7 @@ import androidx.preference.PreferenceManager
 import de.pascalkuehnold.essensplaner.activities.*
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
+import de.pascalkuehnold.essensplaner.database.WochenplanerVeggieDatabase
 
 
 class MainActivity : AppCompatActivity() {
@@ -81,6 +82,12 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, Wochenplaner::class.java)
             startActivity(intent)
         }
+
+        val btnEinkaufsliste = findViewById<Button>(R.id.btnEinkaufsliste)
+        btnEinkaufsliste.setOnClickListener{
+            val intent = Intent(this, EinkaufslisteActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 
@@ -129,6 +136,7 @@ class MainActivity : AppCompatActivity() {
         alert.setPositiveButton(getString(R.string.delete)) { _: DialogInterface, _: Int ->
             AppDatabase.getDatabase(applicationContext).gerichtDao().delete()
             WochenplanerDatabase.getDatabase(applicationContext).wochenGerichteDao().delete()
+            WochenplanerVeggieDatabase.getDatabase(applicationContext).wochenGerichteVeggieDao().delete()
             Toast.makeText(this, getString(R.string.allDataDeletedText), Toast.LENGTH_LONG).show()
         }
         alert.setNegativeButton(getString(R.string.cancel)) { dialog: DialogInterface, _: Int ->
