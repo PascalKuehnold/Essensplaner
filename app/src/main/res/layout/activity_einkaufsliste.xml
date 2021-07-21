@@ -12,8 +12,9 @@
     <ListView
         android:id="@+id/listViewEinkaufsliste"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
+
         android:divider="@drawable/gradient_white_to_blue"
         android:dividerHeight="@dimen/cardview_compat_inset_shadow"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,10 +39,9 @@
         android:id="@+id/btnNeuerPlan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/divider5"
         android:layout_centerHorizontal="true"
-        android:backgroundTint="@color/newHeaderColor"
-        android:text="@string/neuer_plan"
+        android:background="@color/newHeaderColor"
+        android:text="@string/liste_loeschen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
