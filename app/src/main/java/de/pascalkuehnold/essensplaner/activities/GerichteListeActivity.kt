@@ -23,8 +23,8 @@ import de.pascalkuehnold.essensplaner.layout.CustomAdapter
 class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var listView: ListView
     private lateinit var searchView: SearchView
-    lateinit var gerichteListe: ArrayList<Gericht>
-    lateinit var adapterLV: CustomAdapter
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,19 +36,12 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
 
         searchView = findViewById(R.id.sbGerichteListe)
-        searchView.isFocusable = false
-
         listView = findViewById(R.id.gerichteAnzeige)
 
-        gerichteListe = getGerichteListe() as ArrayList<Gericht>
-
-        adapterLV = CustomAdapter(gerichteListe, this, this)
-        listView.adapter = adapterLV
 
 
 
         val btnAddGerichteButton = findViewById<FloatingActionButton>(R.id.floatingActionButton)
-        btnAddGerichteButton.isFocusable = false
         btnAddGerichteButton.setOnClickListener{
             val intent = Intent(this, GerichtHinzufuegenActivity::class.java)
             startActivity(intent)
@@ -57,7 +50,6 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
         //TODO sort algorithm
         val spinner: Spinner = findViewById(R.id.spinner)
-        spinner.isFocusable = false
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
                 this,
@@ -71,8 +63,6 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         }
         refreshGerichteListe()
 
-
-
     }
 
 
@@ -82,7 +72,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun refreshGerichteListe(){
-        gerichteListe = getGerichteListe() as ArrayList<Gericht>
+        val gerichteListe = getGerichteListe()
 
 
         //for(i in 1..100) {
@@ -96,11 +86,11 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 //            listItems[i] = gericht.gerichtName
 //        }
 
-
-        adapterLV.notifyDataSetChanged()
-
+        val adapter = CustomAdapter(gerichteListe, this, this)
 
 
+        listView.adapter = adapter
+        adapter.notifyDataSetChanged()
 
 
     }
@@ -131,6 +121,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         AlertDialog.Builder(this)
                 .setMessage("Gericht Name: $gerichtName\n\nZutaten: $gerichtZutaten")
                 .setCancelable(true)
+                .setTitle("Informationen:")
                 .setIcon(R.drawable.ic_info)
                 .create()
                 .show()

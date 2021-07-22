@@ -62,16 +62,23 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
             }
         }
 
-        val btnGerichtZurEinkaufslisteHinzufuegen = view?.findViewById<android.widget.Button>(R.id.btnHinzufuegenZurEinkaufsliste)
+        val btnGerichtZurEinkaufslisteHinzufuegen = view?.findViewById<Button>(R.id.btnHinzufuegenZurEinkaufsliste)
         btnGerichtZurEinkaufslisteHinzufuegen?.setOnClickListener{
 
-            val alleZutaten = gerichte[position].zutaten
+            var alleZutaten: String = ""
+            if(gerichte[position].zutaten.isEmpty()){
+                alleZutaten = gerichte[position].gerichtName
+            } else {
+                alleZutaten = gerichte[position].zutaten
+            }
+
             val alleZutatenList = alleZutaten.split(",")
 
 
             val einkauflisteDao = EinkaufslisteDatabase.getDatabase(parent!!.context).einkaufslisteDao()
+
             for(zutat in alleZutatenList){
-                val tempZutat = Zutat(0, zutat)
+                val tempZutat = Zutat(0, zutat, isChecked = false)
 
                 einkauflisteDao.insertAll(tempZutat)
             }
@@ -79,7 +86,7 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
         }
 
 
-        val btnGerichtBearbeiten = view?.findViewById<android.widget.Button>(R.id.btnBearbeiten)
+        val btnGerichtBearbeiten = view?.findViewById<Button>(R.id.btnBearbeiten)
         btnGerichtBearbeiten?.setOnClickListener {
             val intent = Intent(parent?.context, GerichtEditierenActivity::class.java).apply{
                 putExtra("ID", gerichte[position].id)

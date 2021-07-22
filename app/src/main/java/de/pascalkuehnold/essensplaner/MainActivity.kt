@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import de.pascalkuehnold.essensplaner.activities.*
 import de.pascalkuehnold.essensplaner.database.AppDatabase
+import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerVeggieDatabase
 
@@ -137,6 +138,7 @@ class MainActivity : AppCompatActivity() {
             AppDatabase.getDatabase(applicationContext).gerichtDao().delete()
             WochenplanerDatabase.getDatabase(applicationContext).wochenGerichteDao().delete()
             WochenplanerVeggieDatabase.getDatabase(applicationContext).wochenGerichteVeggieDao().delete()
+            EinkaufslisteDatabase.getDatabase(applicationContext).einkaufslisteDao().delete()
             Toast.makeText(this, getString(R.string.allDataDeletedText), Toast.LENGTH_LONG).show()
         }
         alert.setNegativeButton(getString(R.string.cancel)) { dialog: DialogInterface, _: Int ->

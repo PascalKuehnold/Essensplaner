@@ -223,6 +223,7 @@ open class WochenplanerVeggieActivity :Wochenplan(),AdapterView.OnItemSelectedLi
         AlertDialog.Builder(this)
                 .setMessage("Gericht Name: $gerichtName\n\nZutaten: $gerichtZutaten")
                 .setCancelable(true)
+                .setTitle("Informationen:")
                 .setIcon(R.drawable.ic_info)
                 .create()
                 .show()

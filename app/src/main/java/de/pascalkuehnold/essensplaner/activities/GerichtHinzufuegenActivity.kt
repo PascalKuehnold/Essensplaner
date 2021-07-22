@@ -57,7 +57,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
             this.gerichtName = textInputGericht.text.toString()
             this.isVegetarisch = switchVegetarisch.isChecked
 
-            if (this.gerichtName.isNotEmpty() && this.textZutaten.isNotEmpty()) {
+            if (this.gerichtName.isNotEmpty()) {
                 println("GerichteHinzufuegenActivity >> " + this.gerichtName + " Zutaten: " + this.textZutaten + " Vegetarisch: " + this.isVegetarisch)
                 try {
                     addGericht()

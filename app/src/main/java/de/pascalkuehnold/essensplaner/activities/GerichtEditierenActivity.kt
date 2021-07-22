@@ -17,15 +17,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
+import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerVeggieDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
+import de.pascalkuehnold.essensplaner.interfaces.EinkaufslisteDao
 import de.pascalkuehnold.essensplaner.layout.CustomZutatenAdapter
 import kotlinx.coroutines.runBlocking
 
 
 //TODO() GerichtNamen editieren möglich machen
-class GerichtEditierenActivity : AppCompatActivity() {
+class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var inputFieldGericht: TextInputEditText
     private lateinit var oldGerichtName: TextView
     private lateinit var listViewZutaten: ListView
@@ -147,7 +149,7 @@ class GerichtEditierenActivity : AppCompatActivity() {
         }
 
         //creates the custom adapter
-        adapter = CustomZutatenAdapter(this, zutaten)
+        adapter = CustomZutatenAdapter(this, zutaten, this)
 
         //setting the adapter for the listview of ingredients
         listViewZutaten.adapter = adapter
@@ -285,25 +287,7 @@ class GerichtEditierenActivity : AppCompatActivity() {
         return stringBuilder.toString()
     }
 
-    fun deleteZutat(mZutaten: ArrayList<String>, position: Int){
-        val tempZutat = mZutaten[position]
 
-        val alert = AlertDialog.Builder(this)
-        alert.setMessage("TODO()001 Delete?")
-        alert.setPositiveButton(R.string.yes){ _: DialogInterface, _: Int ->
-            mZutaten.removeAt(position)
-            adapter.notifyDataSetChanged()
-            isSaved = false
-            changeGericht(createNewZutatenString(mZutaten))
-
-            Toast.makeText(mContext, ("TODO()002 $tempZutat was deleted successfully."), Toast.LENGTH_SHORT).show()
-        }
-        alert.setNegativeButton(R.string.no){ dialog: DialogInterface, _: Int ->
-            dialog.cancel()
-        }
-        alert.create()
-        alert.show()
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -313,6 +297,10 @@ class GerichtEditierenActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onClick(v: View?) {
+        Toast.makeText(this,"TODO()009 Nicht implementiert", Toast.LENGTH_SHORT).show()
     }
 
 

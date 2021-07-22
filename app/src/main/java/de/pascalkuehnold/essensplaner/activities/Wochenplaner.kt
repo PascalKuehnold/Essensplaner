@@ -221,6 +221,7 @@ open class Wochenplaner : Wochenplan(),AdapterView.OnItemSelectedListener, View.
         AlertDialog.Builder(this)
                 .setMessage("Gericht Name: $gerichtName\n\nZutaten: $gerichtZutaten")
                 .setCancelable(true)
+                .setTitle("Informationen:")
                 .setIcon(R.drawable.ic_info)
                 .create()
                 .show()

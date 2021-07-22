@@ -2,6 +2,7 @@ package de.pascalkuehnold.essensplaner.layout
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.DialogInterface
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
@@ -11,10 +12,11 @@ import androidx.appcompat.app.AlertDialog
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.activities.GerichtEditierenActivity
 
-class CustomZutatenAdapter(context: Context, zutaten: ArrayList<String>): BaseAdapter(), ListAdapter {
+class CustomZutatenAdapter(context: Context, zutaten: ArrayList<String>, callback: View.OnClickListener): BaseAdapter(), ListAdapter {
     private val mZutaten = zutaten
     private val mContext = context
-    private var isSaved = false
+    private val mCallback = callback
+    private var isChecked = false
 
     override fun getCount(): Int {
         return mZutaten.size
@@ -36,6 +38,10 @@ class CustomZutatenAdapter(context: Context, zutaten: ArrayList<String>): BaseAd
             view = inflater.inflate(R.layout.custom_list_item_zutat, null)
         }
 
+        val row = view?.findViewById<LinearLayout>(R.id.rowClick)
+        row?.setOnClickListener(mCallback)
+        row?.tag = position
+
         val zutatenName = view?.findViewById<TextView>(R.id.zutatenName)
         if (zutatenName != null) {
             zutatenName.text = mZutaten[position]
@@ -53,7 +59,7 @@ class CustomZutatenAdapter(context: Context, zutaten: ArrayList<String>): BaseAd
         val btnDeleteZutat = view?.findViewById<Button>(R.id.btnDeleteZutat)
         btnDeleteZutat?.setOnClickListener{
             if(mContext is GerichtEditierenActivity){
-                GerichtEditierenActivity().deleteZutat(mZutaten, position)
+                deleteZutat(mZutaten, position)
             }
         }
 
@@ -97,6 +103,26 @@ class CustomZutatenAdapter(context: Context, zutaten: ArrayList<String>): BaseAd
 
         Toast.makeText(mContext, ("TODO()004 $tempZutat wurde erfolgreich zu $inputText bearbeitet."), Toast.LENGTH_SHORT).show()
         notifyDataSetChanged()
+    }
+
+    private fun deleteZutat(mZutaten: ArrayList<String>, position: Int){
+        val tempZutat = mZutaten[position]
+
+        val alert = AlertDialog.Builder(mContext)
+        alert.setMessage("TODO()001 Delete?")
+        alert.setPositiveButton(R.string.yes){ _: DialogInterface, _: Int ->
+            mZutaten.removeAt(position)
+            notifyDataSetChanged()
+            val tempZutatenString = createNewZutatenString(mZutaten)
+            (mContext as GerichtEditierenActivity).changeGericht(tempZutatenString)
+
+            Toast.makeText(mContext, ("TODO()002 $tempZutat was deleted successfully."), Toast.LENGTH_SHORT).show()
+        }
+        alert.setNegativeButton(R.string.no){ dialog: DialogInterface, _: Int ->
+            dialog.cancel()
+        }
+        alert.create()
+        alert.show()
     }
 
     //Method for creating ingredient string, after it was edited by the user
