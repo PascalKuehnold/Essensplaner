@@ -48,6 +48,8 @@ class CustomZutatenAdapter(context: Context, zutaten: ArrayList<String>, callbac
         }
 
 
+
+
         val btnZutatBearbeiten = view?.findViewById<Button>(R.id.btnZutatBearbeiten)
         btnZutatBearbeiten?.setOnClickListener {
             if(mContext is GerichtEditierenActivity){

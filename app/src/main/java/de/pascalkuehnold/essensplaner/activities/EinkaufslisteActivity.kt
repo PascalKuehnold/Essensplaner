@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
@@ -83,6 +84,8 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
 
     override fun onClick(v: View?) {
         val zutatTextview = v?.findViewById<TextView>(R.id.zutatenName)
+        val imageViewZutatChecked = v?.findViewById<ImageView>(R.id.imageViewCheckedZutat)
+
         val zutat =  einkaufsliste[v?.tag as Int]
         val tmpZutatName = zutat.zutatenName
         var mIsChecked = zutat.isChecked
@@ -91,9 +94,11 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
             if(mIsChecked){
                 zutatTextview.paintFlags = 0
                 mIsChecked = false
+                imageViewZutatChecked!!.visibility = View.INVISIBLE
             } else {
                 zutatTextview.paintFlags = zutatTextview.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 mIsChecked = true
+                imageViewZutatChecked!!.visibility = View.VISIBLE
             }
 
 
@@ -138,6 +143,15 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
             if(view == null){
                 val inflater: LayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
                 view = inflater.inflate(R.layout.custom_list_item_zutat, null)
+            }
+
+            val imageViewZutatChecked = view?.findViewById<ImageView>(R.id.imageViewCheckedZutat)
+            if (imageViewZutatChecked != null) {
+                if(mZutaten[position].isChecked){
+                    imageViewZutatChecked.visibility = View.VISIBLE
+                } else {
+                    imageViewZutatChecked.visibility = View.INVISIBLE
+                }
             }
 
 
