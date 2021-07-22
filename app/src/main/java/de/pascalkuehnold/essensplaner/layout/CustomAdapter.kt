@@ -6,10 +6,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.ImageView
-import android.widget.ListAdapter
-import android.widget.TextView
+import android.widget.*
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.activities.GerichtEditierenActivity
 import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
@@ -17,9 +14,10 @@ import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 
 //TODO() EinkaufslistenButton und funktion einführen
-class CustomAdapter(newGerichte: List<Gericht>, newContext: Context): BaseAdapter(), ListAdapter {
+class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: View.OnClickListener): BaseAdapter(), ListAdapter {
     private val gerichte = newGerichte
     val context = newContext
+    val mCallback = callback
 
     override fun getCount(): Int {
         return gerichte.size
@@ -40,6 +38,10 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context): BaseAdapte
             val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             view = inflater.inflate(R.layout.custom_list_item, null)
         }
+
+        val row = view?.findViewById<LinearLayout>(R.id.rowClick)
+        row?.setOnClickListener(mCallback)
+        row?.tag = position
 
         val gerichtName = view?.findViewById<TextView>(R.id.gerichtName)
         if (gerichtName != null) {
@@ -85,6 +87,8 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context): BaseAdapte
             println("Btn gericht bearbeiten wurde gedrückt")
             parent?.context?.startActivity(intent)
         }
+
+
 
         return view
     }

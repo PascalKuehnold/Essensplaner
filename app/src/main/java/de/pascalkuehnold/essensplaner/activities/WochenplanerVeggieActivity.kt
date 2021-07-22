@@ -20,7 +20,7 @@ import de.pascalkuehnold.essensplaner.layout.CustomAdapter
 import kotlin.random.Random
 
 
-open class WochenplanerVeggieActivity :Wochenplan(),AdapterView.OnItemSelectedListener{
+open class WochenplanerVeggieActivity :Wochenplan(),AdapterView.OnItemSelectedListener, View.OnClickListener{
     private lateinit var listWochenplaner: ListView
     private lateinit var dropdownTitleSpinner: Spinner
     private lateinit var listOfTitles: Array<String>
@@ -137,7 +137,7 @@ open class WochenplanerVeggieActivity :Wochenplan(),AdapterView.OnItemSelectedLi
 
 
     private fun generateListOnScreen(){
-        val adapter =  CustomAdapter(weeksGerichte, this)
+        val adapter =  CustomAdapter(weeksGerichte, this, this)
         listWochenplaner.adapter = adapter
 
         adapter.notifyDataSetChanged()
@@ -212,4 +212,20 @@ open class WochenplanerVeggieActivity :Wochenplan(),AdapterView.OnItemSelectedLi
         startActivity(intent)
 
     }
+
+    override fun onClick(v: View?) {
+        val gerichte = getWeeksGerichte()
+        val gericht = gerichte[v?.tag as Int]
+        val gerichtName = gericht.gerichtName
+        val gerichtZutaten = gericht.zutaten
+
+
+        AlertDialog.Builder(this)
+                .setMessage("Gericht Name: $gerichtName\n\nZutaten: $gerichtZutaten")
+                .setCancelable(true)
+                .setIcon(R.drawable.ic_info)
+                .create()
+                .show()
+    }
+
 }

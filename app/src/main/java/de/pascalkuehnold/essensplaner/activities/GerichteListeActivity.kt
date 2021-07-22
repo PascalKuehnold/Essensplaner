@@ -7,8 +7,10 @@ import android.os.Bundle
 import android.os.Looper
 import android.os.MessageQueue.IdleHandler
 import android.view.MenuItem
+import android.view.View
 import android.view.WindowManager
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.pascalkuehnold.essensplaner.R
@@ -18,11 +20,11 @@ import de.pascalkuehnold.essensplaner.layout.CustomAdapter
 
 
 //TODO sort algorithm
-class GerichteListeActivity : AppCompatActivity() {
+class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var listView: ListView
     private lateinit var searchView: SearchView
-
-
+    lateinit var gerichteListe: ArrayList<Gericht>
+    lateinit var adapterLV: CustomAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,10 +36,19 @@ class GerichteListeActivity : AppCompatActivity() {
 
 
         searchView = findViewById(R.id.sbGerichteListe)
+        searchView.isFocusable = false
 
         listView = findViewById(R.id.gerichteAnzeige)
 
+        gerichteListe = getGerichteListe() as ArrayList<Gericht>
+
+        adapterLV = CustomAdapter(gerichteListe, this, this)
+        listView.adapter = adapterLV
+
+
+
         val btnAddGerichteButton = findViewById<FloatingActionButton>(R.id.floatingActionButton)
+        btnAddGerichteButton.isFocusable = false
         btnAddGerichteButton.setOnClickListener{
             val intent = Intent(this, GerichtHinzufuegenActivity::class.java)
             startActivity(intent)
@@ -46,6 +57,7 @@ class GerichteListeActivity : AppCompatActivity() {
 
         //TODO sort algorithm
         val spinner: Spinner = findViewById(R.id.spinner)
+        spinner.isFocusable = false
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
                 this,
@@ -58,6 +70,9 @@ class GerichteListeActivity : AppCompatActivity() {
             spinner.adapter = adapter
         }
         refreshGerichteListe()
+
+
+
     }
 
 
@@ -67,7 +82,7 @@ class GerichteListeActivity : AppCompatActivity() {
     }
 
     private fun refreshGerichteListe(){
-        val gerichteListe = getGerichteListe()
+        gerichteListe = getGerichteListe() as ArrayList<Gericht>
 
 
         //for(i in 1..100) {
@@ -81,10 +96,13 @@ class GerichteListeActivity : AppCompatActivity() {
 //            listItems[i] = gericht.gerichtName
 //        }
 
-        val adapter = CustomAdapter(gerichteListe, this)
-        adapter.notifyDataSetChanged()
 
-        listView.adapter = adapter
+        adapterLV.notifyDataSetChanged()
+
+
+
+
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -101,6 +119,21 @@ class GerichteListeActivity : AppCompatActivity() {
         val gerichtDao = AppDatabase.getDatabase(applicationContext).gerichtDao()
 
         return gerichtDao.getAll()
+    }
+
+    override fun onClick(v: View?) {
+        val gerichte = getGerichteListe()
+        val gericht = gerichte[v?.tag as Int]
+        val gerichtName = gericht.gerichtName
+        val gerichtZutaten = gericht.zutaten
+
+
+        AlertDialog.Builder(this)
+                .setMessage("Gericht Name: $gerichtName\n\nZutaten: $gerichtZutaten")
+                .setCancelable(true)
+                .setIcon(R.drawable.ic_info)
+                .create()
+                .show()
     }
 
 }

@@ -21,6 +21,7 @@
         >
 
         <LinearLayout
+            android:id="@+id/rowClick"
             android:layout_width="225dp"
             android:layout_height="65dp"
             android:orientation="vertical"
