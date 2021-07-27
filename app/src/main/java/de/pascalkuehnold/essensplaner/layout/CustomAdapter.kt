@@ -34,6 +34,8 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
     @SuppressLint("InflateParams")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
         var view = convertView
+        var selectedGericht = gerichte[position]
+
         if(view == null){
             val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             view = inflater.inflate(R.layout.custom_list_item, null)
@@ -45,17 +47,17 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
 
         val gerichtName = view?.findViewById<TextView>(R.id.gerichtName)
         if (gerichtName != null) {
-            gerichtName.text = gerichte[position].gerichtName
+            gerichtName.text = selectedGericht.gerichtName
         }
 
         val gerichtZutaten = view?.findViewById<TextView>(R.id.zutaten)
         if (gerichtZutaten != null) {
-            gerichtZutaten.text = gerichte[position].zutaten
+            gerichtZutaten.text = selectedGericht.zutaten
         }
 
         val isVegetarianView = view?.findViewById<ImageView>(R.id.imageViewVegetarian)
         if (isVegetarianView != null) {
-            if(gerichte[position].isVegetarisch){
+            if(selectedGericht.isVegetarisch){
                 isVegetarianView.visibility = View.VISIBLE
             } else {
                 isVegetarianView.visibility = View.INVISIBLE
@@ -65,11 +67,13 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
         val btnGerichtZurEinkaufslisteHinzufuegen = view?.findViewById<Button>(R.id.btnHinzufuegenZurEinkaufsliste)
         btnGerichtZurEinkaufslisteHinzufuegen?.setOnClickListener{
 
+
+
             var alleZutaten: String = ""
-            if(gerichte[position].zutaten.isEmpty()){
-                alleZutaten = gerichte[position].gerichtName
+            if(selectedGericht.zutaten.isEmpty()){
+                alleZutaten = selectedGericht.gerichtName
             } else {
-                alleZutaten = gerichte[position].zutaten
+                alleZutaten = selectedGericht.zutaten
             }
 
             val alleZutatenList = alleZutaten.split(",")
@@ -81,6 +85,12 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
                 val tempZutat = Zutat(0, zutat, isChecked = false)
 
                 einkauflisteDao.insertAll(tempZutat)
+                if(alleZutatenList.size > 1){
+                    Toast.makeText(parent.context, "TODO() -> Zutaten von Gericht ${selectedGericht.gerichtName} wurden zur Einkaufsliste hinzugefügt", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(parent.context, "TODO() -> ${tempZutat.zutatenName} wurde zur Einkaufsliste hinzugefügt" , Toast.LENGTH_SHORT).show()
+                }
+
             }
 
         }

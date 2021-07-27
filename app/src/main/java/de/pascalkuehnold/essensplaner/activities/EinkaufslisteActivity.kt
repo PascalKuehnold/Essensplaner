@@ -2,6 +2,7 @@ package de.pascalkuehnold.essensplaner.activities
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
@@ -25,6 +26,7 @@ import de.pascalkuehnold.essensplaner.layout.CustomZutatenAdapter
 class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
     lateinit var listEinkaufsliste: ListView
     lateinit var einkaufsliste: ArrayList<Zutat>
+    lateinit var btnListDelete: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +37,25 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
 
         listEinkaufsliste = findViewById(R.id.listViewEinkaufsliste)
+        btnListDelete = findViewById(R.id.btnNeuerPlan)
+
+        btnListDelete.setOnClickListener{
+            val alert = AlertDialog.Builder(this)
+            alert.setTitle(getString(R.string.delete))
+            alert.setMessage("TODO()010 -> Einkaufsliste wird gelöscht. Fortfahren?")
+            alert.setPositiveButton(getString(R.string.yes)) { _: DialogInterface, _: Int ->
+                createConnection().delete()
+                loadEinkaufsliste()
+                generateListOnScreen()
+            }
+            alert.setNegativeButton(getString(R.string.no)){ dialog: DialogInterface, _: Int ->
+                dialog.cancel()
+            }
+            alert.create()
+            alert.show()
+
+
+        }
 
         loadEinkaufsliste()
         generateListOnScreen()

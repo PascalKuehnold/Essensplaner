@@ -47,7 +47,10 @@ class CustomZutatenAdapter(context: Context, zutaten: ArrayList<String>, callbac
             zutatenName.text = mZutaten[position]
         }
 
-
+        val imageViewZutatChecked = view?.findViewById<ImageView>(R.id.imageViewCheckedZutat)
+        if (imageViewZutatChecked != null) {
+                imageViewZutatChecked.visibility = View.INVISIBLE
+        }
 
 
         val btnZutatBearbeiten = view?.findViewById<Button>(R.id.btnZutatBearbeiten)
