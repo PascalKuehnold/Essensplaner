@@ -189,9 +189,19 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
             }
 
 
+            val btnDeleteZutat = view?.findViewById<Button>(R.id.btnDeleteZutat)
+            btnDeleteZutat?.setOnClickListener{
+                if(mContext is EinkaufslisteActivity){
+                    deleteZutat(position)
+                }
+            }
+
 
             return view
         }
+
+
+
 
         //Method that creates a dialog for changing an ingredient
         private fun createChangeZutatDialog(zutatenNew: ArrayList<Zutat>, position: Int) {
@@ -246,6 +256,23 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
             return stringBuilder.toString()
         }
 
+        private fun deleteZutat(position: Int){
+            val tempZutat = mZutaten[position]
+
+            val alert = AlertDialog.Builder(mContext)
+            alert.setMessage("TODO()001 Delete?")
+            alert.setPositiveButton(R.string.yes){ _: DialogInterface, _: Int ->
+                mZutaten.removeAt(position)
+                notifyDataSetChanged()
+
+                Toast.makeText(mContext, ("TODO()002 $tempZutat was deleted successfully."), Toast.LENGTH_SHORT).show()
+            }
+            alert.setNegativeButton(R.string.no){ dialog: DialogInterface, _: Int ->
+                dialog.cancel()
+            }
+            alert.create()
+            alert.show()
+        }
 
 
     }
