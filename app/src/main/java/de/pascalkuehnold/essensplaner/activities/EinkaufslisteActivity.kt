@@ -1,6 +1,8 @@
 package de.pascalkuehnold.essensplaner.activities
 
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
@@ -8,10 +10,7 @@ import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.InputType
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +21,8 @@ import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import de.pascalkuehnold.essensplaner.interfaces.EinkaufslisteDao
 import de.pascalkuehnold.essensplaner.layout.CustomZutatenAdapter
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
@@ -66,21 +67,31 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
             builder.setTitle("Item hinzufügen")
 
             val input = EditText(this)
+
             // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-            input.inputType = InputType.TYPE_CLASS_TEXT
+            input.inputType = InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
             builder.setView(input)
             input.requestFocus()
 
             builder.setPositiveButton(R.string.hinzuf_gen) { _, _ ->
                 if(!input.text.isNullOrEmpty()){
-                    val inputText = input.text.toString().replace(',', ' ').trim()
 
-                    inputText.split("\\s*,\\s*")
-                    Toast.makeText(this, "Item" + " " + inputText + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
+                    val reg = Regex("\\s*,\\s*")
+                    val inputText = input.text.toString().trim().replace(reg, "\n")
 
-                    val tempZutat = Zutat(0, inputText,false)
+                    //val items = inputText.split("\\s*,\\s*")
+                    val items = inputText.lines()
 
-                    addItem(tempZutat)
+                    for(item in items){
+                        val capItem = item.capitalize(Locale.getDefault())
+
+                        val tempZutat = Zutat(0, capItem,false)
+                        addItem(tempZutat)
+
+                        Toast.makeText(this, "Item" + " " + capItem + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
+                    }
+
+
                 } else {
                     Toast.makeText(this, "TODO()005 Keine Eingabe...", Toast.LENGTH_SHORT).show()
                 }
@@ -91,7 +102,9 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
                 dialog.cancel()
             }
             builder.create()
-            builder.show()
+
+            val alert = builder.show()
+            alert.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         }
 
         loadEinkaufsliste()
@@ -221,6 +234,7 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
 
             val zutatenName = view?.findViewById<TextView>(R.id.zutatenName)
             if (zutatenName != null) {
+                zutatenName.maxLines = 2
                 zutatenName.text = mZutaten[position].zutatenName
                 if(mZutaten[position].isChecked){
                     zutatenName.paintFlags = zutatenName.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
