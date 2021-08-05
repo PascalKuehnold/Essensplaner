@@ -34,7 +34,7 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
     @SuppressLint("InflateParams")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
         var view = convertView
-        var selectedGericht = gerichte[position]
+        val selectedGericht = gerichte[position]
 
         if(view == null){
             val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -66,7 +66,7 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
 
         val btnGerichtZurEinkaufslisteHinzufuegen = view?.findViewById<Button>(R.id.btnHinzufuegenZurEinkaufsliste)
         btnGerichtZurEinkaufslisteHinzufuegen?.setOnClickListener{
-
+            lateinit var tempZutat: Zutat
 
 
             var alleZutaten: String = ""
@@ -82,15 +82,15 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
             val einkauflisteDao = EinkaufslisteDatabase.getDatabase(parent!!.context).einkaufslisteDao()
 
             for(zutat in alleZutatenList){
-                val tempZutat = Zutat(0, zutat, isChecked = false)
+                tempZutat = Zutat(0, zutat, isChecked = false)
 
                 einkauflisteDao.insertAll(tempZutat)
-                if(alleZutatenList.size > 1){
-                    Toast.makeText(parent.context, "TODO() -> Zutaten von Gericht ${selectedGericht.gerichtName} wurden zur Einkaufsliste hinzugefügt", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(parent.context, "TODO() -> ${tempZutat.zutatenName} wurde zur Einkaufsliste hinzugefügt" , Toast.LENGTH_SHORT).show()
-                }
+            }
 
+            if(alleZutatenList.size > 1){
+                Toast.makeText(parent.context, "TODO() -> Zutaten von Gericht ${selectedGericht.gerichtName} wurden zur Einkaufsliste hinzugefügt", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(parent.context, "TODO() -> ${tempZutat.zutatenName} wurde zur Einkaufsliste hinzugefügt" , Toast.LENGTH_SHORT).show()
             }
 
         }

@@ -16,6 +16,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
@@ -27,6 +28,7 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
     lateinit var listEinkaufsliste: ListView
     lateinit var einkaufsliste: ArrayList<Zutat>
     lateinit var btnListDelete: Button
+    lateinit var btnAddItem: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +39,9 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
 
         listEinkaufsliste = findViewById(R.id.listViewEinkaufsliste)
-        btnListDelete = findViewById(R.id.btnNeuerPlan)
+        btnListDelete = findViewById(R.id.btnDeleteList)
+        btnAddItem = findViewById(R.id.btnAddItem)
+
 
         btnListDelete.setOnClickListener{
             val alert = AlertDialog.Builder(this)
@@ -57,6 +61,39 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
 
         }
 
+        btnAddItem.setOnClickListener{
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Item hinzufügen")
+
+            val input = EditText(this)
+            // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+            input.inputType = InputType.TYPE_CLASS_TEXT
+            builder.setView(input)
+            input.requestFocus()
+
+            builder.setPositiveButton(R.string.hinzuf_gen) { _, _ ->
+                if(!input.text.isNullOrEmpty()){
+                    val inputText = input.text.toString().replace(',', ' ').trim()
+
+                    inputText.split("\\s*,\\s*")
+                    Toast.makeText(this, "Item" + " " + inputText + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
+
+                    val tempZutat = Zutat(0, inputText,false)
+
+                    addItem(tempZutat)
+                } else {
+                    Toast.makeText(this, "TODO()005 Keine Eingabe...", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+
+            builder.setNegativeButton(R.string.abbrechen) { dialog, _ ->
+                dialog.cancel()
+            }
+            builder.create()
+            builder.show()
+        }
+
         loadEinkaufsliste()
         generateListOnScreen()
 
@@ -67,13 +104,11 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
         return EinkaufslisteDatabase.getDatabase(applicationContext).einkaufslisteDao()
     }
 
-    fun loadEinkaufsliste(){
+    private fun loadEinkaufsliste(){
         val einkaufslisteDao = createConnection()
 
         einkaufsliste = einkaufslisteDao.getAll() as ArrayList<Zutat>
         println("Wochenplaner >> loadWeekgerichte() -> Daten wurden geladen")
-
-
     }
 
 
@@ -91,6 +126,14 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
 
 
         println("Wochenplaner >> generateListOnScreen() -> Daten wurden an den Screen übergeben")
+    }
+
+    private fun addItem(zutat: Zutat){
+        val einkaufsliste = createConnection()
+        einkaufsliste.insertAll(zutat)
+
+        loadEinkaufsliste()
+        generateListOnScreen()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -129,10 +172,6 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
 
             loadEinkaufsliste()
         }
-    }
-
-    fun saveZutat(){
-
     }
 
     override fun onBackPressed() {
@@ -258,11 +297,13 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
 
         private fun deleteZutat(position: Int){
             val tempZutat = mZutaten[position]
+            val einkaufslisteDao = createConnection()
 
             val alert = AlertDialog.Builder(mContext)
             alert.setMessage("TODO()001 Delete?")
             alert.setPositiveButton(R.string.yes){ _: DialogInterface, _: Int ->
                 mZutaten.removeAt(position)
+                einkaufslisteDao.delete(tempZutat)
                 notifyDataSetChanged()
 
                 Toast.makeText(mContext, ("TODO()002 $tempZutat was deleted successfully."), Toast.LENGTH_SHORT).show()

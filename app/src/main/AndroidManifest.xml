@@ -10,7 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Essensplaner">
         <activity android:name=".activities.EinkaufslisteActivity"
-            android:theme="@style/Theme.Essensplaner.NoActionBar" />
+            android:theme="@style/Theme.Essensplaner.NoActionBar"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".activities.AboutActivity"
             android:theme="@style/Theme.Essensplaner.NoActionBar" />

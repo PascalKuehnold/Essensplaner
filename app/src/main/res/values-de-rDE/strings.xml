@@ -65,4 +65,5 @@
     <string name="dontDisplayAnymore">Nicht mehr anzeigen</string>
     <string name="wochenplanerveggie">Wochenplaner Vegetarisch</string>
     <string name="liste_loeschen">Liste Löschen</string>
+    <string name="add_an_item_to_the_list">Add an item to the list</string>
 </resources>
