@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.InputType
@@ -14,6 +15,7 @@ import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.pascalkuehnold.essensplaner.R
@@ -21,15 +23,19 @@ import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import de.pascalkuehnold.essensplaner.interfaces.EinkaufslisteDao
 import de.pascalkuehnold.essensplaner.layout.CustomZutatenAdapter
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.*
 import kotlin.collections.ArrayList
 
 
 class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
-    lateinit var listEinkaufsliste: ListView
-    lateinit var einkaufsliste: ArrayList<Zutat>
-    lateinit var btnListDelete: Button
-    lateinit var btnAddItem: FloatingActionButton
+    private lateinit var listEinkaufsliste: ListView
+    private lateinit var einkaufsliste: ArrayList<Zutat>
+    private lateinit var btnListDelete: Button
+    private lateinit var btnAddItem: FloatingActionButton
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -198,6 +204,8 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
         private val mCallback = callback
         private var isChecked = false
 
+        private val typeFace = ResourcesCompat.getFont(context, R.font.architects_daughter_regular)
+
         override fun getCount(): Int {
             return mZutaten.size
         }
@@ -234,6 +242,7 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
 
             val zutatenName = view?.findViewById<TextView>(R.id.zutatenName)
             if (zutatenName != null) {
+                zutatenName.typeface = typeFace
                 zutatenName.maxLines = 2
                 zutatenName.text = mZutaten[position].zutatenName
                 if(mZutaten[position].isChecked){

@@ -9,15 +9,16 @@
     >
 
     <ImageView
+
         android:layout_gravity="top"
         android:id="@+id/imageViewCheckedZutat"
-        android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
         android:layout_width="32dp"
         android:layout_height="32dp"
         app:srcCompat="@drawable/ic_checked"
         tools:ignore="VectorDrawableCompat"
-        android:layout_marginEnd="10dp" />
+        android:layout_marginEnd="10dp"
+        android:contentDescription="@string/is_checked_in_list" />
 
 
     <LinearLayout
@@ -31,7 +32,6 @@
             android:id="@+id/zutatenName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:maxLines="1"
             android:text="@string/zutatenPlaceholderText"
             android:textColor="@color/white"
