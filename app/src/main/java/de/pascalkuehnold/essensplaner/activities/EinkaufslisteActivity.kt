@@ -190,6 +190,7 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
             createConnection().update(zutat = tmpZutat)
 
             loadEinkaufsliste()
+            generateListOnScreen()
         }
     }
 
@@ -202,7 +203,6 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
         private val mZutaten = zutaten
         private val mContext = context
         private val mCallback = callback
-        private var isChecked = false
 
         private val typeFace = ResourcesCompat.getFont(context, R.font.architects_daughter_regular)
 
