@@ -26,18 +26,15 @@ class MainActivity : AppCompatActivity() {
     private var appContent: LinearLayout? = null
     private var welcomeText: TextView? = null
     private var clicked = false
-    private lateinit var mPrefs: SharedPreferences
     private val welcomeScreenShownPref = "welcomeScreenShown"
+    private lateinit var mPrefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this)
-
         val intent = intent
-
         val inAppWelcScreen = intent.getBooleanExtra("inAppWelcScreen", false)
-
         // second argument is the default to use if the preference can't be found
         val welcomeScreenShown = mPrefs.getBoolean(welcomeScreenShownPref, false)
 
@@ -46,11 +43,8 @@ class MainActivity : AppCompatActivity() {
         } else {
             showMainLayout()
         }
-        
-
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
         //setSupportActionBar(findViewById(R.id.toolbar))
-
     }
 
     private fun showWelcomeText() {
@@ -158,8 +152,7 @@ class MainActivity : AppCompatActivity() {
         println("Datenbank wurde gelöscht")
     }
 
-    fun nichtMehrAnzeigen(view: View) {
-
+    fun dontShowAgain(view: View) {
         val editor = mPrefs.edit()
         editor.putBoolean(welcomeScreenShownPref, true)
         editor.apply() // Very important to save the preference

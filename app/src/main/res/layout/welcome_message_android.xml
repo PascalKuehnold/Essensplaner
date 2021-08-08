@@ -64,7 +64,7 @@
             android:layout_toLeftOf="@id/btnOK"
             android:layout_gravity="bottom"
             android:background="@color/newBackgroundColor"
-            android:onClick="nichtMehrAnzeigen"
+            android:onClick="dontShowAgain"
             android:text="@string/dontDisplayAnymore"
             android:textColor="#fff"
             android:layout_alignParentStart="true"

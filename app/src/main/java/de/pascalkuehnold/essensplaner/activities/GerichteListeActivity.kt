@@ -4,8 +4,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Looper
-import android.os.MessageQueue.IdleHandler
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
@@ -20,10 +18,12 @@ import de.pascalkuehnold.essensplaner.layout.CustomAdapter
 import java.util.*
 
 
-//TODO sort algorithm
+//TODO Search algorithm
 class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var listView: ListView
     private lateinit var searchView: SearchView
+
+    lateinit var sortedGerichte: MutableList<Gericht>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +63,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                                         view: View, position: Int, id: Long) {
                 Toast.makeText(this@GerichteListeActivity,
                         "Sortiert nach {$position}", Toast.LENGTH_SHORT).show()
-                val sortedGerichte = getGerichteListe().toMutableList()
+                sortedGerichte = getGerichteListe().toMutableList()
                 when(position){
                     0 -> {
                         refreshGerichteListe()
@@ -99,10 +99,8 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
     private fun refreshGerichteListe(){
         val gerichteListe = getGerichteListe()
 
-        val sortedGerichte = gerichteListe.toMutableList()
-        sortedGerichte.sortBy { it.gerichtName }
 
-        val adapter = CustomAdapter(sortedGerichte, this, this)
+        val adapter = CustomAdapter(gerichteListe, this, this)
 
         listView.adapter = adapter
         adapter.notifyDataSetChanged()
@@ -131,8 +129,10 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         return gerichtDao.getAll()
     }
 
+
+
     override fun onClick(v: View?) {
-        val gerichte = getGerichteListe()
+        val gerichte = sortedGerichte
         val gericht = gerichte[v?.tag as Int]
         val gerichtName = gericht.gerichtName
         val gerichtZutaten = gericht.zutaten
