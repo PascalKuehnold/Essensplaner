@@ -40,15 +40,15 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
     private var gerichtName =""
     private var zutatenListe = ""
     private var isVegetarisch = false
-    var newGericht: Gericht? = null
-    lateinit var adapter: CustomZutatenAdapter
+    private var newGericht: Gericht? = null
+    private lateinit var adapter: CustomZutatenAdapter
 
     private lateinit var zutaten: ArrayList<String>
 
-    var isSaved = false
+    private var isSaved = false
     private var gerichtID: Long = -1
 
-    lateinit var mContext: Context
+    private lateinit var mContext: Context
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -138,7 +138,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
             zutaten = zutatenListe.split(",") as ArrayList<String>
         } catch (e: Exception){
             zutaten = ArrayList()
-
+            zutaten.add(zutatenListe)
         }
 
         //for the checkbox if the meal is vegetarian or not
