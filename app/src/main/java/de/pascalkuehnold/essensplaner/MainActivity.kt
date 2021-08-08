@@ -22,12 +22,12 @@ import de.pascalkuehnold.essensplaner.database.WochenplanerVeggieDatabase
 
 
 class MainActivity : AppCompatActivity() {
-    var introMessage: RelativeLayout? = null
-    var appContent: LinearLayout? = null
-    var welcomeText: TextView? = null
-
-    lateinit var mPrefs: SharedPreferences
-    val welcomeScreenShownPref = "welcomeScreenShown"
+    private var introMessage: RelativeLayout? = null
+    private var appContent: LinearLayout? = null
+    private var welcomeText: TextView? = null
+    private var clicked = false
+    private lateinit var mPrefs: SharedPreferences
+    private val welcomeScreenShownPref = "welcomeScreenShown"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,11 +62,18 @@ class MainActivity : AppCompatActivity() {
         welcomeText!!.movementMethod = ScrollingMovementMethod()
     }
 
-    fun dismisWelcomeMessageBox(view: View?) {
-        introMessage!!.visibility = View.INVISIBLE
-        appContent!!.visibility = View.VISIBLE
+    fun dismissWelcomeMessageBox(view: View?) {
 
-        showMainLayout()
+        if(!clicked){
+            clicked = true
+            welcomeText!!.text = getString(R.string.whatsNew)
+        } else {
+            introMessage!!.visibility = View.INVISIBLE
+            appContent!!.visibility = View.VISIBLE
+
+            showMainLayout()
+            clicked = false
+        }
     }
 
     private fun showMainLayout() {

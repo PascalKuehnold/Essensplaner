@@ -29,8 +29,8 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
     private lateinit var btnAddItem: FloatingActionButton
     private lateinit var textViewLeftPositions: TextView
 
-    var firstVisibleRow: Int = 0
-    var lastVisibleRow: Int = 0
+    private var firstVisibleRow: Int = 0
+    private var lastVisibleRow: Int = 0
 
     private var leftItems: Int = 0
 
@@ -364,9 +364,5 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
     override fun onScroll(view: AbsListView?, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
         firstVisibleRow = listEinkaufsliste.firstVisiblePosition
         lastVisibleRow = listEinkaufsliste.lastVisiblePosition
-        for (i in firstVisibleRow..lastVisibleRow) {
-            //Write your code here(allocation/deallocation/store in array etc.)
-            println(i.toString() + "=" + listEinkaufsliste.getItemAtPosition(i))
-        }
     }
 }

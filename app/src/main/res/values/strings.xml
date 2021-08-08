@@ -61,7 +61,23 @@
     <string name="aboutText">©Pascal Kühnold\nThis app is developed by Pascal Kühnold.</string>
 
     <string name="iconAttribution"><div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
-    <string name="welcomeText">v0.4.0-DEMO\nHey, vielen Dank, dass du meine App testest!\n\nDie App befindet sich noch in der Entwicklung, daher ist es möglich, dass du auf Probleme stoßen könntest.\n\nFalls dem so ist, würde ich mich freuen, wenn du mir sagen könntest wo dieses Problem aufgetaucht ist.\nFalls es zu schwerwiegenden Fehlern kommen sollte, wie z.B. der Absturz der App, bitte ich auch um eine Nachricht.\nAm besten wäre es, wenn du hinzufügst, wo es passiert ist und was du vor dem Absturz gemacht hast.\n\nDa sich die App noch in der Entwicklung befindet, kann es sein dass im Verlauf größere Teile im Hintergrund geändert werden, was dazu führen kann, dass die App eine Neuinstallation benötigt.\n\nDabei werden sämtliche, vorher eingetragenen Daten gelöscht. Bitte sei dir dessen bewusst.\n\nBei Verbesserungsvorschlägen oder Ideen, kannst du dich gerne auch an mich wenden. (Dazu zählt auch die Benutzerfreundlichkeit, Aussehen)\n\nViel Spaß beim Testen!\nPascal</string>
+    <string name="welcomeText">v0.4.5\nHey, vielen Dank, dass du meine App testest!\n\nDie App befindet sich noch in der Entwicklung, daher ist es möglich, dass du auf Probleme stoßen könntest.\n\nFalls dem so ist, würde ich mich freuen, wenn du mir sagen könntest wo dieses Problem aufgetaucht ist.\nFalls es zu schwerwiegenden Fehlern kommen sollte, wie z.B. der Absturz der App, bitte ich auch um eine Nachricht.\nAm besten wäre es, wenn du hinzufügst, wo es passiert ist und was du vor dem Absturz gemacht hast.\n\nDa sich die App noch in der Entwicklung befindet, kann es sein dass im Verlauf größere Teile im Hintergrund geändert werden, was dazu führen kann, dass die App eine Neuinstallation benötigt.\n\nDabei werden sämtliche, vorher eingetragenen Daten gelöscht. Bitte sei dir dessen bewusst.\n\nBei Verbesserungsvorschlägen oder Ideen, kannst du dich gerne auch an mich wenden. (Dazu zählt auch die Benutzerfreundlichkeit, Aussehen)\n\nViel Spaß beim Testen!\nPascal</string>
+    <string name="whatsNew">Was kann getan werden?\n\n
+        - Es können Gerichte erstellt werden\n\n
+        - Es können Gerichte bearbeitet werden\n\n
+        - Es können Gerichte gelöscht werden\n\n
+        - Es können einzelne Zutaten zu den Gerichten hinzugefügt werden\n\n
+        - Es können einzelne Zutaten bearbeitet werden (Name ändern)\n\n
+        - Es können einzelne Zutaten gelöscht werden\n\n
+        - Der Wochenplaner erstellt für 7 Tage Gerichte, (Es müssen mindestens 7 Gerichte angelegt sein)\n\n
+        - Den Wochenplaner gibt es auch in der Veggie Version (Pfeil in der Titelleiste)\n\n
+        - Es können Informationen zum Gericht aufgerufen werden(innerhalb der Listen)\n\n
+        - Es können Zutaten zur Einkaufsliste hinzugefügt werden\n\n
+        - Über die Gerichteliste können die Zutaten aus einem Gericht zur Einkaufsliste hinzugefügt werden\n\n
+        - Positionen in der Einkaufsliste können als erledigt markiert werden\n\n
+        - In der Einkaufsliste hat der Benutzer einen Überblick, wieviele Positionen noch nicht abgehakt sind\n\n
+    </string>
+
     <string name="alles_klar">Alles klar</string>
     <string name="welcomeHeadline">Willkommen beim Essensplaner</string>
     <string name="dontDisplayAnymore">Nicht mehr anzeigen</string>

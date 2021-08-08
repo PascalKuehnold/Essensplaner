@@ -17,14 +17,13 @@ import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
+import java.util.*
 
 
 //TODO sort algorithm
 class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var listView: ListView
     private lateinit var searchView: SearchView
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,12 +33,8 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         supportActionBar?.setTitle(R.string.deine_gerichte)
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
 
-
         searchView = findViewById(R.id.sbGerichteListe)
         listView = findViewById(R.id.gerichteAnzeige)
-
-
-
 
         val btnAddGerichteButton = findViewById<FloatingActionButton>(R.id.floatingActionButton)
         btnAddGerichteButton.setOnClickListener{
@@ -60,9 +55,39 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             // Apply the adapter to the spinner
             spinner.adapter = adapter
+
+        }
+        spinner.onItemSelectedListener = object :
+                AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>,
+                                        view: View, position: Int, id: Long) {
+                Toast.makeText(this@GerichteListeActivity,
+                        "Sortiert nach {$position}", Toast.LENGTH_SHORT).show()
+                val sortedGerichte = getGerichteListe().toMutableList()
+                when(position){
+                    0 -> {
+                        refreshGerichteListe()
+                    }
+                    1 -> {
+                        sortedGerichte.sortBy{it.gerichtName}
+                        sortGerichteListe(sortedGerichte)
+                    }
+                    2 -> {
+                        sortedGerichte.sortByDescending{it.gerichtName}
+                        sortGerichteListe(sortedGerichte)
+                    }
+                    3 -> {
+                        sortedGerichte.sortByDescending{it.isVegetarisch}
+                        sortGerichteListe(sortedGerichte)
+                    }
+                }
+
+            }
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // write code to perform some action
+            }
         }
         refreshGerichteListe()
-
     }
 
 
@@ -74,25 +99,20 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
     private fun refreshGerichteListe(){
         val gerichteListe = getGerichteListe()
 
+        val sortedGerichte = gerichteListe.toMutableList()
+        sortedGerichte.sortBy { it.gerichtName }
 
-        //for(i in 1..100) {
-        //    val gericht = Gericht(0, "Gericht $i", "Zutat $i", true)
-        //   gerichtDao.insert(gericht)
-        //}
-//        val listItems = arrayOfNulls<String>(gerichteListe.size)
-//
-//        for(i in gerichteListe.indices){
-//            val gericht = gerichteListe[i]
-//            listItems[i] = gericht.gerichtName
-//        }
-
-        val adapter = CustomAdapter(gerichteListe, this, this)
-
+        val adapter = CustomAdapter(sortedGerichte, this, this)
 
         listView.adapter = adapter
         adapter.notifyDataSetChanged()
+    }
 
+    private fun sortGerichteListe(tempGerichteListe: MutableList<Gericht>){
+        val adapter = CustomAdapter(tempGerichteListe, this, this)
 
+        listView.adapter = adapter
+        adapter.notifyDataSetChanged()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -105,7 +125,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         return super.onOptionsItemSelected(item)
     }
 
-    fun getGerichteListe(): List<Gericht> {
+    private fun getGerichteListe(): List<Gericht> {
         val gerichtDao = AppDatabase.getDatabase(applicationContext).gerichtDao()
 
         return gerichtDao.getAll()

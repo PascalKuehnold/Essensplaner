@@ -35,13 +35,13 @@
         android:id="@+id/leftPositions"
         android:layout_width="wrap_content"
         android:layout_height="38dp"
+        android:layout_marginStart="5dp"
+        android:fontFamily="@font/architects_daughter_regular"
         android:text="@string/leftPositions"
         android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:textSize="18sp"
-        android:layout_marginStart="5dp"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnDeleteList"
