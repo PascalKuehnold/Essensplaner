@@ -21,7 +21,7 @@ interface EinkaufslisteDao {
     fun delete(zutat: Zutat)
 
     @Insert
-    suspend fun insert(zutat: Zutat)
+    fun insert(zutat: Zutat)
 
     @Update
     fun update(zutat: Zutat)

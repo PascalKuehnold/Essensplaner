@@ -19,7 +19,9 @@ import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
+import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import de.pascalkuehnold.essensplaner.interfaces.GerichtDao
+import java.util.*
 
 
 class GerichtHinzufuegenActivity : AppCompatActivity(){
@@ -38,18 +40,10 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         supportActionBar?.setTitle(R.string.gericht_hinzuf_gen)
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
 
-        val btnHinzufuegen = findViewById<Button>(R.id.btnHinzufuegenGericht)
         textInputGericht = findViewById(R.id.textInputTextGericht)
-        btnZutatHinzufuegen = findViewById(R.id.btnZutatHinzufügen)
-        btnZutatHinzufuegen.setOnClickListener{
-            zutatHinzufuegen()
-        }
+        textInputGericht.maxLines = 2
 
-
-
-
-
-        switchVegetarisch = findViewById(R.id.switchVegetarisch)
+        val btnHinzufuegen = findViewById<Button>(R.id.btnHinzufuegenGericht)
 
         btnHinzufuegen.setOnClickListener {
             btnHinzufuegen.requestFocus()
@@ -69,6 +63,13 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
                 Toast.makeText(this, getString(R.string.textErrorAtMealAdd), Toast.LENGTH_SHORT).show()
             }
         }
+
+        btnZutatHinzufuegen = findViewById(R.id.btnZutatHinzufügen)
+        btnZutatHinzufuegen.setOnClickListener{
+            zutatHinzufuegen()
+        }
+
+        switchVegetarisch = findViewById(R.id.switchVegetarisch)
 
         textInputGericht.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
@@ -97,12 +98,22 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
 
         builder.setPositiveButton(R.string.hinzuf_gen) { _, _ ->
             if(!input.text.isNullOrEmpty()){
-                val inputText = input.text.toString().replace(',', ' ').trim()
+                val reg = Regex("\\s*,\\s*")
+                val inputText = input.text.toString().trim().replace(reg, "\n")
 
-                inputText.split("\\s*,\\s*")
+                //val items = inputText.split("\\s*,\\s*")
+                val items = inputText.lines()
+
+                for(item in items){
+                    val capItem = item.capitalize(Locale.getDefault())
+
+                    textZutaten += "$capItem,"
+
+                    Toast.makeText(this, "Item" + " " + capItem + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
+                }
                 Toast.makeText(this, getString(R.string.zutat) + " " + inputText + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
 
-                textZutaten += "$inputText,"
+
                 zutatHinzufuegen()
             } else {
                 Toast.makeText(this, "TODO()005 Keine Eingabe...", Toast.LENGTH_SHORT).show()

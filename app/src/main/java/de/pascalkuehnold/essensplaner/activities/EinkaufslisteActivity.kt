@@ -1,13 +1,10 @@
 package de.pascalkuehnold.essensplaner.activities
 
 import android.annotation.SuppressLint
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.InputType
@@ -16,26 +13,26 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.isVisible
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import de.pascalkuehnold.essensplaner.interfaces.EinkaufslisteDao
-import de.pascalkuehnold.essensplaner.layout.CustomZutatenAdapter
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
+class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsListView.OnScrollListener{
     private lateinit var listEinkaufsliste: ListView
     private lateinit var einkaufsliste: ArrayList<Zutat>
     private lateinit var btnListDelete: Button
     private lateinit var btnAddItem: FloatingActionButton
+    private lateinit var textViewLeftPositions: TextView
 
+    var firstVisibleRow: Int = 0
+    var lastVisibleRow: Int = 0
+
+    private var leftItems: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,8 +43,11 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
 
         listEinkaufsliste = findViewById(R.id.listViewEinkaufsliste)
+        listEinkaufsliste.setOnScrollListener(this)
+
         btnListDelete = findViewById(R.id.btnDeleteList)
         btnAddItem = findViewById(R.id.btnAddItem)
+        textViewLeftPositions = findViewById(R.id.leftPositions)
 
 
         btnListDelete.setOnClickListener{
@@ -91,13 +91,11 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
                     for(item in items){
                         val capItem = item.capitalize(Locale.getDefault())
 
-                        val tempZutat = Zutat(0, capItem,false)
+                        val tempZutat = Zutat(0, capItem, false)
                         addItem(tempZutat)
 
                         Toast.makeText(this, "Item" + " " + capItem + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
                     }
-
-
                 } else {
                     Toast.makeText(this, "TODO()005 Keine Eingabe...", Toast.LENGTH_SHORT).show()
                 }
@@ -115,8 +113,6 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
 
         loadEinkaufsliste()
         generateListOnScreen()
-
-
     }
 
     private fun createConnection(): EinkaufslisteDao {
@@ -127,6 +123,19 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
         val einkaufslisteDao = createConnection()
 
         einkaufsliste = einkaufslisteDao.getAll() as ArrayList<Zutat>
+
+
+        for(pos: Zutat in einkaufsliste){
+            if(!pos.isChecked){
+                leftItems++
+            }
+        }
+        val tempString = String.format(getString(R.string.leftPositions), leftItems)
+
+
+        textViewLeftPositions.text = tempString
+
+        leftItems = 0
         println("Wochenplaner >> loadWeekgerichte() -> Daten wurden geladen")
     }
 
@@ -153,6 +162,7 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
 
         loadEinkaufsliste()
         generateListOnScreen()
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -191,8 +201,12 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
 
             loadEinkaufsliste()
             generateListOnScreen()
+
+            listEinkaufsliste.setSelection(firstVisibleRow)
         }
     }
+
+
 
     override fun onBackPressed() {
         super.onBackPressed()
@@ -247,6 +261,8 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
                 zutatenName.text = mZutaten[position].zutatenName
                 if(mZutaten[position].isChecked){
                     zutatenName.paintFlags = zutatenName.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                } else {
+                    zutatenName.paintFlags = 0
                 }
             }
 
@@ -341,4 +357,16 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener{
 
     }
 
+    override fun onScrollStateChanged(view: AbsListView?, scrollState: Int) {
+
+    }
+
+    override fun onScroll(view: AbsListView?, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
+        firstVisibleRow = listEinkaufsliste.firstVisiblePosition
+        lastVisibleRow = listEinkaufsliste.lastVisiblePosition
+        for (i in firstVisibleRow..lastVisibleRow) {
+            //Write your code here(allocation/deallocation/store in array etc.)
+            println(i.toString() + "=" + listEinkaufsliste.getItemAtPosition(i))
+        }
+    }
 }
