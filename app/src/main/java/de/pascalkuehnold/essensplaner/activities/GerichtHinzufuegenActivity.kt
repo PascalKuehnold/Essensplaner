@@ -168,7 +168,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
 
 
         val gerichtDao = createConnection()
-        val newGericht = Gericht(0, gerichtName, tempZutaten, isVegetarisch)
+        val newGericht = Gericht(0, gerichtName.capitalize(Locale.getDefault()), tempZutaten, isVegetarisch)
 
         gerichtDao.insertAll(newGericht)
         println("GerichtHandler >> " + newGericht.gerichtName + " was added successfully")

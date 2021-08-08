@@ -99,9 +99,10 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
     private fun refreshGerichteListe(){
         val gerichteListe = getGerichteListe()
 
-
         val adapter = CustomAdapter(gerichteListe, this, this)
 
+
+        sortedGerichte = getGerichteListe().toMutableList()
         listView.adapter = adapter
         adapter.notifyDataSetChanged()
     }
