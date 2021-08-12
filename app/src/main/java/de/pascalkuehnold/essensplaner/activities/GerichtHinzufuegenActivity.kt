@@ -17,15 +17,16 @@ import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
-import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import de.pascalkuehnold.essensplaner.interfaces.GerichtDao
 import java.util.*
 
 
 class GerichtHinzufuegenActivity : AppCompatActivity(){
-    private var gerichtName = ""
-    private var textZutaten = ""
-    private var isVegetarisch = false
+    private var mealName = ""
+    private var mealIngredient = ""
+    private var mealIsVeggie = false
+    private var mealIsForMultipleDays = false
+    private var mealIsFastPrepared = false
 
     private lateinit var textInputGericht: TextInputEditText
     private lateinit var btnZutatHinzufuegen: Button
@@ -48,15 +49,21 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         btnHinzufuegen.setOnClickListener {
             btnHinzufuegen.requestFocus()
 
-            this.gerichtName = textInputGericht.text.toString()
-            this.isVegetarisch = switchVegetarisch.isChecked
+            this.mealName = textInputGericht.text.toString()
+            this.mealIsVeggie = switchVegetarisch.isChecked
+            this.mealIsFastPrepared = switchFastPreperation.isChecked
+            this.mealIsForMultipleDays = switchMultipleDays.isChecked
 
-            if (this.gerichtName.isNotEmpty()) {
-                println("GerichteHinzufuegenActivity >> " + this.gerichtName + " Zutaten: " + this.textZutaten + " Vegetarisch: " + this.isVegetarisch)
+            if (this.mealName.isNotEmpty()) {
+                println("GerichteHinzufuegenActivity >> " + this.mealName +
+                        " Zutaten: " + this.mealIngredient +
+                        " Vegetarisch: " + this.mealIsVeggie +
+                        " Schnelles Gericht: " + this.mealIsFastPrepared +
+                        " Mehrere Tage: " + this.mealIsForMultipleDays)
                 try {
                     addGericht()
                 } catch (e: SQLiteConstraintException) {
-                    Toast.makeText(this, this.gerichtName + " " + getString(R.string.textAlreadyInList), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, this.mealName + " " + getString(R.string.textAlreadyInList), Toast.LENGTH_SHORT).show()
                 }
                 cleanInput()
             } else {
@@ -71,7 +78,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
 
         switchVegetarisch = findViewById(R.id.switchVegetarisch)
         switchMultipleDays = findViewById(R.id.switchMultipleDays)
-        switchFastPreperation = findViewById(R.id.switchShortDays)
+        switchFastPreperation = findViewById(R.id.switchFastPreperation)
 
         textInputGericht.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
@@ -109,7 +116,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
                 for(item in items){
                     val capItem = item.capitalize(Locale.getDefault())
 
-                    textZutaten += "$capItem,"
+                    mealIngredient += "$capItem,"
 
                     Toast.makeText(this, "Item" + " " + capItem + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
                 }
@@ -150,7 +157,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         switchVegetarisch.isChecked = false
         switchMultipleDays.isChecked = false
         switchFastPreperation.isChecked = false
-        textZutaten = ""
+        mealIngredient = ""
 
         textInputGericht.requestFocus()
         textInputGericht.showSoftKeyboard()
@@ -166,17 +173,24 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
     //method for adding a new meal
     private fun addGericht(){
         var tempZutaten = ""
-        if(textZutaten.endsWith(',')){
-            tempZutaten = textZutaten.removeSuffix(','.toString())
+        if(mealIngredient.endsWith(',')){
+            tempZutaten = mealIngredient.removeSuffix(','.toString())
         }
 
 
         val gerichtDao = createConnection()
-        val newGericht = Gericht(0, gerichtName.capitalize(Locale.getDefault()), tempZutaten, isVegetarisch)
+        val newGericht = Gericht(
+                0,
+                mealName.capitalize(Locale.getDefault()),
+                tempZutaten,
+                mealIsVeggie,
+                mealIsForMultipleDays,
+                mealIsFastPrepared
+        )
 
         gerichtDao.insertAll(newGericht)
         println("GerichtHandler >> " + newGericht.gerichtName + " was added successfully")
-        Toast.makeText(this, this.gerichtName + " " + getString(R.string.wasAddedText), Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, this.mealName + " " + getString(R.string.wasAddedText), Toast.LENGTH_SHORT).show()
     }
 
 

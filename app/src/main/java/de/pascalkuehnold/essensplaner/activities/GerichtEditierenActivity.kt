@@ -13,15 +13,14 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.SwitchCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
-import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerVeggieDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
-import de.pascalkuehnold.essensplaner.interfaces.EinkaufslisteDao
 import de.pascalkuehnold.essensplaner.layout.CustomZutatenAdapter
 import kotlinx.coroutines.runBlocking
 
@@ -31,15 +30,21 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var inputFieldGericht: TextInputEditText
     private lateinit var oldGerichtName: TextView
     private lateinit var listViewZutaten: ListView
-    private lateinit var switchVegetarisch: CheckBox
+    private lateinit var switchVegetarisch: SwitchCompat
+    private lateinit var switchMultipleDays: SwitchCompat
+    private lateinit var switchFastPreperation: SwitchCompat
+
     private lateinit var btnSubmit: Button
     private lateinit var btnDeleteGericht: AppCompatButton
     private lateinit var btnZutatHinzufuegen: FloatingActionButton
 
 
-    private var gerichtName =""
-    private var zutatenListe = ""
-    private var isVegetarisch = false
+    private var mealName =""
+    private var mealIngredients = ""
+    private var mealIsVeggie = false
+    private var mealIsForMultipleDays = false
+    private var mealIsFastPrepared = false
+
     private var newGericht: Gericht? = null
     private lateinit var adapter: CustomZutatenAdapter
 
@@ -61,6 +66,9 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
         oldGerichtName = findViewById(R.id.gerichtAlterName)
         listViewZutaten = findViewById(R.id.listViewZutatenlisteGerichtAendern)
         switchVegetarisch = findViewById(R.id.switchGerichteEditierenVegetarisch)
+        switchMultipleDays = findViewById(R.id.switchMultipleDays)
+        switchFastPreperation = findViewById(R.id.switchFastPreperation)
+
         btnSubmit = findViewById(R.id.btnSubmit)
         btnDeleteGericht = findViewById(R.id.btnDeleteGericht)
         btnZutatHinzufuegen = findViewById(R.id.btnAddZutat)
@@ -119,33 +127,51 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
 
             if (tempGericht != null) {
                 oldGerichtName.text = tempGericht.gerichtName
-                gerichtName = tempGericht.gerichtName
-                zutatenListe = tempGericht.zutaten
-                isVegetarisch = tempGericht.isVegetarisch
+                mealName = tempGericht.gerichtName
+                mealIngredients = tempGericht.zutaten
+                mealIsVeggie = tempGericht.isVegetarisch
+                mealIsForMultipleDays = tempGericht.mehrereTage
+                mealIsFastPrepared = tempGericht.schnellesGericht
             }
 
-            switchVegetarisch.isChecked = isVegetarisch
+            switchVegetarisch.isChecked = mealIsVeggie
+            switchMultipleDays.isChecked = mealIsForMultipleDays
+            switchFastPreperation.isChecked = mealIsFastPrepared
         }
 
         //TODO Method for changing the meal name
 
         //sets the hint text of the meal name
-        inputFieldGericht.hint = gerichtName
+        inputFieldGericht.hint = mealName
 
         //fills the array of ingredients by seperating it
         //if there is nothing to seperate, the array is filled with one item
         try{
-            zutaten = zutatenListe.split(",") as ArrayList<String>
+            zutaten = mealIngredients.split(",") as ArrayList<String>
         } catch (e: Exception){
             zutaten = ArrayList()
-            if(!zutatenListe.isEmpty()){
-                zutaten.add(zutatenListe)
+            if(mealIngredients.isNotEmpty()){
+                zutaten.add(mealIngredients)
             }
         }
 
         //for the checkbox if the meal is vegetarian or not
         switchVegetarisch.setOnCheckedChangeListener{ _, isChecked ->
-            isVegetarisch = isChecked
+            mealIsVeggie = isChecked
+            isSaved = false
+            changeGericht(createNewZutatenString(zutaten))
+        }
+
+        //for the checkbox if the meal can be for multiple days or not
+        switchMultipleDays.setOnCheckedChangeListener{ _, isChecked ->
+            mealIsForMultipleDays = isChecked
+            isSaved = false
+            changeGericht(createNewZutatenString(zutaten))
+        }
+
+        //for the checkbox if the meal can be fast prepared
+        switchFastPreperation.setOnCheckedChangeListener{ _, isChecked ->
+            mealIsFastPrepared = isChecked
             isSaved = false
             changeGericht(createNewZutatenString(zutaten))
         }
@@ -160,7 +186,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
         inputFieldGericht.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
                 hideSoftKeyboard(v)
-                gerichtName = inputFieldGericht.text.toString()
+                mealName = inputFieldGericht.text.toString()
                 isSaved = false
                 changeGericht(createNewZutatenString(zutaten))
             }
@@ -176,7 +202,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
             alert.setMessage(getString(R.string.deleteGerichtText))
                     .setPositiveButton(R.string.delete) { _: DialogInterface, _: Int ->
                         val tempDao = AppDatabase.getDatabase(applicationContext).gerichtDao()
-                        val tempGericht = tempDao.findByName(gerichtName)
+                        val tempGericht = tempDao.findByName(mealName)
 
                         val wochenPlanerDao = WochenplanerDatabase.getDatabase(applicationContext).wochenGerichteDao()
                         val wochenPlanerVeggieDao = WochenplanerVeggieDatabase.getDatabase(applicationContext).wochenGerichteVeggieDao()
@@ -238,7 +264,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
     //Method for changing the entire meal
     fun changeGericht(inZutaten: String){
 
-        newGericht = Gericht(gerichtID, gerichtName, inZutaten, isVegetarisch)
+        newGericht = Gericht(gerichtID, mealName, inZutaten, mealIsVeggie, mealIsForMultipleDays, mealIsFastPrepared)
         isSaved = false
     }
 
@@ -246,7 +272,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
     //Method was modified to alert the user if the changes were not saved
     override fun onBackPressed() {
         if(!inputFieldGericht.text.isNullOrBlank()){
-            gerichtName = inputFieldGericht.text.toString()
+            mealName = inputFieldGericht.text.toString()
             changeGericht(createNewZutatenString(zutaten))
         }
 

@@ -8,6 +8,7 @@
     android:focusableInTouchMode="true"
     android:focusable="true">
 
+    <!-- TextView Namen ändern -->
     <TextView
         android:id="@+id/gerichtAlterName"
         android:layout_width="wrap_content"
@@ -26,7 +27,7 @@
         android:focusable="true"
         />
 
-
+    <!-- Divider für oben -->
     <View
         android:id="@+id/divider6"
         android:layout_width="match_parent"
@@ -39,6 +40,7 @@
         android:focusable="true"
         />
 
+    <!-- TextView fürs Bearbeiten des Namens -->
     <TextView
         android:id="@+id/gerichtBearbeitenName"
         android:layout_width="wrap_content"
@@ -56,6 +58,7 @@
         android:focusable="true"
         />
 
+    <!-- Button fürs Löschen des Gerichtes -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnDeleteGericht"
         android:layout_width="48dp"
@@ -63,10 +66,10 @@
         android:layout_alignParentEnd="true"
         android:background="@drawable/ic_delete"
         android:clickable="true"
-        android:focusable="true"
-        />
+        android:focusable="true" />
 
 
+    <!-- TextInputLayout für den Namen -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutGericht"
         android:layout_width="match_parent"
@@ -78,11 +81,12 @@
         android:layout_below="@id/gerichtBearbeitenName"
         >
 
+        <!-- TextInputField für den Namen -->
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textGerichtEditierenName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:backgroundTint="@color/newHeaderColor"
+            android:background="@color/newHeaderColor"
             android:clickable="true"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -93,11 +97,9 @@
             android:textColor="@color/white"
             android:textColorHint="@color/newBackgroundColor"
             />
-
-
-
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- TextView für die Headline Zutaten ändern: -->
     <TextView
         android:id="@+id/gerichtBearbeitenZutaten"
         android:layout_width="wrap_content"
@@ -107,13 +109,12 @@
         android:text="@string/zutaten_ndern"
         android:textSize="@dimen/maxFontSize"
         android:textColor="@color/white"
-
-
         android:clickable="true"
         android:focusableInTouchMode="true"
         android:focusable="true"
         />
 
+    <!-- Divider nach Headline Zutaten ändern -->
     <View
         android:id="@+id/divider7"
         android:layout_width="match_parent"
@@ -126,77 +127,143 @@
         android:focusable="true"
         />
 
-    <ListView
-        android:id="@+id/listViewZutatenlisteGerichtAendern"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <!-- RelativeLayout für die ListView und den Button zum Zutaten adden -->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/divider7"
         android:layout_above="@id/divider8"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginEnd="10dp"
-        android:divider="@drawable/gradient_white_to_blue"
-        android:dividerHeight="@dimen/cardview_compat_inset_shadow"
-
-        android:clickable="true"
-        android:focusable="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="5dp"
         >
 
-    </ListView>
 
+        <!-- ListView für die Zutaten -->
+        <ListView
+            android:id="@+id/listViewZutatenlisteGerichtAendern"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            android:divider="@drawable/gradient_white_to_blue"
+            android:dividerHeight="@dimen/cardview_compat_inset_shadow"
+
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_above="@id/btnAddZutat"
+            android:layout_marginBottom="-30dp"
+            >
+
+        </ListView>
+
+        <!-- Button zum hinzufügen für Zutaten -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnAddZutat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:clickable="true"
+            android:contentDescription="@string/add_ingredient"
+            android:focusable="true"
+            android:src="@android:drawable/ic_input_add"
+            app:fabCustomSize="30dp"
+            />
+
+    </RelativeLayout>
+
+    <!-- Divider nach dem RelativeLayout -->
     <View
         android:id="@+id/divider8"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_above="@id/btnAddZutat"
+        android:layout_above="@id/tvVegetarisch"
         android:background="?android:attr/listDivider" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnAddZutat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/tvVegetarisch"
-        android:layout_centerHorizontal="true"
-        app:fabCustomSize="30dp"
-        android:contentDescription="@string/add_ingredient"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:src="@android:drawable/ic_input_add"
-
-        android:clickable="true"
-        android:focusable="true"
-        />
-
+    <!-- TextView für den Vegetarisch Text -->
     <TextView
         android:id="@+id/tvVegetarisch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@id/switchGerichteEditierenVegetarisch"
+        android:layout_above="@id/tvMultipleDays"
         android:text="@string/vegetarisch"
         android:textColor="@color/white"
-        android:textSize="@dimen/maxFontSize"
-
-
+        android:textSize="18sp"
+        android:layout_marginStart="40dp"
         android:clickable="true"
         android:focusableInTouchMode="true"
-        android:focusable="true"
+        android:focusable="true" />
 
-        />
-
-    <android.widget.CheckBox
+    <!-- Switch für Vegetarisch -->
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switchGerichteEditierenVegetarisch"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="18dp"
         android:layout_centerHorizontal="true"
-        android:layout_above="@id/btnSubmit"
-        android:layout_marginBottom="25dp"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@id/tvMultipleDays"
+        android:layout_marginEnd="40dp"
 
         android:clickable="true"
-        android:focusable="true"
-        />
+        android:focusable="true" />
 
+    <!-- TextView für Mehrere Tage -->
+    <TextView
+        android:id="@+id/tvMultipleDays"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tvShortDays"
+        android:text="@string/f_r_mehr_als_einen_tag"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:layout_marginStart="40dp"
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true" />
+
+    <!-- Switch für Mehrere Tage -->
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchMultipleDays"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@id/tvShortDays"
+        android:layout_marginEnd="40dp"
+
+        android:clickable="true"
+        android:focusable="true" />
+
+    <!-- TextView für Schnelle Zubereitung -->
+    <TextView
+        android:id="@+id/tvShortDays"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btnSubmit"
+        android:text="@string/schnelle_zubereitung"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:layout_marginStart="40dp"
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true" />
+
+    <!-- Switch für Schnelle Zubereitung -->
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchFastPreperation"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@id/btnSubmit"
+        android:layout_marginEnd="40dp"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <!-- Button fürs abschicken der Änderungen -->
     <Button
         android:id="@+id/btnSubmit"
         android:layout_width="wrap_content"
@@ -205,9 +272,7 @@
         android:layout_centerHorizontal="true"
         android:text="@string/aendern"
         android:layout_marginBottom="40dp"
-        android:backgroundTint="@color/newHeaderColor"
-
-
+        android:background="@color/newHeaderColor"
         android:clickable="true"
         android:focusable="true"
         />
