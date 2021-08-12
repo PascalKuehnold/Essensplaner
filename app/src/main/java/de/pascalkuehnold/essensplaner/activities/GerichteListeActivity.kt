@@ -61,8 +61,6 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                 AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>,
                                         view: View, position: Int, id: Long) {
-                Toast.makeText(this@GerichteListeActivity,
-                        "Sortiert nach {$position}", Toast.LENGTH_SHORT).show()
                 sortedGerichte = getGerichteListe().toMutableList()
                 when(position){
                     0 -> {
@@ -140,9 +138,9 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
 
         AlertDialog.Builder(this)
-                .setMessage("Gericht Name: $gerichtName\n\nZutaten: $gerichtZutaten")
+                .setMessage(getString(R.string.gerichtNameInfo) + gerichtName + "\n\n" + getString(R.string.zutatenInfo) + gerichtZutaten)
                 .setCancelable(true)
-                .setTitle("Informationen:")
+                .setTitle(getString(R.string.information))
                 .setIcon(R.drawable.ic_info)
                 .create()
                 .show()

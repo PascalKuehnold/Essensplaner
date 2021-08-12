@@ -8,9 +8,6 @@
     android:focusableInTouchMode="true"
     android:focusable="true">
 
-
-
-
     <TextView
         android:id="@+id/gerichtAlterName"
         android:layout_width="wrap_content"
@@ -73,12 +70,10 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutGericht"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
-        android:layout_centerHorizontal="true"
-        app:boxCornerRadiusTopEnd="10dp"
-        app:boxCornerRadiusTopStart="10dp"
+
         android:layout_marginBottom="20dp"
         android:layout_below="@id/gerichtBearbeitenName"
         >
@@ -87,17 +82,16 @@
             android:id="@+id/textGerichtEditierenName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            android:maxLines="2"
-            android:paddingTop="10dp"
-            android:gravity="center_horizontal|center_vertical"
             android:backgroundTint="@color/newHeaderColor"
-            android:textColorHint="@color/newBackgroundColor"
-            android:textColor="@color/white"
-
             android:clickable="true"
-            android:focusableInTouchMode="true"
             android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_horizontal|center_vertical"
+            android:maxLines="2"
+
+            android:scrollbars="vertical"
+            android:textColor="@color/white"
+            android:textColorHint="@color/newBackgroundColor"
             />
 
 

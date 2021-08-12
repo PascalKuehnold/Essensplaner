@@ -9,12 +9,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
 import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
@@ -31,7 +29,9 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
 
     private lateinit var textInputGericht: TextInputEditText
     private lateinit var btnZutatHinzufuegen: Button
-    private lateinit var switchVegetarisch: CheckBox
+    private lateinit var switchVegetarisch: SwitchCompat
+    private lateinit var switchMultipleDays: SwitchCompat
+    private lateinit var switchFastPreperation: SwitchCompat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +70,8 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         }
 
         switchVegetarisch = findViewById(R.id.switchVegetarisch)
+        switchMultipleDays = findViewById(R.id.switchMultipleDays)
+        switchFastPreperation = findViewById(R.id.switchShortDays)
 
         textInputGericht.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
@@ -146,6 +148,8 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
     private fun cleanInput(){
         textInputGericht.text?.clear()
         switchVegetarisch.isChecked = false
+        switchMultipleDays.isChecked = false
+        switchFastPreperation.isChecked = false
         textZutaten = ""
 
         textInputGericht.requestFocus()

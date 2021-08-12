@@ -86,4 +86,9 @@
     <string name="einkaufsliste_background_texture">einkaufsliste_background_texture</string>
     <string name="is_checked_in_list">Is checked in list</string>
     <string name="leftPositions">Noch offen: %1$d</string>
+    <string name="f_r_mehr_als_einen_tag">Für mehr als einen Tag</string>
+    <string name="schnelle_zubereitung">Schnelle Zubereitung</string>
+    <string name="gerichtNameInfo">Gerichtname:</string>
+    <string name="zutatenInfo">Zutaten:</string>
+    <string name="information">Information</string>
 </resources>

@@ -90,10 +90,10 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textGerichtEditierenName"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:scrollbars="vertical"
             android:maxLines="2"
-            android:gravity="center_horizontal|center_vertical"
+            android:gravity="center_horizontal"
             android:background="@color/newHeaderColor"
             android:textColorHint="@color/newBackgroundColor"
             android:textColor="@color/white"

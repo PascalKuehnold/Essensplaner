@@ -138,7 +138,9 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
             zutaten = zutatenListe.split(",") as ArrayList<String>
         } catch (e: Exception){
             zutaten = ArrayList()
-            zutaten.add(zutatenListe)
+            if(!zutatenListe.isEmpty()){
+                zutaten.add(zutatenListe)
+            }
         }
 
         //for the checkbox if the meal is vegetarian or not

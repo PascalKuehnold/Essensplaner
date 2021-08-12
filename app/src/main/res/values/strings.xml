@@ -61,30 +61,47 @@
     <string name="aboutText">©Pascal Kühnold\nThis app is developed by Pascal Kühnold.</string>
 
     <string name="iconAttribution"><div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
-    <string name="welcomeText">v0.4.5\nHey, vielen Dank, dass du meine App testest!\n\nDie App befindet sich noch in der Entwicklung, daher ist es möglich, dass du auf Probleme stoßen könntest.\n\nFalls dem so ist, würde ich mich freuen, wenn du mir sagen könntest wo dieses Problem aufgetaucht ist.\nFalls es zu schwerwiegenden Fehlern kommen sollte, wie z.B. der Absturz der App, bitte ich auch um eine Nachricht.\nAm besten wäre es, wenn du hinzufügst, wo es passiert ist und was du vor dem Absturz gemacht hast.\n\nDa sich die App noch in der Entwicklung befindet, kann es sein dass im Verlauf größere Teile im Hintergrund geändert werden, was dazu führen kann, dass die App eine Neuinstallation benötigt.\n\nDabei werden sämtliche, vorher eingetragenen Daten gelöscht. Bitte sei dir dessen bewusst.\n\nBei Verbesserungsvorschlägen oder Ideen, kannst du dich gerne auch an mich wenden. (Dazu zählt auch die Benutzerfreundlichkeit, Aussehen)\n\nViel Spaß beim Testen!\nPascal</string>
-    <string name="whatsNew">Was kann getan werden?\n\n
-        - Es können Gerichte erstellt werden\n\n
-        - Es können Gerichte bearbeitet werden\n\n
-        - Es können Gerichte gelöscht werden\n\n
-        - Es können einzelne Zutaten zu den Gerichten hinzugefügt werden\n\n
-        - Es können einzelne Zutaten bearbeitet werden (Name ändern)\n\n
-        - Es können einzelne Zutaten gelöscht werden\n\n
-        - Der Wochenplaner erstellt für 7 Tage Gerichte, (Es müssen mindestens 7 Gerichte angelegt sein)\n\n
-        - Den Wochenplaner gibt es auch in der Veggie Version (Pfeil in der Titelleiste)\n\n
-        - Es können Informationen zum Gericht aufgerufen werden(innerhalb der Listen)\n\n
-        - Es können Zutaten zur Einkaufsliste hinzugefügt werden\n\n
-        - Über die Gerichteliste können die Zutaten aus einem Gericht zur Einkaufsliste hinzugefügt werden\n\n
-        - Positionen in der Einkaufsliste können als erledigt markiert werden\n\n
-        - In der Einkaufsliste hat der Benutzer einen Überblick, wieviele Positionen noch nicht abgehakt sind\n\n
+    <string name="welcomeText">v0.4.5\nHey, thanks a lot for testing my App!\n\n
+        The App is still in development and it could be possible that you may run into problems.\n\n
+        If so, I would appreciate it if you could tell me where this problem occurred.\n
+        Should you come across serious errors, such as the app crashing, please send me a message as well.\n
+        Also it would be best if you can add where it happened and what you were exactly doing.\n\n
+        Since the app is still under development, it is possible that larger parts of the backend side will change.\n
+        Which may mean that the App needs to be reinstalled.\n\n
+        All previously entered data will be deleted.\n
+        Please be aware of this.\n\n
+        If you have any suggestions or ideas to improve the App, please feel free to contact me.(This includes usability and appearance as well)\n\n
+        Have fun testing!\n
+        Pascal
+    </string>
+    <string name="whatsNew">What can you do?\n\n
+        - You can create meals\n\n
+        - You can edit meals\n\n
+        - You can delete meals\n\n
+        - You can add single ingredients to the meal\n\n
+        - You can edit the ingredients by name\n\n
+        - You can delete ingredients\n\n
+        - The weekly planner creates meals for 7 days(You must have 7 meals in the meal list)\n\n
+        - The weekly planner is also available as veggie only(just click the arrow on top where it says weekly planner)\n\n
+        - You can lookup the information about a meal(just click on it in the meal list)\n\n
+        - You can add ingredients or other things to the shopping list\n\n
+        - You can also add all of the ingredients for a meal to the shopping list with just one click(click on notice symbol)\n\n
+        - You can check the positions in the shopping list as done\n\n
+        - You can also see how many positions are not checked in the shopping list\n\n
     </string>
 
-    <string name="alles_klar">Alles klar</string>
-    <string name="welcomeHeadline">Willkommen beim Essensplaner</string>
-    <string name="dontDisplayAnymore">Nicht mehr anzeigen</string>
+    <string name="alles_klar">Alright</string>
+    <string name="welcomeHeadline">Welcome to the mealplanner</string>
+    <string name="dontDisplayAnymore">Don\'t show again</string>
     <string name="wochenplanerveggie">Weekly planner veggie</string>
     <string name="liste_loeschen">Delete List</string>
     <string name="add_an_item_to_the_list">Add an item to the list</string>
     <string name="einkaufsliste_background_texture">einkaufsliste_background_texture</string>
     <string name="is_checked_in_list">Is checked in list</string>
     <string name="leftPositions">Open Positions: %1$d</string>
+    <string name="f_r_mehr_als_einen_tag">Meal for multiple days</string>
+    <string name="schnelle_zubereitung">Fast preparation</string>
+    <string name="gerichtNameInfo">Meal name:</string>
+    <string name="zutatenInfo">Ingredients:</string>
+    <string name="information">Information</string>
 </resources>
