@@ -4,7 +4,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -14,7 +13,9 @@ import de.pascalkuehnold.essensplaner.MainActivity
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
+import de.pascalkuehnold.essensplaner.database.WochenplanerVeggieDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
+import de.pascalkuehnold.essensplaner.interfaces.GerichtDao
 import de.pascalkuehnold.essensplaner.interfaces.Wochenplan
 import de.pascalkuehnold.essensplaner.interfaces.WochenplanerDao
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
@@ -79,9 +80,25 @@ open class Wochenplaner : Wochenplan(),AdapterView.OnItemSelectedListener, View.
     }
 
     override fun onItemSelected(arg0: AdapterView<*>, arg1: View, position: Int, id: Long) {
-        if(listOfTitles[position] == getString(R.string.wochenplanerveggie)){
+
+
+        if(listOfTitles[position] == getString(R.string.wochenplaner)){
+            return
+        } else if(listOfTitles[position] == getString(R.string.wochenplanerveggie) && AppDatabase.getDatabase(applicationContext).gerichtDao().findByIsVegetarisch(true).size >= 7){
             startActivity(Intent(this, WochenplanerVeggieActivity::class.java))
+        }  else {
+            println("Veggie Wochenplaner konnte nicht erstellt werden, keine Gericht verfügbar")
+            val alert = AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.textNotEnoughMealsVeggie))
+                    .setMessage(getString(R.string.textNotEnoughMealsDescVeggie))
+                    .setCancelable(true)
+            alert.show()
+            dropdownTitleSpinner.setSelection(0)
+
+            return
         }
+
+        println("Wochenplaner >> Ende generatelist()")
 
 
     }
@@ -148,9 +165,11 @@ open class Wochenplaner : Wochenplan(),AdapterView.OnItemSelectedListener, View.
     }
 
 
+
+
     private fun generateList() {
 
-        val gerichtDao = AppDatabase.getDatabase(applicationContext).gerichtDao()
+        val gerichtDao = getGerichtDao()
         println("Wochenplaner >> btnNeuerPlan pressed")
 
 
@@ -159,23 +178,12 @@ open class Wochenplaner : Wochenplan(),AdapterView.OnItemSelectedListener, View.
         if(gerichte.size >= 7){
             generateRandomGerichte(gerichte)
             saveWeekgerichte()
-        } else {
-            println("Wochenplan konnte nicht erstellt werden, keine Gericht verfügbar")
-            val alert = AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.textNotEnoughMeals))
-                    .setMessage(getString(R.string.textNotEnoughMealsDesc))
-                    .setCancelable(true)
-                    .setOnCancelListener {
-                        finish()
-                    }
-            alert.show()
-
-
-            return
         }
 
-        println("Wochenplaner >> Ende generatelist()")
+    }
 
+    private fun getGerichtDao(): GerichtDao {
+        return AppDatabase.getDatabase(applicationContext).gerichtDao()
     }
 
     private fun generateRandomGerichte(gerichte: List<Gericht>) {
@@ -216,12 +224,25 @@ open class Wochenplaner : Wochenplan(),AdapterView.OnItemSelectedListener, View.
         val gericht = gerichte[v?.tag as Int]
         val gerichtName = gericht.gerichtName
         val gerichtZutaten = gericht.zutaten
-
+        val multipleDays = gericht.mehrereTage
+        val shortPrepareTime = gericht.schnellesGericht
 
         AlertDialog.Builder(this)
-                .setMessage("Gericht Name: $gerichtName\n\nZutaten: $gerichtZutaten")
+                .setMessage((
+                        getString(R.string.gerichtNameInfo) + gerichtName + "\n\n" +
+                                getString(R.string.zutatenInfo) + gerichtZutaten + "\n\n" +
+                                getString(R.string.f_r_mehr_als_einen_tag) + ": " + (if(multipleDays)getString(R.string.yes) else getString(R.string.no)) + "\n\n" +
+                                getString(R.string.schnelle_zubereitung) + ": " + (if(shortPrepareTime)getString(R.string.yes) else getString(R.string.no))
+                        )
+
+                )
+                .setPositiveButton(getString(R.string.rezeptAnsicht)) { _, _ ->
+
+                }
+
+
                 .setCancelable(true)
-                .setTitle("Informationen:")
+                .setTitle(getString(R.string.information))
                 .setIcon(R.drawable.ic_info)
                 .create()
                 .show()

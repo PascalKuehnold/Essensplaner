@@ -27,6 +27,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
     private var mealIsVeggie = false
     private var mealIsForMultipleDays = false
     private var mealIsFastPrepared = false
+    private var mealReceipt = ""
 
     private lateinit var textInputGericht: TextInputEditText
     private lateinit var btnZutatHinzufuegen: Button
@@ -59,7 +60,8 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
                         " Zutaten: " + this.mealIngredient +
                         " Vegetarisch: " + this.mealIsVeggie +
                         " Schnelles Gericht: " + this.mealIsFastPrepared +
-                        " Mehrere Tage: " + this.mealIsForMultipleDays)
+                        " Mehrere Tage: " + this.mealIsForMultipleDays +
+                        " Rezept: " + this.mealReceipt)
                 try {
                     addGericht()
                 } catch (e: SQLiteConstraintException) {
@@ -185,7 +187,8 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
                 tempZutaten,
                 mealIsVeggie,
                 mealIsForMultipleDays,
-                mealIsFastPrepared
+                mealIsFastPrepared,
+                mealReceipt
         )
 
         gerichtDao.insertAll(newGericht)

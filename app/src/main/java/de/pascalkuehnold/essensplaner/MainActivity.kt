@@ -159,4 +159,8 @@ class MainActivity : AppCompatActivity() {
 
         Toast.makeText(this, "Die Nachricht wird nun nicht mehr beim Start angezeigt.", Toast.LENGTH_LONG).show()
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
 }

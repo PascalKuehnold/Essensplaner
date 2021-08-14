@@ -104,4 +104,7 @@
     <string name="gerichtNameInfo">Meal name:</string>
     <string name="zutatenInfo">Ingredients:</string>
     <string name="information">Information</string>
+    <string name="rezeptAnsicht">Show Receipt </string>
+    <string name="textNotEnoughMealsVeggie">You don\'t have enough Veggie meals.</string>
+    <string name="textNotEnoughMealsDescVeggie">You need at least 7 Veggie meals to create a Weekly Veggie planner</string>
 </resources>

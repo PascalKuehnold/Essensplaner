@@ -3,6 +3,7 @@ package de.pascalkuehnold.essensplaner.layout
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,7 @@ import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: View.OnClickListener): BaseAdapter(), ListAdapter {
     private val gerichte = newGerichte
     val context = newContext
-    val mCallback = callback
+    private val mCallback = callback
 
     override fun getCount(): Int {
         return gerichte.size

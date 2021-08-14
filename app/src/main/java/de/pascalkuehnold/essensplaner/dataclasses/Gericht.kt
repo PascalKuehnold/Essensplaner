@@ -11,7 +11,8 @@ data class Gericht(
         @ColumnInfo(name = "zutaten_liste") val zutaten: String,
         @ColumnInfo(name = "vegetarisch") val isVegetarisch: Boolean,
         @ColumnInfo(name = "mehrere_tage") val mehrereTage: Boolean,
-        @ColumnInfo(name = "schnelles_gericht") val schnellesGericht: Boolean
+        @ColumnInfo(name = "schnelles_gericht") val schnellesGericht: Boolean,
+        @ColumnInfo(name = "rezept") val gerichtRezept: String
 )
 
 

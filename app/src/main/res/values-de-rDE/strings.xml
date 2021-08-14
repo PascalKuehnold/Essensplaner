@@ -91,4 +91,7 @@
     <string name="gerichtNameInfo">Gerichtname:</string>
     <string name="zutatenInfo">Zutaten:</string>
     <string name="information">Information</string>
+    <string name="rezeptAnsicht">Rezept anzeigen</string>
+    <string name="textNotEnoughMealsVeggie">Du hast nicht genügend Vegetarische Gerichte.</string>
+    <string name="textNotEnoughMealsDescVeggie">Du musst mindestens 7 Vegetarische Gerichte angelegt haben um auf diesen Plan zugreifen zu können.</string>
 </resources>

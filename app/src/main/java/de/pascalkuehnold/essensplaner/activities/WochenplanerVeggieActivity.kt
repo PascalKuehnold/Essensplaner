@@ -144,35 +144,19 @@ open class WochenplanerVeggieActivity :Wochenplan(),AdapterView.OnItemSelectedLi
         println("Wochenplaner >> generateListOnScreen() -> Daten wurden an den Screen übergeben")
     }
 
-
-    private fun generateList() {
-
+    fun getVeggieMealList(): List<Gericht>{
         val gerichtDao = AppDatabase.getDatabase(applicationContext).gerichtDao()
         println("Wochenplaner >> btnNeuerPlan pressed")
 
 
 
-        val gerichte = gerichtDao.findByIsVegetarisch(true)
-        if(gerichte.size >= 7){
-            generateRandomGerichte(gerichte)
+        return gerichtDao.findByIsVegetarisch(true)
+    }
+
+
+    private fun generateList() {
+            generateRandomGerichte(getVeggieMealList())
             saveWeekgerichte()
-        } else {
-            println("Wochenplan konnte nicht erstellt werden, keine Gericht verfügbar")
-            val alert = AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.textNotEnoughMeals))
-                    .setMessage(getString(R.string.textNotEnoughMealsDesc))
-                    .setCancelable(true)
-                    .setOnCancelListener {
-                        onBackPressed()
-                    }
-            alert.show()
-
-
-            return
-        }
-
-        println("Wochenplaner >> Ende generatelist()")
-
     }
 
     private fun generateRandomGerichte(gerichte: List<Gericht>) {
@@ -218,12 +202,25 @@ open class WochenplanerVeggieActivity :Wochenplan(),AdapterView.OnItemSelectedLi
         val gericht = gerichte[v?.tag as Int]
         val gerichtName = gericht.gerichtName
         val gerichtZutaten = gericht.zutaten
-
+        val multipleDays = gericht.mehrereTage
+        val shortPrepareTime = gericht.schnellesGericht
 
         AlertDialog.Builder(this)
-                .setMessage("Gericht Name: $gerichtName\n\nZutaten: $gerichtZutaten")
+                .setMessage((
+                        getString(R.string.gerichtNameInfo) + gerichtName + "\n\n" +
+                                getString(R.string.zutatenInfo) + gerichtZutaten + "\n\n" +
+                                getString(R.string.f_r_mehr_als_einen_tag) + ": " + (if(multipleDays)getString(R.string.yes) else getString(R.string.no)) + "\n\n" +
+                                getString(R.string.schnelle_zubereitung) + ": " + (if(shortPrepareTime)getString(R.string.yes) else getString(R.string.no))
+                        )
+
+                )
+                .setPositiveButton(getString(R.string.rezeptAnsicht)) { _, _ ->
+
+                }
+
+
                 .setCancelable(true)
-                .setTitle("Informationen:")
+                .setTitle(getString(R.string.information))
                 .setIcon(R.drawable.ic_info)
                 .create()
                 .show()

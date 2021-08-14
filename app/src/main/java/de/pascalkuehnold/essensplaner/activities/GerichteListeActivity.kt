@@ -1,5 +1,6 @@
 package de.pascalkuehnold.essensplaner.activities
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -135,10 +136,23 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         val gericht = gerichte[v?.tag as Int]
         val gerichtName = gericht.gerichtName
         val gerichtZutaten = gericht.zutaten
-
+        val multipleDays = gericht.mehrereTage
+        val shortPrepareTime = gericht.schnellesGericht
 
         AlertDialog.Builder(this)
-                .setMessage(getString(R.string.gerichtNameInfo) + gerichtName + "\n\n" + getString(R.string.zutatenInfo) + gerichtZutaten)
+                .setMessage((
+                                getString(R.string.gerichtNameInfo) + gerichtName + "\n\n" +
+                                getString(R.string.zutatenInfo) + gerichtZutaten + "\n\n" +
+                                getString(R.string.f_r_mehr_als_einen_tag) + ": " + (if(multipleDays)getString(R.string.yes) else getString(R.string.no)) + "\n\n" +
+                                getString(R.string.schnelle_zubereitung) + ": " + (if(shortPrepareTime)getString(R.string.yes) else getString(R.string.no))
+                        )
+
+                )
+                .setPositiveButton(getString(R.string.rezeptAnsicht)) { _, _ ->
+
+                }
+
+
                 .setCancelable(true)
                 .setTitle(getString(R.string.information))
                 .setIcon(R.drawable.ic_info)

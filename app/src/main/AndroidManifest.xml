@@ -12,13 +12,18 @@
         <activity android:name=".activities.EinkaufslisteActivity"
             android:theme="@style/Theme.Essensplaner.NoActionBar"
             android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity"
             />
         <activity
             android:name=".activities.AboutActivity"
-            android:theme="@style/Theme.Essensplaner.NoActionBar" />
+            android:theme="@style/Theme.Essensplaner.NoActionBar"
+            android:parentActivityName=".MainActivity"
+            />
         <activity
             android:name=".activities.SettingsActivity"
-            android:theme="@style/Theme.Essensplaner.NoActionBar" />
+            android:theme="@style/Theme.Essensplaner.NoActionBar"
+            android:parentActivityName=".MainActivity"
+            />
         <activity
             android:name=".activities.GerichtEditierenActivity"
             android:configChanges="orientation"
