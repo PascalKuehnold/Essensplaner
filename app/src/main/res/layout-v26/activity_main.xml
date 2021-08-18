@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/ic_mainscreen_design_entwurf"
+
+    >
 
 
     <com.google.android.material.appbar.AppBarLayout
@@ -23,14 +26,17 @@
 
         <Button
             android:id="@+id/btnAlleGerichteAnzeigen"
-            android:layout_width="315dp"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
             android:text="@string/gerichteliste"
-            android:textSize="22sp"
+            android:textSize="32sp"
             android:maxLines="1"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="25dp"
             app:backgroundTint="@color/newHeaderColor"
+            android:background=""
             app:cornerRadius="10dp"
+            android:rotation="-8"
+            android:fontFamily="@font/architects_daughter_regular"
             app:layout_constraintBottom_toTopOf="@+id/btnWochenplaner"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,13 +44,16 @@
 
         <Button
             android:id="@+id/btnWochenplaner"
-            android:layout_width="315dp"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
             android:text="@string/wochenplaner"
-            android:textSize="22sp"
+            android:textSize="32sp"
             android:maxLines="1"
             app:backgroundTint="@color/newHeaderColor"
+            android:fontFamily="@font/architects_daughter_regular"
+            android:background=""
             app:cornerRadius="10dp"
+            android:rotation="-8"
             app:layout_constraintBottom_toTopOf="@+id/btnEinkaufsliste"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,14 +62,16 @@
 
         <Button
             android:id="@+id/btnEinkaufsliste"
-            android:layout_width="315dp"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
             android:text="@string/einkaufsliste"
-            android:textSize="22sp"
+            android:textSize="32sp"
             android:maxLines="1"
-            android:layout_marginBottom="150dp"
-
+            android:layout_marginBottom="25dp"
+            android:fontFamily="@font/architects_daughter_regular"
+            android:rotation="-8"
             app:backgroundTint="@color/newHeaderColor"
+            android:background=""
             app:cornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

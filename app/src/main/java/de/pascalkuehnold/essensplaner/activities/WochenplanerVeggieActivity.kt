@@ -190,12 +190,6 @@ open class WochenplanerVeggieActivity :Wochenplan(),AdapterView.OnItemSelectedLi
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onBackPressed() {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("inAppWelcScreen", true)
-        startActivity(intent)
-
-    }
 
     override fun onClick(v: View?) {
         val gerichte = getWeeksGerichte()

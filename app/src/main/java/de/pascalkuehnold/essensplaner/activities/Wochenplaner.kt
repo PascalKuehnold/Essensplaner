@@ -81,6 +81,17 @@ open class Wochenplaner : Wochenplan(),AdapterView.OnItemSelectedListener, View.
 
     override fun onItemSelected(arg0: AdapterView<*>, arg1: View, position: Int, id: Long) {
 
+        if(weeksGerichte.size < 7 ){
+            val alert = AlertDialog.Builder(this)
+                .setTitle(getString(R.string.textNotEnoughMeals))
+                .setMessage(getString(R.string.textNotEnoughMealsDesc))
+                .setCancelable(true)
+                .setOnCancelListener {
+                    finish()
+                }
+            alert.show()
+            dropdownTitleSpinner.setSelection(0)
+        }
 
         if(listOfTitles[position] == getString(R.string.wochenplaner)){
             return
@@ -151,6 +162,7 @@ open class Wochenplaner : Wochenplan(),AdapterView.OnItemSelectedListener, View.
         val wochenplanerDao = createConnection()
 
         weeksGerichte = wochenplanerDao.getAll() as ArrayList<Gericht>
+
         println("Wochenplaner >> loadWeekgerichte() -> Daten wurden geladen")
 
     }
@@ -212,12 +224,6 @@ open class Wochenplaner : Wochenplan(),AdapterView.OnItemSelectedListener, View.
         return super.onOptionsItemSelected(item)
     }
 
-
-    override fun onBackPressed() {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("inAppWelcScreen", true)
-        startActivity(intent)
-    }
 
     override fun onClick(v: View?) {
         val gerichte = getWeeksGerichte()
