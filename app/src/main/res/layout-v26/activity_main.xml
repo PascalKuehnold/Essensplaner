@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@drawable/ic_mainscreen_design_entwurf"
+    android:background="@drawable/ic_mainscreen_design_entwurf_secondcolor_1280x720"
 
     >
 
@@ -33,7 +33,7 @@
             android:maxLines="1"
             android:layout_marginTop="25dp"
             app:backgroundTint="@color/newHeaderColor"
-            android:background=""
+            android:background="@android:color/transparent"
             app:cornerRadius="10dp"
             android:rotation="-8"
             android:fontFamily="@font/architects_daughter_regular"
@@ -51,7 +51,7 @@
             android:maxLines="1"
             app:backgroundTint="@color/newHeaderColor"
             android:fontFamily="@font/architects_daughter_regular"
-            android:background=""
+            android:background="@android:color/transparent"
             app:cornerRadius="10dp"
             android:rotation="-8"
             app:layout_constraintBottom_toTopOf="@+id/btnEinkaufsliste"
@@ -71,7 +71,7 @@
             android:fontFamily="@font/architects_daughter_regular"
             android:rotation="-8"
             app:backgroundTint="@color/newHeaderColor"
-            android:background=""
+            android:background="@android:color/transparent"
             app:cornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
