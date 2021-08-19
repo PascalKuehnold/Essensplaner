@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:background="@drawable/ic_mainscreen_design_entwurf_secondcolor_1280x720"
-
     >
 
 
