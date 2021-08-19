@@ -70,7 +70,7 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
             lateinit var tempZutat: Zutat
 
 
-            var alleZutaten: String = ""
+            val alleZutaten: String
             if(selectedGericht.zutaten.isEmpty()){
                 alleZutaten = selectedGericht.gerichtName
             } else {

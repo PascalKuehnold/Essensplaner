@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             showMainLayout()
         }
-        supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
+        supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#13344D")))
         //setSupportActionBar(findViewById(R.id.toolbar))
     }
 
