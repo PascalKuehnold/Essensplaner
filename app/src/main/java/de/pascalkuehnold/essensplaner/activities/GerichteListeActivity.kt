@@ -135,9 +135,22 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         val gerichte = sortedGerichte
         val gericht = gerichte[v?.tag as Int]
         val gerichtName = gericht.gerichtName
-        val gerichtZutaten = gericht.zutaten
+        var gerichtZutaten = gericht.zutaten
         val multipleDays = gericht.mehrereTage
         val shortPrepareTime = gericht.schnellesGericht
+
+        val alleZutatenList = gerichtZutaten.split(",")
+        var prevZutat = ""
+
+        for(zutat: String in alleZutatenList){
+            prevZutat += if(zutat == alleZutatenList.last()){
+                zutat
+            } else {
+                "$zutat, "
+            }
+            gerichtZutaten = prevZutat
+        }
+
 
         AlertDialog.Builder(this)
                 .setMessage((
