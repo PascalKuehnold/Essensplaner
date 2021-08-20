@@ -53,7 +53,17 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
 
         val gerichtZutaten = view?.findViewById<TextView>(R.id.zutaten)
         if (gerichtZutaten != null) {
-            gerichtZutaten.text = selectedGericht.zutaten
+            val alleZutatenList = selectedGericht.zutaten.split(",")
+            var prevZutat = ""
+
+            for(zutat: String in alleZutatenList){
+                prevZutat += if(zutat == alleZutatenList.last()){
+                    zutat
+                } else {
+                    "$zutat, "
+                }
+                gerichtZutaten.text = prevZutat
+            }
         }
 
         val isVegetarianView = view?.findViewById<ImageView>(R.id.imageViewVegetarian)
