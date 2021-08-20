@@ -11,6 +11,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Willkommensnachricht anzeigen"
+
         android:textColor="@color/lightGrey"
+
         />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fontFamily="sans-serif"
+        android:gravity="start|center_vertical"
+        android:text="Wochenplaner Einstellungen öffnen"
+        android:textAlignment="viewStart"
+        android:textAllCaps="false"
+
+        android:textColor="@color/lightGrey" />
 </LinearLayout>

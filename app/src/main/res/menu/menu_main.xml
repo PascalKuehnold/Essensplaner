@@ -2,20 +2,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="de.pascalkuehnold.essensplaner.MainActivity">
-    <item
-        android:id="@+id/datenbankLoeschen"
-        android:title="@string/datenLoeschen" />
+
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="100"
+        android:orderInCategory="1"
         android:title="@string/action_settings"
         app:showAsAction="never" />
     <item
         android:id="@+id/about"
         android:icon="@drawable/ic_info"
-        android:orderInCategory="100"
+        android:orderInCategory="0"
         android:title="@string/about"
 
         app:showAsAction="never" />
+
+    <item
+        android:orderInCategory="3"
+        android:id="@+id/datenbankLoeschen"
+        android:title="@string/datenLoeschen" />
+
+
 
 </menu>
