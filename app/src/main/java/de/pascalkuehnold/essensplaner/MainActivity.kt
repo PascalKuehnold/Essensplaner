@@ -15,6 +15,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import de.pascalkuehnold.essensplaner.activities.*
 import de.pascalkuehnold.essensplaner.database.AppDatabase
@@ -39,6 +40,13 @@ class MainActivity : AppCompatActivity() {
         val inAppWelcScreen = intent.getBooleanExtra("inAppWelcScreen", false)
         // second argument is the default to use if the preference can't be found
         val welcomeScreenShown = mPrefs.getBoolean(welcomeScreenShownPref, false)
+
+
+        val window = this.window
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            window.statusBarColor = ContextCompat.getColor(this, R.color.newBackgroundColor)
+        }
 
         if(!welcomeScreenShown && !inAppWelcScreen){
             showWelcomeText()

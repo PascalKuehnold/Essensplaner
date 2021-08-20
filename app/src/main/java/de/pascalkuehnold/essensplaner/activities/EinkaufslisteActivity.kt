@@ -184,6 +184,7 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
         var mIsChecked = zutat.isChecked
 
         if (zutatTextview != null) {
+
             if(mIsChecked){
                 zutatTextview.paintFlags = 0
                 mIsChecked = false
@@ -239,6 +240,13 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
                 val inflater: LayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
                 view = inflater.inflate(R.layout.custom_list_item_zutat, null)
             }
+
+            //Changing the height of the single positions in the shopping list
+            val zutatLayout = view?.findViewById<LinearLayout>(R.id.zutatLayout)
+            if (zutatLayout != null){
+                zutatLayout.layoutParams.height = resources.getDimensionPixelSize(R.dimen.positionShoppinglistSize)
+            }
+
 
             val imageViewZutatChecked = view?.findViewById<ImageView>(R.id.imageViewCheckedZutat)
             if (imageViewZutatChecked != null) {

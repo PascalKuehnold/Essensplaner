@@ -6,6 +6,8 @@
     android:orientation="horizontal"
     >
 
+
+
     <ImageView
         android:layout_gravity="center_vertical"
         android:id="@+id/imageViewVegetarian"
@@ -21,18 +23,27 @@
         >
 
         <LinearLayout
-            android:id="@+id/rowClick"
             android:layout_width="225dp"
-            android:layout_height="65dp"
+            android:layout_height="70dp"
             android:orientation="vertical"
             >
+
+            <TextView
+                android:id="@+id/dayOfTheWeek"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mo."
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:alpha="0.8"
+                android:textSize="12sp"
+                />
 
             <TextView
                 android:id="@+id/gerichtName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:layout_marginTop="10dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:text="@string/gerichtPlaceholderText"
@@ -45,11 +56,12 @@
                 android:id="@+id/zutaten"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLines="2"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:text ="@string/zutatenPlaceholderText"
                 android:textColor="@color/white"
+                android:maxLines="2"
+
                 />
 
         </LinearLayout>
