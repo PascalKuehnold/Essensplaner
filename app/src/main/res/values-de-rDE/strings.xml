@@ -90,8 +90,8 @@
     <string name="leftPositions">Noch offen: %1$d</string>
     <string name="f_r_mehr_als_einen_tag">Für mehr als einen Tag</string>
     <string name="schnelle_zubereitung">Schnelle Zubereitung</string>
-    <string name="gerichtNameInfo">Gerichtname:</string>
-    <string name="zutatenInfo">Zutaten:</string>
+    <string name="gerichtNameInfo">Gerichtname: </string>
+    <string name="zutatenInfo">Zutaten: </string>
     <string name="information">Information</string>
     <string name="rezeptAnsicht">Rezept anzeigen</string>
     <string name="textNotEnoughMealsVeggie">Du hast nicht genügend Vegetarische Gerichte.</string>

@@ -135,7 +135,7 @@
         android:layout_below="@id/divider7"
         android:layout_above="@id/divider8"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="45dp"
         >
 
 
@@ -154,7 +154,6 @@
 
             android:clickable="true"
             android:focusable="true"
-
             android:layout_above="@id/btnAddZutat"
             android:layout_marginBottom="-30dp"
             >
@@ -171,9 +170,8 @@
             android:clickable="true"
             android:contentDescription="@string/add_ingredient"
             android:focusable="true"
-            app:fabCustomSize="30dp"
             android:src="@android:drawable/ic_input_add"
-            android:layout_marginTop="15dp"
+            app:fabCustomSize="30dp"
             />
 
     </RelativeLayout>
@@ -196,6 +194,7 @@
         android:textColor="@color/white"
         android:textSize="18sp"
         android:layout_marginStart="40dp"
+        android:layout_marginBottom="10dp"
         android:clickable="true"
         android:focusableInTouchMode="true"
         android:focusable="true"
@@ -210,11 +209,11 @@
         android:layout_alignParentEnd="true"
         android:layout_above="@id/tvMultipleDays"
         android:layout_marginEnd="40dp"
-
+        android:layout_marginBottom="10dp"
         android:clickable="true"
         android:focusable="true"
-        android:layout_marginRight="40dp"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="40dp" />
 
     <!-- TextView für Mehrere Tage -->
     <TextView
@@ -226,6 +225,7 @@
         android:textColor="@color/white"
         android:textSize="18sp"
         android:layout_marginStart="40dp"
+        android:layout_marginBottom="10dp"
         android:clickable="true"
         android:focusableInTouchMode="true"
         android:focusable="true"
@@ -240,7 +240,7 @@
         android:layout_alignParentEnd="true"
         android:layout_above="@id/tvShortDays"
         android:layout_marginEnd="40dp"
-
+        android:layout_marginBottom="10dp"
         android:clickable="true"
         android:focusable="true"
         android:layout_marginRight="40dp"
@@ -256,6 +256,7 @@
         android:textColor="@color/white"
         android:textSize="18sp"
         android:layout_marginStart="40dp"
+        android:layout_marginBottom="20dp"
         android:clickable="true"
         android:focusableInTouchMode="true"
         android:focusable="true"
@@ -270,6 +271,7 @@
         android:layout_alignParentEnd="true"
         android:layout_above="@id/btnSubmit"
         android:layout_marginEnd="40dp"
+        android:layout_marginBottom="20dp"
         android:clickable="true"
         android:focusable="true"
         android:layout_alignParentRight="true"

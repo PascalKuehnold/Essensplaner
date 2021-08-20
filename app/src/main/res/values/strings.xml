@@ -103,8 +103,8 @@
     <string name="leftPositions">Open Positions: %1$d</string>
     <string name="f_r_mehr_als_einen_tag">Meal for multiple days</string>
     <string name="schnelle_zubereitung">Fast preparation</string>
-    <string name="gerichtNameInfo">Meal name:</string>
-    <string name="zutatenInfo">Ingredients:</string>
+    <string name="gerichtNameInfo">Meal name: </string>
+    <string name="zutatenInfo">Ingredients: </string>
     <string name="information">Information</string>
     <string name="rezeptAnsicht">Show Receipt </string>
     <string name="textNotEnoughMealsVeggie">You don\'t have enough Veggie meals.</string>

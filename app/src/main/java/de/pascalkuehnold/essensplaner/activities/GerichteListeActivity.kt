@@ -154,8 +154,8 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
         AlertDialog.Builder(this)
                 .setMessage((
-                                getString(R.string.gerichtNameInfo) + gerichtName + "\n\n" +
-                                getString(R.string.zutatenInfo) + gerichtZutaten + "\n\n" +
+                                getString(R.string.gerichtNameInfo) + " " + gerichtName + "\n\n" +
+                                getString(R.string.zutatenInfo) + " " + gerichtZutaten + "\n\n" +
                                 getString(R.string.f_r_mehr_als_einen_tag) + ": " + (if(multipleDays)getString(R.string.yes) else getString(R.string.no)) + "\n\n" +
                                 getString(R.string.schnelle_zubereitung) + ": " + (if(shortPrepareTime)getString(R.string.yes) else getString(R.string.no))
                         )
