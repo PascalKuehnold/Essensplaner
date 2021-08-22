@@ -164,8 +164,6 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                 .setPositiveButton(getString(R.string.rezeptAnsicht)) { _, _ ->
 
                 }
-
-
                 .setCancelable(true)
                 .setTitle(getString(R.string.information))
                 .setIcon(R.drawable.ic_info)

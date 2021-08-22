@@ -16,13 +16,21 @@ import de.pascalkuehnold.essensplaner.activities.WochenplanerVeggieActivity
 import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
+import java.util.*
 
 //TODO() EinkaufslistenButton und funktion einführen
 class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: View.OnClickListener): BaseAdapter(), ListAdapter {
     private val gerichte = newGerichte
     val context = newContext
     private val mCallback = callback
-    private val weekDays = arrayOf("Mo.", "Tu.", "Wed.", "Thu.", "Fri", "Sat.", "Sun.")
+
+    private val language = Locale.getDefault().language
+
+    private val weekDays = if(language == "de") {
+        arrayOf("Mo.", "Di.", "Mi.", "Do.", "Fr.", "Sa.", "So.")
+    } else {
+        arrayOf("Mo.", "Tu.", "Wed.", "Thu.", "Fri.", "Sat.", "Sun.")
+    }
 
     override fun getCount(): Int {
         return gerichte.size
@@ -56,10 +64,11 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
                 weekOfDay.visibility = View.INVISIBLE
             }
         }
-        if (weekOfDay != null) {
-            weekOfDay.text = weekDays[position]
+        if(context is Wochenplaner || context is WochenplanerVeggieActivity) {
+            if (weekOfDay != null) {
+                weekOfDay.text = weekDays[position]
+            }
         }
-
 
         val gerichtName = view?.findViewById<TextView>(R.id.gerichtName)
         if (gerichtName != null) {
