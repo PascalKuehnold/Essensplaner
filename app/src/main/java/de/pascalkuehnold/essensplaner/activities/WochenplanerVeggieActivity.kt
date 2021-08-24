@@ -195,14 +195,27 @@ open class WochenplanerVeggieActivity :Wochenplan(),AdapterView.OnItemSelectedLi
         val gerichte = getWeeksGerichte()
         val gericht = gerichte[v?.tag as Int]
         val gerichtName = gericht.gerichtName
-        val gerichtZutaten = gericht.zutaten
+        var gerichtZutaten = gericht.zutaten
         val multipleDays = gericht.mehrereTage
         val shortPrepareTime = gericht.schnellesGericht
 
+        val alleZutatenList = gerichtZutaten.split(",")
+        var prevZutat = ""
+
+        for(zutat: String in alleZutatenList){
+            prevZutat += if(zutat == alleZutatenList.last()){
+                zutat
+            } else {
+                "$zutat, "
+            }
+            gerichtZutaten = prevZutat
+        }
+
+
         AlertDialog.Builder(this)
                 .setMessage((
-                        getString(R.string.gerichtNameInfo) + gerichtName + "\n\n" +
-                                getString(R.string.zutatenInfo) + gerichtZutaten + "\n\n" +
+                        getString(R.string.gerichtNameInfo) + " " + gerichtName + "\n\n" +
+                                getString(R.string.zutatenInfo) + " " + gerichtZutaten + "\n\n" +
                                 getString(R.string.f_r_mehr_als_einen_tag) + ": " + (if(multipleDays)getString(R.string.yes) else getString(R.string.no)) + "\n\n" +
                                 getString(R.string.schnelle_zubereitung) + ": " + (if(shortPrepareTime)getString(R.string.yes) else getString(R.string.no))
                         )
@@ -211,8 +224,6 @@ open class WochenplanerVeggieActivity :Wochenplan(),AdapterView.OnItemSelectedLi
                 .setPositiveButton(getString(R.string.rezeptAnsicht)) { _, _ ->
 
                 }
-
-
                 .setCancelable(true)
                 .setTitle(getString(R.string.information))
                 .setIcon(R.drawable.ic_info)

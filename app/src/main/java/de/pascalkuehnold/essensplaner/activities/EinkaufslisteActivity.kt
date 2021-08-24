@@ -6,14 +6,17 @@ import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
+import android.hardware.input.InputManager
 import android.os.Bundle
 import android.text.InputType
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
@@ -26,8 +29,9 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
     private lateinit var listEinkaufsliste: ListView
     private lateinit var einkaufsliste: ArrayList<Zutat>
     private lateinit var btnListDelete: Button
-    private lateinit var btnAddItem: FloatingActionButton
+    private lateinit var btnAddItem: Button
     private lateinit var textViewLeftPositions: TextView
+    private lateinit var addNewPositionTextField: EditText
 
     private var firstVisibleRow: Int = 0
     private var lastVisibleRow: Int = 0
@@ -47,6 +51,7 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
 
         btnListDelete = findViewById(R.id.btnDeleteList)
         btnAddItem = findViewById(R.id.btnAddItem)
+        addNewPositionTextField = findViewById(R.id.newPositionEditText)
         textViewLeftPositions = findViewById(R.id.leftPositions)
 
 
@@ -69,50 +74,37 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
         }
 
         btnAddItem.setOnClickListener{
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Item hinzufügen")
+            if(!addNewPositionTextField.text.isNullOrEmpty()){
 
-            val input = EditText(this)
+                val reg = Regex("\\s*,\\s*")
+                val inputText = addNewPositionTextField.text.toString().trim().replace(reg, "\n")
 
-            // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-            input.inputType = InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
-            builder.setView(input)
-            input.requestFocus()
+                //val items = inputText.split("\\s*,\\s*")
+                val items = inputText.lines()
 
-            builder.setPositiveButton(R.string.hinzuf_gen) { _, _ ->
-                if(!input.text.isNullOrEmpty()){
+                for(item in items){
+                    val capItem = item.capitalize(Locale.getDefault())
 
-                    val reg = Regex("\\s*,\\s*")
-                    val inputText = input.text.toString().trim().replace(reg, "\n")
-
-                    //val items = inputText.split("\\s*,\\s*")
-                    val items = inputText.lines()
-
-                    for(item in items){
-                        val capItem = item.capitalize(Locale.getDefault())
-
-                        val tempZutat = Zutat(0, capItem, false)
-                        addItem(tempZutat)
-
-                        Toast.makeText(this, "Item" + " " + capItem + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
-                    }
-                } else {
-                    Toast.makeText(this, "TODO()005 Keine Eingabe...", Toast.LENGTH_SHORT).show()
+                    val tempZutat = Zutat(0, capItem, false)
+                    addItem(tempZutat)
+                    addNewPositionTextField.text!!.clear()
+                    Toast.makeText(this, "Item" + " " + capItem + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
                 }
-
+            } else {
+                Toast.makeText(this, "TODO()005 Keine Eingabe...", Toast.LENGTH_SHORT).show()
             }
 
-            builder.setNegativeButton(R.string.abbrechen) { dialog, _ ->
-                dialog.cancel()
-            }
-            builder.create()
-
-            val alert = builder.show()
-            alert.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+            addNewPositionTextField.clearFocus()
+            hideSoftKeyboard(it)
         }
 
         loadEinkaufsliste()
         generateListOnScreen()
+    }
+
+    private fun hideSoftKeyboard(view: View) {
+        val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun createConnection(): EinkaufslisteDao {
@@ -207,12 +199,6 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
         }
     }
 
-
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-
-    }
 
     inner class CustomZutatenAdapterEinkaufsliste(context: Context, zutaten: ArrayList<Zutat>, callback: View.OnClickListener): BaseAdapter(), ListAdapter {
         private val mZutaten = zutaten

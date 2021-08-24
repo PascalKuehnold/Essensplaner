@@ -33,8 +33,9 @@ tools:context=".activities.GerichtHinzufuegenActivity">
             android:id="@+id/textInputTextGericht"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
             android:hint="@string/gericht_name"
+            android:gravity="center_horizontal"
+
             android:backgroundTint="@color/newHeaderColor"
             android:textColorHint="@color/lightGrey"
             android:textColor="@color/white" />
