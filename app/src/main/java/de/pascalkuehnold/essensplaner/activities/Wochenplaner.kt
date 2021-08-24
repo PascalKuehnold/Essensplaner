@@ -54,7 +54,7 @@ open class Wochenplaner : Wochenplan(),AdapterView.OnItemSelectedListener, View.
 
         weeksGerichte = getWeeksGerichte()
 
-        if(weeksGerichte.isEmpty()){
+        if(weeksGerichte.isEmpty() || weeksGerichte.size < 7){
             generateList()
             generateListOnScreen()
         } else {
