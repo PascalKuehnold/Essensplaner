@@ -81,7 +81,7 @@ open class Wochenplaner : Wochenplan(),AdapterView.OnItemSelectedListener, View.
 
     override fun onItemSelected(arg0: AdapterView<*>, arg1: View, position: Int, id: Long) {
 
-        if(weeksGerichte.size < 7 ){
+        if(getGerichtDao().getAll().size < 7){
             val alert = AlertDialog.Builder(this)
                 .setTitle(getString(R.string.textNotEnoughMeals))
                 .setMessage(getString(R.string.textNotEnoughMealsDesc))
@@ -205,6 +205,7 @@ open class Wochenplaner : Wochenplan(),AdapterView.OnItemSelectedListener, View.
             if(weeksGerichte.contains(gerichte[rnd])){
                 continue
             }
+
             weeksGerichte.add(gerichte[rnd])
             println(gerichte[rnd].gerichtName + " was added to the weekly list")
         }
