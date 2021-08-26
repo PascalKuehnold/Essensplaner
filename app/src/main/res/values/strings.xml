@@ -109,4 +109,5 @@
     <string name="rezeptAnsicht">Show Receipt </string>
     <string name="textNotEnoughMealsVeggie">You don\'t have enough Veggie meals.</string>
     <string name="textNotEnoughMealsDescVeggie">You need at least 7 Veggie meals to create a Weekly Veggie planner</string>
+    <string name="findRecipe">Find Recipe</string>
 </resources>

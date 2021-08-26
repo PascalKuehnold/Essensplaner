@@ -1,9 +1,9 @@
 package de.pascalkuehnold.essensplaner.activities
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -48,9 +48,9 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         val spinner: Spinner = findViewById(R.id.spinner)
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
-                this,
-                R.array.sortBarValues_array,
-                android.R.layout.simple_spinner_item
+            this,
+            R.array.sortBarValues_array,
+            android.R.layout.simple_spinner_item
         ).also { adapter ->
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -60,23 +60,25 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         }
         spinner.onItemSelectedListener = object :
                 AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>,
-                                        view: View, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View, position: Int, id: Long
+            ) {
                 sortedGerichte = getGerichteListe().toMutableList()
                 when(position){
                     0 -> {
                         refreshGerichteListe()
                     }
                     1 -> {
-                        sortedGerichte.sortBy{it.gerichtName}
+                        sortedGerichte.sortBy { it.gerichtName }
                         sortGerichteListe(sortedGerichte)
                     }
                     2 -> {
-                        sortedGerichte.sortByDescending{it.gerichtName}
+                        sortedGerichte.sortByDescending { it.gerichtName }
                         sortGerichteListe(sortedGerichte)
                     }
                     3 -> {
-                        sortedGerichte.sortByDescending{it.isVegetarisch}
+                        sortedGerichte.sortByDescending { it.isVegetarisch }
                         sortGerichteListe(sortedGerichte)
                     }
                 }
@@ -153,16 +155,26 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
 
         AlertDialog.Builder(this)
-                .setMessage((
-                                getString(R.string.gerichtNameInfo) + " " + gerichtName + "\n\n" +
-                                getString(R.string.zutatenInfo) + " " + gerichtZutaten + "\n\n" +
-                                getString(R.string.f_r_mehr_als_einen_tag) + ": " + (if(multipleDays)getString(R.string.yes) else getString(R.string.no)) + "\n\n" +
-                                getString(R.string.schnelle_zubereitung) + ": " + (if(shortPrepareTime)getString(R.string.yes) else getString(R.string.no))
-                        )
+                .setMessage(
+                    (
+                            getString(R.string.gerichtNameInfo) + " " + gerichtName + "\n\n" +
+                                    getString(R.string.zutatenInfo) + " " + gerichtZutaten + "\n\n" +
+                                    getString(R.string.f_r_mehr_als_einen_tag) + ": " + (if (multipleDays) getString(
+                                R.string.yes
+                            ) else getString(R.string.no)) + "\n\n" +
+                                    getString(R.string.schnelle_zubereitung) + ": " + (if (shortPrepareTime) getString(
+                                R.string.yes
+                            ) else getString(R.string.no))
+                            )
 
                 )
-                .setPositiveButton(getString(R.string.rezeptAnsicht)) { _, _ ->
-
+                .setPositiveButton(getString(R.string.findRecipe)) { _, _ ->
+                    val browserIntent =
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://www.chefkoch.de/rs/s0/${gericht.gerichtName}/Rezepte.html")
+                        )
+                    startActivity(browserIntent)
                 }
                 .setCancelable(true)
                 .setTitle(getString(R.string.information))

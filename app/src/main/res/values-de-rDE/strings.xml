@@ -96,4 +96,5 @@
     <string name="rezeptAnsicht">Rezept anzeigen</string>
     <string name="textNotEnoughMealsVeggie">Du hast nicht genügend Vegetarische Gerichte.</string>
     <string name="textNotEnoughMealsDescVeggie">Du musst mindestens 7 Vegetarische Gerichte angelegt haben um auf diesen Plan zugreifen zu können.</string>
+    <string name="findRecipe">Rezept suchen</string>
 </resources>
