@@ -176,6 +176,12 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                         )
                     startActivity(browserIntent)
                 }
+                .setNegativeButton(getString(R.string.gerichtAnzeigen)){_, _ ->
+                    val gerichtIntent =
+                        Intent(this,GerichtActivity::class.java)
+                    startActivity(gerichtIntent)
+                }
+
                 .setCancelable(true)
                 .setTitle(getString(R.string.information))
                 .setIcon(R.drawable.ic_info)

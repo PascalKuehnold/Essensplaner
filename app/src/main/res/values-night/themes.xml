@@ -26,6 +26,7 @@
         <item name="windowNoTitle">false</item>
     </style>
 
+
     <style name="Theme.Essensplaner.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="colorPrimary">@color/newHeaderColor</item>
         <item name="colorControlNormal">@color/newHeaderColor</item>

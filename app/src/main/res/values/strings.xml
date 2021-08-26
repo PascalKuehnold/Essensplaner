@@ -110,4 +110,9 @@
     <string name="textNotEnoughMealsVeggie">You don\'t have enough Veggie meals.</string>
     <string name="textNotEnoughMealsDescVeggie">You need at least 7 Veggie meals to create a Weekly Veggie planner</string>
     <string name="findRecipe">Find Recipe</string>
+    <string name="gerichtAnzeigen">Show meal</string>
+    <string name="title_activity_gericht">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>
