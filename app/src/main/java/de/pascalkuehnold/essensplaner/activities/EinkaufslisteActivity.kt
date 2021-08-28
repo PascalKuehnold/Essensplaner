@@ -6,7 +6,6 @@ import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
-import android.hardware.input.InputManager
 import android.os.Bundle
 import android.text.InputType
 import android.view.*
@@ -15,8 +14,6 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
@@ -54,6 +51,20 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
         addNewPositionTextField = findViewById(R.id.newPositionEditText)
         textViewLeftPositions = findViewById(R.id.leftPositions)
 
+        addNewPositionTextField.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
+                // If the event is a key-down event on the "enter" button
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    addNewItem()
+                    if (v != null) {
+                        hideSoftKeyboard(v)
+                    }
+                    return true
+                }
+                return false
+            }
+        })
+
 
         btnListDelete.setOnClickListener{
             val alert = AlertDialog.Builder(this)
@@ -74,27 +85,7 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
         }
 
         btnAddItem.setOnClickListener{
-            if(!addNewPositionTextField.text.isNullOrEmpty()){
-
-                val reg = Regex("\\s*,\\s*")
-                val inputText = addNewPositionTextField.text.toString().trim().replace(reg, "\n")
-
-                //val items = inputText.split("\\s*,\\s*")
-                val items = inputText.lines()
-
-                for(item in items){
-                    val capItem = item.capitalize(Locale.getDefault())
-
-                    val tempZutat = Zutat(0, capItem, false)
-                    addItem(tempZutat)
-                    addNewPositionTextField.text!!.clear()
-                    Toast.makeText(this, "Item" + " " + capItem + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                Toast.makeText(this, "TODO()005 Keine Eingabe...", Toast.LENGTH_SHORT).show()
-            }
-
-            addNewPositionTextField.clearFocus()
+            addNewItem()
             hideSoftKeyboard(it)
         }
 
@@ -109,6 +100,32 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
 
     private fun createConnection(): EinkaufslisteDao {
         return EinkaufslisteDatabase.getDatabase(applicationContext).einkaufslisteDao()
+    }
+
+    private fun addNewItem(){
+        if(!addNewPositionTextField.text.isNullOrEmpty()){
+
+            val reg = Regex("\\s*,\\s*")
+            val inputText = addNewPositionTextField.text.toString().trim().replace(reg, "\n")
+
+            //val items = inputText.split("\\s*,\\s*")
+            val items = inputText.lines()
+
+            for(item in items){
+                val capItem = item.capitalize(Locale.getDefault())
+                val tempZutat = Zutat(0, capItem, false)
+                addItem(tempZutat)
+                addNewPositionTextField.text!!.clear()
+                Toast.makeText(this, "Item" + " " + capItem + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
+            }
+
+
+        } else {
+            Toast.makeText(this, "TODO()005 Keine Eingabe...", Toast.LENGTH_SHORT).show()
+        }
+
+        addNewPositionTextField.clearFocus()
+
     }
 
     private fun loadEinkaufsliste(){
@@ -359,4 +376,5 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
         firstVisibleRow = listEinkaufsliste.firstVisiblePosition
         lastVisibleRow = listEinkaufsliste.lastVisiblePosition
     }
+
 }

@@ -23,6 +23,8 @@ import de.pascalkuehnold.essensplaner.database.WochenplanerVeggieDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.layout.CustomZutatenAdapter
 import kotlinx.coroutines.runBlocking
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 //TODO() GerichtNamen editieren möglich machen
@@ -96,15 +98,25 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
             input.requestFocus()
 
             builder.setPositiveButton(R.string.hinzuf_gen) { _, _ ->
-                val inputText = input.text.toString().replace(',', ' ').trim()
-                inputText.split("\\s*,\\s*")
+                //val inputText = input.text.toString().replace(',', ' ').trim()
+                //inputText.split("\\s*,\\s*")
 
-                zutaten.add(inputText)
-                changeGericht(createNewZutatenString(zutaten))
-                isSaved = false
+                val reg = Regex("\\s*,\\s*")
+                val inputText = input.text.toString().trim().replace(reg, "\n")
+                val items = inputText.lines()
 
-                adapter.notifyDataSetChanged()
-                Toast.makeText(this, getString(R.string.zutat) + " " + inputText + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
+                for(item in items){
+                    if(zutaten.contains(item.capitalize(Locale.getDefault()))){
+                        Toast.makeText(this, "TODO014 $item ist schon vorhanden", Toast.LENGTH_SHORT).show()
+                    } else {
+                        zutaten.add(item.capitalize(Locale.getDefault()))
+                        changeGericht(createNewZutatenString(zutaten))
+                        isSaved = false
+
+                        adapter.notifyDataSetChanged()
+                        Toast.makeText(this, getString(R.string.zutat) + " " + inputText + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
 
             builder.setNegativeButton(R.string.abbrechen) { dialog, _ ->
@@ -277,7 +289,6 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
             mealName = inputFieldGericht.text.toString()
             changeGericht(createNewZutatenString(zutaten))
         }
-
 
         if (newGericht != null && !isSaved){
             val builder = AlertDialog.Builder(this)

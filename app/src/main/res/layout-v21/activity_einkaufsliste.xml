@@ -94,6 +94,7 @@
                 android:fontFamily="@font/architects_daughter_regular"
                 android:gravity="start|center_vertical"
                 android:hint="Neue Position..."
+                android:textSize="22sp"
                 android:inputType="text"
                 android:textColor="@color/black"
                 android:textColorHint="@color/dark_grey"
@@ -129,12 +130,13 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dividerTop">
+            app:layout_constraintTop_toBottomOf="@id/dividerTop"
+            >
 
             <ListView
                 android:id="@+id/listViewEinkaufsliste"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:divider="@drawable/gradient_white_to_blue"
                 android:dividerHeight="@dimen/cardview_compat_inset_shadow" />
         </LinearLayout>
@@ -147,7 +149,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/listViewLayout"
-
+            app:layout_constraintBottom_toBottomOf="parent"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

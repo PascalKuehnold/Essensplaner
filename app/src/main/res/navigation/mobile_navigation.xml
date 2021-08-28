@@ -9,11 +9,11 @@
         android:id="@+id/navigation_home"
         android:name="de.pascalkuehnold.essensplaner.activities.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_meal_information" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="de.pascalkuehnold.essensplaner.activities.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_meal_recipe" />
 </navigation>

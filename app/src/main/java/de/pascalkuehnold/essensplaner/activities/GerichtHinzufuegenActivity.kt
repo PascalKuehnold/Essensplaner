@@ -19,15 +19,17 @@ import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.interfaces.GerichtDao
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class GerichtHinzufuegenActivity : AppCompatActivity(){
     private var mealName = ""
-    private var mealIngredient = ""
     private var mealIsVeggie = false
     private var mealIsForMultipleDays = false
     private var mealIsFastPrepared = false
     private var mealReceipt = ""
+
+    private var zutaten: ArrayList<String> = ArrayList()
 
     private lateinit var textInputGericht: TextInputEditText
     private lateinit var btnZutatHinzufuegen: Button
@@ -57,7 +59,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
 
             if (this.mealName.isNotEmpty()) {
                 println("GerichteHinzufuegenActivity >> " + this.mealName +
-                        " Zutaten: " + this.mealIngredient +
+                        " Zutaten: " + this.createNewZutatenString(zutaten) +
                         " Vegetarisch: " + this.mealIsVeggie +
                         " Schnelles Gericht: " + this.mealIsFastPrepared +
                         " Mehrere Tage: " + this.mealIsForMultipleDays +
@@ -72,6 +74,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
                 Toast.makeText(this, getString(R.string.textErrorAtMealAdd), Toast.LENGTH_SHORT).show()
             }
         }
+
 
         btnZutatHinzufuegen = findViewById(R.id.btnZutatHinzufügen)
         btnZutatHinzufuegen.setOnClickListener{
@@ -116,14 +119,16 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
                 val items = inputText.lines()
 
                 for(item in items){
-                    val capItem = item.capitalize(Locale.getDefault())
+                    if(zutaten.contains(item.capitalize(Locale.getDefault()))){
+                        Toast.makeText(this, "TODO014 $item ist schon vorhanden", Toast.LENGTH_SHORT).show()
+                    } else {
+                        val capItem = item.capitalize(Locale.getDefault())
 
-                    mealIngredient += "$capItem,"
+                        zutaten.add(capItem)
 
-                    Toast.makeText(this, "Item" + " " + capItem + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Item" + " " + capItem + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
+                    }
                 }
-                Toast.makeText(this, getString(R.string.zutat) + " " + inputText + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
-
 
                 zutatHinzufuegen()
             } else {
@@ -159,7 +164,6 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         switchVegetarisch.isChecked = false
         switchMultipleDays.isChecked = false
         switchFastPreperation.isChecked = false
-        mealIngredient = ""
 
         textInputGericht.requestFocus()
         textInputGericht.showSoftKeyboard()
@@ -174,11 +178,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
 
     //method for adding a new meal
     private fun addGericht(){
-        var tempZutaten = ""
-        if(mealIngredient.endsWith(',')){
-            tempZutaten = mealIngredient.removeSuffix(','.toString())
-        }
-
+        val tempZutaten = createNewZutatenString(zutaten)
 
         val gerichtDao = createConnection()
         val newGericht = Gericht(
@@ -194,6 +194,20 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         gerichtDao.insertAll(newGericht)
         println("GerichtHandler >> " + newGericht.gerichtName + " was added successfully")
         Toast.makeText(this, this.mealName + " " + getString(R.string.wasAddedText), Toast.LENGTH_SHORT).show()
+    }
+
+    //Method for creating ingredient string, after it was edited by the user
+    private fun createNewZutatenString(zutaten: List<String>): String {
+        val newZutaten = zutaten.toMutableList()
+
+        val stringBuilder = StringBuilder()
+        for (element: String in newZutaten) {
+            stringBuilder.append("$element,")
+        }
+        if (stringBuilder.endsWith(",")) {
+            stringBuilder.deleteCharAt(stringBuilder.length - 1)
+        }
+        return stringBuilder.toString()
     }
 
 
