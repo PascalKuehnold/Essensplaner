@@ -290,47 +290,6 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
         }
 
 
-
-
-        //Method that creates a dialog for changing an ingredient
-        private fun createChangeZutatDialog(zutatenNew: ArrayList<Zutat>, position: Int) {
-            // Use the Builder class for convenient dialog construction
-            var inputText: String
-
-            val builder = AlertDialog.Builder(mContext)
-            builder.setTitle(mContext.getString(R.string.textZutatBearbeiten))
-
-            val input = EditText(mContext)
-            // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-            input.inputType = InputType.TYPE_CLASS_TEXT
-            builder.setView(input)
-
-            builder.setPositiveButton(R.string.aendern) { _, _ ->
-                inputText = input.text.toString()
-                updateZutat(inputText, zutatenNew, position)
-            }
-
-            builder.setNegativeButton(R.string.abbrechen) { dialog, _ ->
-                dialog.cancel()
-            }
-            // Create the AlertDialog object and return it
-            builder.create()
-            builder.show()
-        }
-
-        //Method for updating the ingredient and refresh the ingredient listview
-        private fun updateZutat(inputText: String, zutaten: ArrayList<Zutat>, position: Int){
-            val tempZutat = zutaten[position]
-
-            zutaten[position].zutatenName = inputText
-
-            val tempZutatenString = createNewZutatenString(zutaten)
-            (mContext as GerichtEditierenActivity).changeGericht(tempZutatenString)
-
-            Toast.makeText(mContext, ("TODO()004 $tempZutat wurde erfolgreich zu $inputText bearbeitet."), Toast.LENGTH_SHORT).show()
-            notifyDataSetChanged()
-        }
-
         //Method for creating ingredient string, after it was edited by the user
         private fun createNewZutatenString(zutaten: List<Zutat>): String {
             val newZutaten = zutaten.toMutableList()

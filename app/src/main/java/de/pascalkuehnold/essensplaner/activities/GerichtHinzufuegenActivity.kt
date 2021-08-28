@@ -17,6 +17,7 @@ import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
+import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import de.pascalkuehnold.essensplaner.interfaces.GerichtDao
 import java.util.*
 import kotlin.collections.ArrayList
@@ -59,7 +60,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
 
             if (this.mealName.isNotEmpty()) {
                 println("GerichteHinzufuegenActivity >> " + this.mealName +
-                        " Zutaten: " + this.createNewZutatenString(zutaten) +
+                        " Zutaten: " + Zutat.createNewZutatenString(zutaten) +
                         " Vegetarisch: " + this.mealIsVeggie +
                         " Schnelles Gericht: " + this.mealIsFastPrepared +
                         " Mehrere Tage: " + this.mealIsForMultipleDays +
@@ -178,7 +179,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
 
     //method for adding a new meal
     private fun addGericht(){
-        val tempZutaten = createNewZutatenString(zutaten)
+        val tempZutaten = Zutat.createNewZutatenString(zutaten)
 
         val gerichtDao = createConnection()
         val newGericht = Gericht(
@@ -194,20 +195,6 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         gerichtDao.insertAll(newGericht)
         println("GerichtHandler >> " + newGericht.gerichtName + " was added successfully")
         Toast.makeText(this, this.mealName + " " + getString(R.string.wasAddedText), Toast.LENGTH_SHORT).show()
-    }
-
-    //Method for creating ingredient string, after it was edited by the user
-    private fun createNewZutatenString(zutaten: List<String>): String {
-        val newZutaten = zutaten.toMutableList()
-
-        val stringBuilder = StringBuilder()
-        for (element: String in newZutaten) {
-            stringBuilder.append("$element,")
-        }
-        if (stringBuilder.endsWith(",")) {
-            stringBuilder.deleteCharAt(stringBuilder.length - 1)
-        }
-        return stringBuilder.toString()
     }
 
 

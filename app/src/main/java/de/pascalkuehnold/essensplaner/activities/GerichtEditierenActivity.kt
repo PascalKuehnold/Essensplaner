@@ -21,13 +21,11 @@ import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerVeggieDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
+import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import de.pascalkuehnold.essensplaner.layout.CustomZutatenAdapter
-import kotlinx.coroutines.runBlocking
 import java.util.*
 import kotlin.collections.ArrayList
 
-
-//TODO() GerichtNamen editieren möglich machen
 class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var inputFieldGericht: TextInputEditText
     private lateinit var oldGerichtName: TextView
@@ -82,7 +80,8 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
             if(newGericht == null){
                 Toast.makeText(this, ("Es wurden keine Änderungen vorgenommen."), Toast.LENGTH_SHORT).show()
             } else {
-                saveEditedGericht()
+                Gericht.saveEditedGericht(this, newGericht!!)
+                isSaved = true
                 Toast.makeText(this, (newGericht!!.gerichtName + " wurde erfolgreich bearbeitet."), Toast.LENGTH_SHORT).show()
             }
         }
@@ -110,7 +109,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
                         Toast.makeText(this, "TODO014 $item ist schon vorhanden", Toast.LENGTH_SHORT).show()
                     } else {
                         zutaten.add(item.capitalize(Locale.getDefault()))
-                        changeGericht(createNewZutatenString(zutaten))
+                        changeGericht(Zutat.createNewZutatenString(zutaten))
                         isSaved = false
 
                         adapter.notifyDataSetChanged()
@@ -173,21 +172,21 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
         switchVegetarisch.setOnCheckedChangeListener{ _, isChecked ->
             mealIsVeggie = isChecked
             isSaved = false
-            changeGericht(createNewZutatenString(zutaten))
+            changeGericht(Zutat.createNewZutatenString(zutaten))
         }
 
         //for the checkbox if the meal can be for multiple days or not
         switchMultipleDays.setOnCheckedChangeListener{ _, isChecked ->
             mealIsForMultipleDays = isChecked
             isSaved = false
-            changeGericht(createNewZutatenString(zutaten))
+            changeGericht(Zutat.createNewZutatenString(zutaten))
         }
 
         //for the checkbox if the meal can be fast prepared
         switchFastPreperation.setOnCheckedChangeListener{ _, isChecked ->
             mealIsFastPrepared = isChecked
             isSaved = false
-            changeGericht(createNewZutatenString(zutaten))
+            changeGericht(Zutat.createNewZutatenString(zutaten))
         }
 
         //creates the custom adapter
@@ -202,7 +201,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
                 hideSoftKeyboard(v)
                 mealName = inputFieldGericht.text.toString()
                 isSaved = false
-                changeGericht(createNewZutatenString(zutaten))
+                changeGericht(Zutat.createNewZutatenString(zutaten))
             }
         }
 
@@ -266,14 +265,6 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    //method for saving the meal
-    private fun saveEditedGericht() = runBlocking {
-        AppDatabase.getDatabase(applicationContext).gerichtDao().update(gericht = newGericht!!)
-        WochenplanerDatabase.getDatabase(applicationContext).wochenGerichteDao().update(gericht = newGericht!!)
-        WochenplanerVeggieDatabase.getDatabase(applicationContext).wochenGerichteVeggieDao().update(gericht = newGericht!!)
-        isSaved = true
-    }
-
 
     //Method for changing the entire meal
     fun changeGericht(inZutaten: String){
@@ -283,11 +274,12 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
+
     //Method was modified to alert the user if the changes were not saved
     override fun onBackPressed() {
         if(!inputFieldGericht.text.isNullOrBlank()){
             mealName = inputFieldGericht.text.toString()
-            changeGericht(createNewZutatenString(zutaten))
+            changeGericht(Zutat.createNewZutatenString(zutaten))
         }
 
         if (newGericht != null && !isSaved){
@@ -298,7 +290,8 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
 
             builder.setPositiveButton(R.string.yes) { _, _ ->
 
-                saveEditedGericht()
+                Gericht.saveEditedGericht(this, newGericht!!)
+                isSaved = true
                 super.onBackPressed()
             }
 
@@ -313,21 +306,6 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
         }
 
     }
-
-    //Method for creating ingredient string, after it was edited by the user
-    private fun createNewZutatenString(zutaten: List<String>): String {
-        val newZutaten = zutaten.toMutableList()
-
-        val stringBuilder = StringBuilder()
-        for (element: String in newZutaten) {
-            stringBuilder.append("$element,")
-        }
-        if (stringBuilder.endsWith(",")) {
-            stringBuilder.deleteCharAt(stringBuilder.length - 1)
-        }
-        return stringBuilder.toString()
-    }
-
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
