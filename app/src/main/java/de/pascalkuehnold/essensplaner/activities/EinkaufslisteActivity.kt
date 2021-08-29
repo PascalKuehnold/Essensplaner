@@ -14,6 +14,8 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.get
+import androidx.core.view.size
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
@@ -212,7 +214,15 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
             loadEinkaufsliste()
             generateListOnScreen()
 
-            listEinkaufsliste.setSelection(firstVisibleRow)
+
+
+
+            if(lastVisibleRow >= listEinkaufsliste.adapter.count - 1){
+                listEinkaufsliste.setSelection(listEinkaufsliste.adapter.count - 1)
+            } else {
+                listEinkaufsliste.setSelection(firstVisibleRow)
+            }
+
         }
     }
 
@@ -289,20 +299,6 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
             return view
         }
 
-
-        //Method for creating ingredient string, after it was edited by the user
-        private fun createNewZutatenString(zutaten: List<Zutat>): String {
-            val newZutaten = zutaten.toMutableList()
-
-            val stringBuilder = StringBuilder()
-            for (element: Zutat in newZutaten) {
-                stringBuilder.append("${element.zutatenName},")
-            }
-            if (stringBuilder.endsWith(",")) {
-                stringBuilder.deleteCharAt(stringBuilder.length - 1)
-            }
-            return stringBuilder.toString()
-        }
 
         private fun deleteZutat(position: Int){
             val tempZutat = mZutaten[position]
