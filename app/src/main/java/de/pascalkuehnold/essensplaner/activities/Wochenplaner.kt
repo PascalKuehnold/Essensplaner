@@ -27,7 +27,7 @@ open class Wochenplaner : Wochenplan(),AdapterView.OnItemSelectedListener, View.
     private lateinit var dropdownTitleSpinner: Spinner
     private lateinit var listOfTitles: Array<String>
 
-    var daysToGenerate = 7
+    private var daysToGenerate = 7
     private var weeksGerichte = ArrayList<Gericht>()
 
     override fun onCreate(savedInstanceState: Bundle?) {

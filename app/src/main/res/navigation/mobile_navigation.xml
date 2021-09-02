@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="de.pascalkuehnold.essensplaner.activities.ui.home.HomeFragment"
+        android:name="de.pascalkuehnold.essensplaner.activities.ui.gerichtinformationen.GerichtInformationFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_meal_information" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="de.pascalkuehnold.essensplaner.activities.ui.notifications.NotificationsFragment"
+        android:name="de.pascalkuehnold.essensplaner.activities.ui.gerichtzubereitung.GerichtZubereitungFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_meal_recipe" />
 </navigation>

@@ -15,10 +15,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
-import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
-import de.pascalkuehnold.essensplaner.interfaces.GerichtDao
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -66,7 +64,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
                         " Mehrere Tage: " + this.mealIsForMultipleDays +
                         " Rezept: " + this.mealReceipt)
                 try {
-                    addGericht()
+                    Gericht.addGericht(applicationContext, this.mealName, this.zutaten, this.mealIsVeggie, this.mealIsForMultipleDays, this.mealIsFastPrepared, this.mealReceipt)
                 } catch (e: SQLiteConstraintException) {
                     Toast.makeText(this, this.mealName + " " + getString(R.string.textAlreadyInList), Toast.LENGTH_SHORT).show()
                 }
@@ -91,8 +89,6 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
                 hideSoftKeyboard(v)
             }
         }
-
-
     }
 
     private fun EditText.showSoftKeyboard(){
@@ -115,8 +111,6 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
             if(!input.text.isNullOrEmpty()){
                 val reg = Regex("\\s*,\\s*")
                 val inputText = input.text.toString().trim().replace(reg, "\n")
-
-                //val items = inputText.split("\\s*,\\s*")
                 val items = inputText.lines()
 
                 for(item in items){
@@ -124,30 +118,22 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
                         Toast.makeText(this, "TODO014 $item ist schon vorhanden", Toast.LENGTH_SHORT).show()
                     } else {
                         val capItem = item.capitalize(Locale.getDefault())
-
                         zutaten.add(capItem)
-
                         Toast.makeText(this, "Item" + " " + capItem + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
                     }
                 }
-
                 zutatHinzufuegen()
             } else {
                 Toast.makeText(this, "TODO()005 Keine Eingabe...", Toast.LENGTH_SHORT).show()
             }
-
         }
-
         builder.setNegativeButton(R.string.abbrechen) { dialog, _ ->
             dialog.cancel()
         }
-        // Create the AlertDialog object and return it
-
 
         builder.create()
         val alert = builder.show()
         alert.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-
     }
 
     //Method for hiding the keyboard after pressing on an empty space on screen
@@ -155,8 +141,6 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
-
-
 
 
     //method to clear all the input fields for the user
@@ -169,34 +153,6 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         textInputGericht.requestFocus()
         textInputGericht.showSoftKeyboard()
     }
-
-    //method to create a connection to the database
-    private fun createConnection(): GerichtDao {
-        return AppDatabase.getDatabase(applicationContext).gerichtDao()
-    }
-
-
-
-    //method for adding a new meal
-    private fun addGericht(){
-        val tempZutaten = Zutat.createNewZutatenString(zutaten)
-
-        val gerichtDao = createConnection()
-        val newGericht = Gericht(
-                0,
-                mealName.capitalize(Locale.getDefault()),
-                tempZutaten,
-                mealIsVeggie,
-                mealIsForMultipleDays,
-                mealIsFastPrepared,
-                mealReceipt
-        )
-
-        gerichtDao.insertAll(newGericht)
-        println("GerichtHandler >> " + newGericht.gerichtName + " was added successfully")
-        Toast.makeText(this, this.mealName + " " + getString(R.string.wasAddedText), Toast.LENGTH_SHORT).show()
-    }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

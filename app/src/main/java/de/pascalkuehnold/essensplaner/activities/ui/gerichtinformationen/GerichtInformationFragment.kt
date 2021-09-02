@@ -1,4 +1,4 @@
-package de.pascalkuehnold.essensplaner.activities.ui.home
+package de.pascalkuehnold.essensplaner.activities.ui.gerichtinformationen
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,9 +11,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import de.pascalkuehnold.essensplaner.R
 
-class HomeFragment : Fragment() {
+class GerichtInformationFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var gerichtInformationViewModel: GerichtInformationViewModel
 
 
     override fun onCreateView(
@@ -21,11 +21,11 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+        gerichtInformationViewModel =
+            ViewModelProvider(this).get(GerichtInformationViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_meal_information, container, false)
         val textView: TextView = root.findViewById(R.id.text_home)
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
+        gerichtInformationViewModel.text.observe(viewLifecycleOwner, {
             textView.text = it
         })
         (activity as AppCompatActivity?)!!.supportActionBar?.setDisplayHomeAsUpEnabled(true)

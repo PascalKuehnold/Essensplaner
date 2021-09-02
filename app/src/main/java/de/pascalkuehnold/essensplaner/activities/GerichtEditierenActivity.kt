@@ -152,8 +152,6 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
             switchFastPreperation.isChecked = mealIsFastPrepared
         }
 
-        //TODO Method for changing the meal name
-
         //sets the hint text of the meal name
         inputFieldGericht.hint = mealName
 

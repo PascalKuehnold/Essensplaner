@@ -27,5 +27,6 @@ class Zutat(
             }
             return stringBuilder.toString()
         }
+
     }
 }

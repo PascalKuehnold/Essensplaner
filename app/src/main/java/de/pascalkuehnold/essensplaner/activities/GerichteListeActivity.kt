@@ -16,7 +16,6 @@ import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
-import java.util.*
 
 
 //TODO Search algorithm
@@ -44,7 +43,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
             refreshGerichteListe()
         }
 
-        //TODO sort algorithm
+
         val spinner: Spinner = findViewById(R.id.spinner)
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
