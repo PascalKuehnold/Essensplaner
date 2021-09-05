@@ -23,6 +23,9 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var listView: ListView
     private lateinit var searchView: SearchView
 
+    private var alertBuilder: AlertDialog.Builder? = null
+    private lateinit var alert: AlertDialog
+
     lateinit var sortedGerichte: MutableList<Gericht>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,8 +41,17 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
         val btnAddGerichteButton = findViewById<FloatingActionButton>(R.id.floatingActionButton)
         btnAddGerichteButton.setOnClickListener{
-            val intent = Intent(this, GerichtHinzufuegenActivity::class.java)
-            startActivity(intent)
+            alertBuilder = AlertDialog.Builder(this)
+            alert = alertBuilder?.create()!!
+            alert.setView(layoutInflater.inflate(R.layout.gericht_hinzufuegen_dialog, null))
+            alert.setTitle("Neues Gericht hinzufügen")
+            alert.setMessage("Neues Gericht selbst eintragen oder über Chefkoch.de anlegen.")
+            alert.setCancelable(true)
+            alert.setIcon(R.drawable.ic_add_to_shoppinglist)
+            alert.show()
+
+
+
             refreshGerichteListe()
         }
 
@@ -89,7 +101,6 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         }
         refreshGerichteListe()
     }
-
 
     override fun onResume() {
         super.onResume()
@@ -168,12 +179,23 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
                 )
                 .setPositiveButton(getString(R.string.findRecipe)) { _, _ ->
-                    val browserIntent =
-                        Intent(
-                            Intent.ACTION_VIEW,
-                            Uri.parse("https://www.chefkoch.de/rs/s0/${gericht.gerichtName}/Rezepte.html")
-                        )
-                    startActivity(browserIntent)
+                    AlertDialog.Builder(this)
+                            .setTitle("TODO017() Weiterleitende Verlinkung")
+                            .setMessage("TODO18() Beim Klicken auf den Button wirst du auf eine externe Seite weitergeleitet.")
+                            .setPositiveButton("Zu Chefkoch.de") {_, _ ->
+                                val browserIntent =
+                                        Intent(
+                                                Intent.ACTION_VIEW,
+                                                Uri.parse("https://www.chefkoch.de/rs/s0/${gericht.gerichtName}/Rezepte.html")
+                                        )
+                                startActivity(browserIntent)
+                            }
+                            .setNegativeButton("Lieber nicht"){dialog, _ ->
+                                dialog.dismiss()
+                            }
+                            .setIcon(R.drawable.ic_info)
+                            .create()
+                            .show()
                 }
                 .setNegativeButton(getString(R.string.gerichtAnzeigen)){_, _ ->
                     val gerichtIntent =
@@ -186,6 +208,12 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                 .setIcon(R.drawable.ic_info)
                 .create()
                 .show()
+    }
+
+    fun addMealByUser(view: View) {
+        alert.dismiss()
+        val intent = Intent(this, GerichtHinzufuegenActivity::class.java)
+        startActivity(intent)
     }
 
 }
