@@ -19,6 +19,7 @@
     <color name="newBackgroundColor">#13344D</color>
     <color name="newHeaderColor">#266799</color>
     <color name="lightGrey">#F0F0F0F0</color>
+    <color name="lightGreyAlpha75">#BFF0F0F0</color>
 
     <color name="secondBackgroundColor">#6600FF</color>
     <color name="secondBackgroundAccentColor">#E66600FF</color>

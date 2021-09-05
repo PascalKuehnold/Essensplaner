@@ -4,11 +4,14 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.view.View.TEXT_ALIGNMENT_CENTER
 import android.view.WindowManager
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -41,7 +44,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
         val btnAddGerichteButton = findViewById<FloatingActionButton>(R.id.floatingActionButton)
         btnAddGerichteButton.setOnClickListener{
-            alertBuilder = AlertDialog.Builder(this)
+            alertBuilder = AlertDialog.Builder(this, R.style.Theme_Essensplaner_DialogTheme)
             alert = alertBuilder?.create()!!
             alert.setView(layoutInflater.inflate(R.layout.gericht_hinzufuegen_dialog, null))
             alert.setTitle("Neues Gericht hinzufügen")
@@ -143,6 +146,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
 
 
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onClick(v: View?) {
         val gerichte = sortedGerichte
         val gericht = gerichte[v?.tag as Int]
@@ -179,23 +183,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
                 )
                 .setPositiveButton(getString(R.string.findRecipe)) { _, _ ->
-                    AlertDialog.Builder(this)
-                            .setTitle("TODO017() Weiterleitende Verlinkung")
-                            .setMessage("TODO18() Beim Klicken auf den Button wirst du auf eine externe Seite weitergeleitet.")
-                            .setPositiveButton("Zu Chefkoch.de") {_, _ ->
-                                val browserIntent =
-                                        Intent(
-                                                Intent.ACTION_VIEW,
-                                                Uri.parse("https://www.chefkoch.de/rs/s0/${gericht.gerichtName}/Rezepte.html")
-                                        )
-                                startActivity(browserIntent)
-                            }
-                            .setNegativeButton("Lieber nicht"){dialog, _ ->
-                                dialog.dismiss()
-                            }
-                            .setIcon(R.drawable.ic_info)
-                            .create()
-                            .show()
+                    showWarningExternalLink("https://www.chefkoch.de/rs/s0/${gericht.gerichtName}/Rezepte.html",false)
                 }
                 .setNegativeButton(getString(R.string.gerichtAnzeigen)){_, _ ->
                     val gerichtIntent =
@@ -210,10 +198,56 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                 .show()
     }
 
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private fun showWarningExternalLink(url: String, input: Boolean) {
+        var inputText: EditText? = null
+
+        val alertDialogBuilder = AlertDialog.Builder(this, R.style.Theme_Essensplaner_DialogTheme)
+        if(input){
+            inputText = EditText(this)
+            inputText.hint = "Gericht eingeben"
+            inputText.setHintTextColor(resources.getColor(R.color.lightGreyAlpha75))
+            inputText.textAlignment = TEXT_ALIGNMENT_CENTER
+
+        }
+        alertDialogBuilder.setPositiveButton("Zu Chefkoch.de") { _, _ ->
+            var recipeString = ""
+            if (inputText != null) {
+                recipeString = if(inputText.text.isNotEmpty()){
+                    url + inputText.text + "/Rezepte.html"
+                } else {
+                    "https://www.chefkoch.de/rezepte/"
+                }
+            }
+            val browserIntent =
+                Intent(
+                    //Intent.ACTION_VIEW,
+                    //Uri.parse(recipeString)
+                    this, WebbrowserActivity::class.java
+                )
+            browserIntent.putExtra("recipeString", recipeString)
+            startActivity(browserIntent)
+        }
+        alertDialogBuilder.setNegativeButton("Lieber nicht") { dialog, _ ->
+            dialog.dismiss()
+        }
+        val alert = alertDialogBuilder.create()
+            alert.setTitle("TODO017() Weiterleitende Verlinkung")
+            alert.setMessage("TODO18() Hier kannst du dein gewünschtes Gericht eintragen und dann über \"Zu Chefkoch.de\" nach einem Rezept suchen.")
+            alert.setIcon(R.drawable.ic_info)
+            alert.setView(inputText)
+            alert.show()
+    }
+
     fun addMealByUser(view: View) {
         alert.dismiss()
         val intent = Intent(this, GerichtHinzufuegenActivity::class.java)
         startActivity(intent)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    fun addMealByChefkoch(view: View){
+        showWarningExternalLink("https://www.chefkoch.de/rs/s0/", true)
     }
 
 }

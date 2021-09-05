@@ -9,45 +9,70 @@
     android:orientation="vertical"
     android:gravity="center_vertical"
     android:layout_gravity="center_horizontal"
-    tools:context=".activities.GerichteListeActivity">
+    tools:context=".activities.GerichteListeActivity"
+    >
 
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:orientation="vertical"
-        android:gravity="center"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="@color/newHeaderColor"
+        android:onClick="addMealByUser"
+        android:padding="5dp"
         >
+        <ImageView
+            android:id="@+id/beschreibungEigenesGerichtAnlegen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_info_light"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+
+            android:layout_alignParentRight="true"
+
+
+            android:contentDescription="Eigenes Gericht Beschreibung" />
 
         <TextView
+            android:id="@+id/tvOwnMeal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Eigenes Gericht"
-            android:onClick="addMealByUser"
+
             android:textColor="@color/white"
             android:textSize="18sp"
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/transparent"
             />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_add_to_shoppinglist"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/tvOwnMeal"
             />
 
-    </LinearLayout>
 
 
-    <Space
+    </RelativeLayout>
+
+
+    <View
+        android:id="@+id/divider3"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="1dp"
+        android:background="@drawable/gradient_white_to_blue"
         />
+
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="@color/newHeaderColor"
+        android:padding="5dp"
+        android:onClick="addMealByChefkoch"
 
         >
         <TextView
@@ -58,6 +83,9 @@
             android:textSize="18sp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
+            android:elevation="10dp"
+            android:background="@android:color/transparent"
+
             />
 
         <ImageView
@@ -65,10 +93,21 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:background="@drawable/ic__1_ck_logo"
-            android:alpha="0.5"
+
             />
 
+        <ImageView
+            android:id="@+id/beschreibungGerichtUeberChefkochAnlegen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_info_light"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
 
+
+            android:contentDescription="Gericht über Chefkoch Beschreibung" />
 
 
     </RelativeLayout>
