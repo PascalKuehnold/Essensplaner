@@ -20,7 +20,12 @@ class Zutat(
 
             val stringBuilder = StringBuilder()
             for (element: String in newZutaten) {
-                stringBuilder.append("$element,")
+                if(element.startsWith("(") && element.endsWith(")")){
+                    stringBuilder.append(element)
+                } else {
+                    stringBuilder.append("$element,")
+                }
+
             }
             if (stringBuilder.endsWith(",")) {
                 stringBuilder.deleteCharAt(stringBuilder.length - 1)

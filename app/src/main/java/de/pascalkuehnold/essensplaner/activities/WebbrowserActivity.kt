@@ -3,13 +3,16 @@ package de.pascalkuehnold.essensplaner.activities
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.webkit.CookieManager
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.manager.MyWebViewClient
@@ -49,34 +52,34 @@ class WebbrowserActivity : AppCompatActivity() {
         progressBar!!.max = 100
         progressBar!!.visibility = View.VISIBLE
         webView = findViewById<View>(R.id.web_view) as WebView
-        if (savedInstanceState != null) {
-            webView!!.restoreState(savedInstanceState)
-        } else {
-            webView!!.settings.javaScriptEnabled = true
-            webView!!.settings.useWideViewPort = true
-            webView!!.settings.loadWithOverviewMode = true
-            webView!!.settings.setSupportZoom(true)
-            webView!!.settings.setSupportMultipleWindows(true)
-            webView!!.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
-            webView!!.setBackgroundColor(resources.getColor(R.color.white))
-            webView!!.webChromeClient = object : WebChromeClient() {
-                override fun onProgressChanged(view: WebView, newProgress: Int) {
-                    super.onProgressChanged(view, newProgress)
-                    progressBar!!.progress = newProgress
-                    if (newProgress < 100 && progressBar!!.visibility == ProgressBar.GONE) {
-                        progressBar!!.visibility = ProgressBar.VISIBLE
-                    }
-                    if (newProgress == 100) {
-                        progressBar!!.visibility = ProgressBar.GONE
-                    } else {
-                        progressBar!!.visibility = ProgressBar.VISIBLE
-                    }
+
+        webView!!.settings.javaScriptEnabled = true
+        webView!!.settings.useWideViewPort = true
+        webView!!.settings.loadWithOverviewMode = true
+        webView!!.settings.setSupportZoom(true)
+        webView!!.settings.setSupportMultipleWindows(true)
+        webView!!.scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY
+        webView!!.setBackgroundColor(resources.getColor(R.color.white))
+        webView!!.webChromeClient = object : WebChromeClient() {
+            override fun onProgressChanged(view: WebView, newProgress: Int) {
+                super.onProgressChanged(view, newProgress)
+                progressBar!!.progress = newProgress
+                if (newProgress < 100 && progressBar!!.visibility == ProgressBar.GONE) {
+                    progressBar!!.visibility = ProgressBar.VISIBLE
+                }
+                if (newProgress == 100) {
+                    progressBar!!.visibility = ProgressBar.GONE
+                } else {
+                    progressBar!!.visibility = ProgressBar.VISIBLE
                 }
             }
         }
+
         webView!!.webViewClient = MyWebViewClient()
 
         webView!!.loadUrl(recipeString)
+
+        println(this.getDatabasePath("webview.db"))
 
         goButton!!.setOnClickListener {
             try {
@@ -124,7 +127,15 @@ class WebbrowserActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    companion object{
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    override fun onDestroy() {
+
+        println("ON DESTROY WAS CALLED")
+        this.deleteDatabase("webview.db");
+        this.deleteDatabase("webviewCache.db");
+        super.onDestroy()
 
     }
+
+
 }

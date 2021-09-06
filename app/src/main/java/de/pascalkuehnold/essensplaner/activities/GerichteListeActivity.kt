@@ -1,11 +1,17 @@
 package de.pascalkuehnold.essensplaner.activities
 
+import android.annotation.SuppressLint
+import android.app.PendingIntent
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.StrictMode
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.View.TEXT_ALIGNMENT_CENTER
@@ -14,11 +20,16 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.graphics.drawable.toBitmap
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
+import org.jsoup.Jsoup
+import org.jsoup.select.Elements
 
 
 //TODO Search algorithm
@@ -62,9 +73,9 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         val spinner: Spinner = findViewById(R.id.spinner)
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
-            this,
-            R.array.sortBarValues_array,
-            android.R.layout.simple_spinner_item
+                this,
+                R.array.sortBarValues_array,
+                android.R.layout.simple_spinner_item
         ).also { adapter ->
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -75,8 +86,8 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         spinner.onItemSelectedListener = object :
                 AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View, position: Int, id: Long
+                    parent: AdapterView<*>,
+                    view: View, position: Int, id: Long
             ) {
                 sortedGerichte = getGerichteListe().toMutableList()
                 when(position){
@@ -107,7 +118,12 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
+        if(url.isNotEmpty()){
+            getChefkochGericht(url)
+        }
         refreshGerichteListe()
+
+        url = ""
     }
 
     private fun refreshGerichteListe(){
@@ -155,7 +171,11 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         val multipleDays = gericht.mehrereTage
         val shortPrepareTime = gericht.schnellesGericht
 
-        val alleZutatenList = gerichtZutaten.split(",")
+        val alleZutatenList = if(gerichtZutaten.startsWith("(")){
+            gerichtZutaten.split(")")
+        } else {
+            gerichtZutaten.split(",")
+        }
         var prevZutat = ""
 
         for(zutat: String in alleZutatenList){
@@ -170,24 +190,27 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
         AlertDialog.Builder(this)
                 .setMessage(
-                    (
-                            getString(R.string.gerichtNameInfo) + " " + gerichtName + "\n\n" +
-                                    getString(R.string.zutatenInfo) + " " + gerichtZutaten + "\n\n" +
-                                    getString(R.string.f_r_mehr_als_einen_tag) + ": " + (if (multipleDays) getString(
-                                R.string.yes
-                            ) else getString(R.string.no)) + "\n\n" +
-                                    getString(R.string.schnelle_zubereitung) + ": " + (if (shortPrepareTime) getString(
-                                R.string.yes
-                            ) else getString(R.string.no))
-                            )
+                        (
+                                getString(R.string.gerichtNameInfo) + " " + gerichtName + "\n\n" +
+                                        getString(R.string.zutatenInfo) + " " + gerichtZutaten + "\n\n" +
+                                        getString(R.string.f_r_mehr_als_einen_tag) + ": " + (if (multipleDays) getString(
+                                        R.string.yes
+                                ) else getString(R.string.no)) + "\n\n" +
+                                        getString(R.string.schnelle_zubereitung) + ": " + (if (shortPrepareTime) getString(
+                                        R.string.yes
+                                ) else getString(R.string.no))
+                                )
 
                 )
                 .setPositiveButton(getString(R.string.findRecipe)) { _, _ ->
-                    showWarningExternalLink("https://www.chefkoch.de/rs/s0/${gericht.gerichtName}/Rezepte.html",false)
+                    showWarningExternalLink(
+                            "https://www.chefkoch.de/rs/s0/${gericht.gerichtName}/Rezepte.html",
+                            false
+                    )
                 }
-                .setNegativeButton(getString(R.string.gerichtAnzeigen)){_, _ ->
+                .setNegativeButton(getString(R.string.gerichtAnzeigen)){ _, _ ->
                     val gerichtIntent =
-                        Intent(this,GerichtActivity::class.java)
+                        Intent(this, GerichtActivity::class.java)
                     startActivity(gerichtIntent)
                 }
 
@@ -198,6 +221,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                 .show()
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private fun showWarningExternalLink(url: String, input: Boolean) {
         var inputText: EditText? = null
@@ -219,14 +243,19 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                     "https://www.chefkoch.de/rezepte/"
                 }
             }
-            val browserIntent =
-                Intent(
-                    //Intent.ACTION_VIEW,
-                    //Uri.parse(recipeString)
-                    this, WebbrowserActivity::class.java
-                )
-            browserIntent.putExtra("recipeString", recipeString)
-            startActivity(browserIntent)
+
+            val builder = CustomTabsIntent.Builder()
+
+            val sendLinkIntent = Intent(this@GerichteListeActivity, ActionBroadcastReceiver::class.java)
+            sendLinkIntent.putExtra(Intent.EXTRA_SUBJECT, "This is the link you were exploring")
+            val pendingIntent = PendingIntent.getBroadcast(this, 0, sendLinkIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            // Set the action button
+            AppCompatResources.getDrawable(this, R.drawable.ic_add_to_shoppinglist)?.let {
+                builder.setActionButton(it.toBitmap(), "Add this link to your dig", pendingIntent, false)
+            }
+            val customTabsIntent: CustomTabsIntent = builder.build()
+            customTabsIntent.launchUrl(this, Uri.parse(recipeString))
+
         }
         alertDialogBuilder.setNegativeButton("Lieber nicht") { dialog, _ ->
             dialog.dismiss()
@@ -248,6 +277,117 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     fun addMealByChefkoch(view: View){
         showWarningExternalLink("https://www.chefkoch.de/rs/s0/", true)
+    }
+
+    private fun getChefkochGericht(url: String){
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+
+        StrictMode.setThreadPolicy(policy)
+
+        val doc = Jsoup.connect(url).get()
+        val html = doc.outerHtml()
+
+        print(doc.title())
+        val newsHeadlines: Elements = doc.select("h1")
+        for (headline in newsHeadlines) {
+            println(headline.text())
+        }
+
+        var menge: Double = 0.0
+        var einheit: String = ""
+
+
+        val mengenArray: ArrayList<Double> = ArrayList()
+        val einheitenArray: ArrayList<String> = ArrayList()
+
+        //Zutatenmenge und Einheit
+        val zutatenEinheiten: Elements = doc.select(".td-left")
+        for(zutatEinheit in zutatenEinheiten){
+            val regex = Regex(" ")
+            var text = zutatEinheit.text()
+
+
+            if(text.isEmpty()){
+                menge = 0.0
+            } else if(text.contains("½")){
+                menge = 0.5
+                text = text.replace("½", " ")
+            } else if(text.contains("¾")){
+                menge = 0.75
+                text = text.replace("¾", " ")
+            }
+
+            val zutat = text.trim().split(regex, 2)
+
+
+            try {
+                menge += zutat[0].toDouble()
+            } catch (e: Exception){
+                einheit = zutat[0]
+            }
+
+
+            if(zutat.size > 1){
+                einheit = zutat[1]
+            }
+
+            mengenArray.add(menge)
+            einheitenArray.add(einheit)
+
+            menge = 0.0
+            einheit = ""
+
+
+        }
+
+        //Zutatennamen
+        val zutatenNamenArray: ArrayList<String> = ArrayList()
+
+        val zutatenNamen: Elements = doc.select(".td-right span")
+        for(zutatenName in zutatenNamen){
+            val text = "(${zutatenName.text()})"
+            zutatenNamenArray.add(text)
+
+        }
+
+        //Zusammenbringen der einzelnen Listen
+        for(i in 0 until zutatenEinheiten.size){
+            println("Menge: ${mengenArray[i]}; \tEinheit: ${einheitenArray[i]} \t\t-> Zutat: ${zutatenNamenArray[i]}")
+        }
+
+        //Zubereitungstext
+        val zubereitung: Elements = doc.select("article.ds-box.ds-grid-float.ds-col-12.ds-col-m-8.ds-or-3 > div:nth-child(3)")
+        val zubereitungText = zubereitung.html().replace("<br>", "\n")
+
+        print(zubereitungText)
+
+
+        //Ersteller des Rezeptes
+        val rezeptErsteller: Elements = doc.select("div.ds-mb-right > a")
+        print(rezeptErsteller.text())
+
+        Gericht.addGericht(this, doc.title(), zutatenNamenArray, false, false, false, zubereitungText)
+    }
+
+
+
+    class ActionBroadcastReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val uri: Uri? = intent.data
+            if (uri != null) {
+                Log.d("Broadcast URL", uri.toString())
+                Toast.makeText(context, uri.toString(), Toast.LENGTH_SHORT).show()
+
+                url = uri.toString()
+                Log.d("URL", url)
+
+            }
+        }
+
+    }
+
+    companion object{
+        var url: String = ""
     }
 
 }

@@ -11,4 +11,11 @@ internal class MyWebViewClient : WebViewClient() {
         CookieManager.getInstance().setAcceptCookie(true)
         return true
     }
+
+
+    override fun onPageFinished(view: WebView, url: String?) {
+        println("ON PAGE FINISHED CALLED")
+        super.onPageFinished(view, url)
+        view.clearCache(true)
+    }
 }

@@ -92,6 +92,12 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+
+        <receiver
+            android:name=".activities.GerichteListeActivity$ActionBroadcastReceiver"
+            android:enabled="true" />
     </application>
+
+
 
 </manifest>

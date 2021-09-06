@@ -1,10 +1,15 @@
 package de.pascalkuehnold.essensplaner.activities
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import android.database.sqlite.SQLiteConstraintException
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
@@ -17,6 +22,8 @@ import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
+import org.jsoup.Jsoup
+import org.jsoup.select.Elements
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -28,6 +35,8 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
     private var mealIsFastPrepared = false
     private var mealReceipt = ""
 
+    private var url = ""
+
     private var zutaten: ArrayList<String> = ArrayList()
 
     private lateinit var textInputGericht: TextInputEditText
@@ -35,6 +44,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
     private lateinit var switchVegetarisch: SwitchCompat
     private lateinit var switchMultipleDays: SwitchCompat
     private lateinit var switchFastPreperation: SwitchCompat
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +57,8 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         textInputGericht.maxLines = 2
 
         val btnHinzufuegen = findViewById<Button>(R.id.btnHinzufuegenGericht)
+
+
 
         btnHinzufuegen.setOnClickListener {
             btnHinzufuegen.requestFocus()
@@ -163,4 +175,88 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         }
         return super.onOptionsItemSelected(item)
     }
+
+    fun getChefkochGericht(url: String){
+        val doc = Jsoup.connect(url).get()
+        val html = doc.outerHtml()
+
+        print(doc.title())
+        val newsHeadlines: Elements = doc.select("h1")
+        for (headline in newsHeadlines) {
+            println(headline.text())
+        }
+
+        var menge: Double = 0.0
+        var einheit: String = ""
+
+
+        val mengenArray: ArrayList<Double> = ArrayList()
+        val einheitenArray: ArrayList<String> = ArrayList()
+
+        //Zutatenmenge und Einheit
+        val zutatenEinheiten: Elements = doc.select(".td-left")
+        for(zutatEinheit in zutatenEinheiten){
+            val regex = Regex(" ")
+            var text = zutatEinheit.text()
+
+
+            if(text.isEmpty()){
+                menge = 0.0
+            } else if(text.contains("½")){
+                menge = 0.5
+                text = text.replace("½", " ")
+            } else if(text.contains("¾")){
+                menge = 0.75
+                text = text.replace("¾", " ")
+            }
+
+            val zutat = text.trim().split(regex, 2)
+
+
+            try {
+                menge += zutat[0].toDouble()
+            } catch (e: Exception){
+                einheit = zutat[0]
+            }
+
+
+            if(zutat.size > 1){
+                einheit = zutat[1]
+            }
+
+            mengenArray.add(menge)
+            einheitenArray.add(einheit)
+
+            menge = 0.0
+            einheit = ""
+        }
+
+        //Zutatennamen
+        var zutatenNamenArray: ArrayList<String> = ArrayList()
+
+        val zutatenNamen: Elements = doc.select(".td-right span")
+        for(zutatenName in zutatenNamen){
+            var text = zutatenName.text()
+            zutatenNamenArray.add(text)
+
+        }
+
+        //Zusammenbringen der einzelnen Listen
+        for(i in 0 until zutatenEinheiten.size){
+            println("Menge: ${mengenArray[i]}; \tEinheit: ${einheitenArray[i]} \t\t-> Zutat: ${zutatenNamenArray[i]}")
+        }
+
+        //Zubereitungstext
+        val zubereitung: Elements = doc.select("article.ds-box.ds-grid-float.ds-col-12.ds-col-m-8.ds-or-3 > div:nth-child(3)")
+        val zubereitungText = zubereitung.html().replace("<br>", "\n")
+
+        print(zubereitungText)
+
+
+        //Ersteller des Rezeptes
+        val rezeptErsteller: Elements = doc.select("div.ds-mb-right > a")
+        print(rezeptErsteller.text())
+    }
+
+
 }

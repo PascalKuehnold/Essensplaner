@@ -77,7 +77,11 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
 
         val gerichtZutaten = view?.findViewById<TextView>(R.id.zutaten)
         if (gerichtZutaten != null) {
-            val alleZutatenList = selectedGericht.zutaten.split(",")
+            val alleZutatenList = if(selectedGericht.zutaten.startsWith("(")){
+                selectedGericht.zutaten.split(")")
+            } else {
+                selectedGericht.zutaten.split(",")
+            }
             var prevZutat = ""
 
             for(zutat: String in alleZutatenList){
@@ -111,7 +115,11 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
                 alleZutaten = selectedGericht.zutaten
             }
 
-            val alleZutatenList = alleZutaten.split(",")
+            val alleZutatenList = if(alleZutaten.startsWith("(")){
+                alleZutaten.split(")")
+            } else {
+                alleZutaten.split(",")
+            }
 
 
             val einkauflisteDao = EinkaufslisteDatabase.getDatabase(parent!!.context).einkaufslisteDao()
