@@ -118,12 +118,14 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        if(url.isNotEmpty()){
-            getChefkochGericht(url)
+        if(urlList.isNotEmpty()){
+            for(url in urlList){
+                getChefkochGericht(url)
+            }
         }
         refreshGerichteListe()
 
-        url = ""
+        urlList.clear()
     }
 
     private fun refreshGerichteListe(){
@@ -171,8 +173,8 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         val multipleDays = gericht.mehrereTage
         val shortPrepareTime = gericht.schnellesGericht
 
-        val alleZutatenList = if(gerichtZutaten.startsWith("(")){
-            gerichtZutaten.split(")")
+        val alleZutatenList = if(gerichtZutaten.startsWith("`")){
+            gerichtZutaten.split("´")
         } else {
             gerichtZutaten.split(",")
         }
@@ -202,11 +204,12 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                                 )
 
                 )
-                .setPositiveButton(getString(R.string.findRecipe)) { _, _ ->
+                .setPositiveButton(getString(R.string.findRecipe)) { dialog, _ ->
                     showWarningExternalLink(
                             "https://www.chefkoch.de/rs/s0/${gericht.gerichtName}/Rezepte.html",
                             false
                     )
+                    dialog.dismiss()
                 }
                 .setNegativeButton(getString(R.string.gerichtAnzeigen)){ _, _ ->
                     val gerichtIntent =
@@ -345,7 +348,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
         val zutatenNamen: Elements = doc.select(".td-right span")
         for(zutatenName in zutatenNamen){
-            val text = "(${zutatenName.text()})"
+            val text = "`${zutatenName.text()}´"
             zutatenNamenArray.add(text)
 
         }
@@ -378,8 +381,8 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                 Log.d("Broadcast URL", uri.toString())
                 Toast.makeText(context, uri.toString(), Toast.LENGTH_SHORT).show()
 
-                url = uri.toString()
-                Log.d("URL", url)
+                urlList.add(uri.toString())
+                Log.d("URL", uri.toString())
 
             }
         }
@@ -387,7 +390,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     companion object{
-        var url: String = ""
+        var urlList: ArrayList<String> = ArrayList()
     }
 
 }

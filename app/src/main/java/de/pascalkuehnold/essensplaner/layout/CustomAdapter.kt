@@ -75,10 +75,11 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
             gerichtName.text = selectedGericht.gerichtName
         }
 
+        /*
         val gerichtZutaten = view?.findViewById<TextView>(R.id.zutaten)
         if (gerichtZutaten != null) {
-            val alleZutatenList = if(selectedGericht.zutaten.startsWith("(")){
-                selectedGericht.zutaten.split(")")
+            val alleZutatenList = if(selectedGericht.zutaten.startsWith("`")){
+                selectedGericht.zutaten.split("´")
             } else {
                 selectedGericht.zutaten.split(",")
             }
@@ -93,6 +94,7 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
                 gerichtZutaten.text = prevZutat
             }
         }
+        */
 
         val isVegetarianView = view?.findViewById<ImageView>(R.id.imageViewVegetarian)
         if (isVegetarianView != null) {
@@ -115,8 +117,8 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
                 alleZutaten = selectedGericht.zutaten
             }
 
-            val alleZutatenList = if(alleZutaten.startsWith("(")){
-                alleZutaten.split(")")
+            val alleZutatenList = if(alleZutaten.startsWith("`")){
+                alleZutaten.split("´")
             } else {
                 alleZutaten.split(",")
             }

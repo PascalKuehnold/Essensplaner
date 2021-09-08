@@ -58,17 +58,6 @@
         android:focusable="true"
         />
 
-    <!-- Button fürs Löschen des Gerichtes -->
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnDeleteGericht"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentEnd="true"
-        android:background="@drawable/ic_delete"
-        android:clickable="true"
-        android:focusable="true" />
-
-
     <!-- TextInputLayout für den Namen -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutGericht"

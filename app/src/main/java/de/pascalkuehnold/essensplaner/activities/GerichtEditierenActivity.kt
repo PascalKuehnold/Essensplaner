@@ -7,7 +7,10 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.InputType
-import android.view.*
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -35,7 +38,6 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var switchFastPreperation: SwitchCompat
 
     private lateinit var btnSubmit: Button
-    private lateinit var btnDeleteGericht: AppCompatButton
     private lateinit var btnZutatHinzufuegen: FloatingActionButton
 
 
@@ -71,7 +73,6 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
         switchFastPreperation = findViewById(R.id.switchFastPreperation)
 
         btnSubmit = findViewById(R.id.btnSubmit)
-        btnDeleteGericht = findViewById(R.id.btnDeleteGericht)
         btnZutatHinzufuegen = findViewById(R.id.btnAddZutat)
 
         mContext = this
@@ -158,8 +159,8 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
         //fills the array of ingredients by seperating it
         //if there is nothing to seperate, the array is filled with one item
         try{
-            zutaten = if(mealIngredients.startsWith("(")){
-                mealIngredients.split(")") as ArrayList<String>
+            zutaten = if(mealIngredients.startsWith("`")){
+                mealIngredients.split("´") as ArrayList<String>
             } else {
                 mealIngredients.split(",") as ArrayList<String>
             }
@@ -208,44 +209,6 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
                 changeGericht(Zutat.createNewZutatenString(zutaten))
             }
         }
-
-        //OnClickListener for the Delete Meal Button
-        //Creates a Dialog so that the user can be sure if he wants to delete the entire meal
-        btnDeleteGericht.setOnClickListener{
-            val alert = AlertDialog.Builder(this)
-            alert.setTitle(getString(R.string.deleteGericht))
-            alert.setIcon(R.drawable.ic_delete)
-
-            alert.setMessage(getString(R.string.deleteGerichtText))
-                    .setPositiveButton(R.string.delete) { _: DialogInterface, _: Int ->
-                        val tempDao = AppDatabase.getDatabase(applicationContext).gerichtDao()
-                        val tempGericht = tempDao.findByName(mealName)
-
-                        val wochenPlanerDao = WochenplanerDatabase.getDatabase(applicationContext).wochenGerichteDao()
-                        val wochenPlanerVeggieDao = WochenplanerVeggieDatabase.getDatabase(applicationContext).wochenGerichteVeggieDao()
-
-
-                        tempDao.delete(tempGericht)
-                        wochenPlanerDao.delete(tempGericht)
-                        wochenPlanerVeggieDao.delete(tempGericht)
-
-                        if(wochenPlanerDao.getAll().size <= 7){
-                            Toast.makeText(this, "TODO()007 Not enough meals for 7 days...", Toast.LENGTH_SHORT).show()
-                        }
-                        if(wochenPlanerVeggieDao.getAll().size <= 7){
-                            Toast.makeText(this, "TODO()007 Not enough veggie meals for 7 days...", Toast.LENGTH_SHORT).show()
-                        }
-
-                        Toast.makeText(this, "TODO()000 Gericht was successfully deleted", Toast.LENGTH_SHORT).show()
-                        waitForToastShortThread.start()
-                    }
-                    .setNegativeButton(R.string.cancel) { dialog: DialogInterface, _: Int ->
-                        dialog.cancel()
-                    }
-            alert.create()
-            alert.show()
-        }
-
     }
 
 
@@ -318,13 +281,58 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
                 onBackPressed()
                 return true
             }
+            R.id.deleteMealButton -> {
+                deleteMeal()
+            }
+
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onClick(v: View?) {
-        Toast.makeText(this,"TODO()009 Nicht implementiert", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "TODO()009 Nicht implementiert", Toast.LENGTH_SHORT).show()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
+        // If you don't have res/menu, just create a directory named "menu" inside res
+        menuInflater.inflate(R.menu.mymenu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun deleteMeal() {
+        val alert = AlertDialog.Builder(this)
+        alert.setTitle(getString(R.string.deleteGericht))
+        alert.setIcon(R.drawable.ic_delete)
+
+        alert.setMessage(getString(R.string.deleteGerichtText))
+                .setPositiveButton(R.string.delete) { _: DialogInterface, _: Int ->
+                    val tempDao = AppDatabase.getDatabase(applicationContext).gerichtDao()
+                    val tempGericht = tempDao.findByName(mealName)
+
+                    val wochenPlanerDao = WochenplanerDatabase.getDatabase(applicationContext).wochenGerichteDao()
+                    val wochenPlanerVeggieDao = WochenplanerVeggieDatabase.getDatabase(applicationContext).wochenGerichteVeggieDao()
+
+
+                    tempDao.delete(tempGericht)
+                    wochenPlanerDao.delete(tempGericht)
+                    wochenPlanerVeggieDao.delete(tempGericht)
+
+                    if(wochenPlanerDao.getAll().size <= 7){
+                        Toast.makeText(this, "TODO()007 Not enough meals for 7 days...", Toast.LENGTH_SHORT).show()
+                    }
+                    if(wochenPlanerVeggieDao.getAll().size <= 7){
+                        Toast.makeText(this, "TODO()007 Not enough veggie meals for 7 days...", Toast.LENGTH_SHORT).show()
+                    }
+
+                    Toast.makeText(this, "TODO()000 Gericht was successfully deleted", Toast.LENGTH_SHORT).show()
+                    waitForToastShortThread.start()
+                }
+                .setNegativeButton(R.string.cancel) { dialog: DialogInterface, _: Int ->
+                    dialog.cancel()
+                }
+        alert.create()
+        alert.show()
+    }
 
 }

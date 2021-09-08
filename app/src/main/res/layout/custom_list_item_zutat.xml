@@ -32,10 +32,10 @@
             android:id="@+id/zutatenName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="1"
+            android:maxLines="2"
             android:text="@string/zutatenPlaceholderText"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             />
 
