@@ -13,7 +13,7 @@
         android:id="@+id/gerichtAlterName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLines="1"
+        android:maxLines="2"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
@@ -21,10 +21,12 @@
         android:alpha="0.5"
         android:textSize="18sp"
         android:layout_marginTop="10dp"
-
+        android:textAlignment="center"
         android:clickable="true"
         android:focusableInTouchMode="true"
         android:focusable="true"
+        android:gravity="center_horizontal"
+        android:layout_marginHorizontal="5dp"
         />
 
     <!-- Divider für oben -->
@@ -74,14 +76,16 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textGerichtEditierenName"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/newHeaderColor"
             android:clickable="true"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:gravity="center_horizontal|center_vertical"
+            android:gravity="top|center_horizontal"
+            android:translationY="-10dp"
+            android:minLines="2"
             android:maxLines="2"
-
+            android:isScrollContainer="true"
             android:scrollbars="vertical"
             android:textColor="@color/white"
             android:textColorHint="@color/newBackgroundColor"
@@ -132,10 +136,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginEnd="10dp"
+
             android:divider="@drawable/gradient_white_to_blue"
             android:dividerHeight="@dimen/cardview_compat_inset_shadow"
 

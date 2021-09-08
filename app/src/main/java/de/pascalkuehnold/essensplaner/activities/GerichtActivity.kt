@@ -30,6 +30,10 @@ class GerichtActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        gerichtName = intent.getStringExtra("mealName").toString()
+        gerichtZutaten = intent.getStringExtra("mealIngredients").toString()
+        zubereitungsText = intent.getStringExtra("mealRecipe").toString()
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -40,6 +44,12 @@ class GerichtActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    companion object{
+        var gerichtName = ""
+        var gerichtZutaten = ""
+        var zubereitungsText = ""
     }
 
 

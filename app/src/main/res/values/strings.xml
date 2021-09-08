@@ -92,6 +92,7 @@
         - Meal List can be sorted now\n\n
         - You can search for recipes on Chefkoch.de\n\n
         - You can add meals by using Chefkoch.de -> Just click on add a meal -> Chefkoch.de -> search a meal you wish to add -> click on the blue add icon at the top\n\n
+        - Meals by Chefkoch.de are now added automatically as veggie meal if it is tagged as veggie on the website\n\n
     </string>
 
     <string name="alles_klar">Alright</string>

@@ -170,6 +170,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         var gerichtZutaten = gericht.zutaten
         val multipleDays = gericht.mehrereTage
         val shortPrepareTime = gericht.schnellesGericht
+        val zubereitungsText = gericht.gerichtRezept
 
         val alleZutatenList = if(gerichtZutaten.startsWith("`")){
             gerichtZutaten.split("´")
@@ -211,8 +212,12 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                     dialog.dismiss()
                 }
                 .setNegativeButton(getString(R.string.gerichtAnzeigen)){ _, _ ->
+
                     val gerichtIntent =
                         Intent(this, GerichtActivity::class.java)
+                    gerichtIntent.putExtra("mealName", gerichtName)
+                    gerichtIntent.putExtra("mealIngredients", gerichtZutaten)
+                    gerichtIntent.putExtra("mealRecipe", zubereitungsText)
                     startActivity(gerichtIntent)
                 }
 

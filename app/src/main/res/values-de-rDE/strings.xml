@@ -88,6 +88,7 @@
         - Gerichteliste kann sortiert werden\n\n
         - Du kannst nun nach Rezepten auf Chefkoch.de suchen\n\n
         - Du kannst jetzt Gerichte über Chefkoch.de hinzufügen -> Einfach auf Gericht hinzufügen -> Chefkoch.de -> Ein Gericht suchen -> Und das blaue Icon im oberen Bereich klicken\n\n
+        - Gerichte werden nun automatisch als Vegetarisch gekennzeichnet, falls diese auf Chefkoch.de als Vegetarisch markiert wurden\n\n
     </string>
 
 

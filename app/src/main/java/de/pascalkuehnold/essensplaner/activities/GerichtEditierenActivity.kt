@@ -154,7 +154,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         //sets the hint text of the meal name
-        inputFieldGericht.hint = mealName
+        inputFieldGericht.hint = "Neuer Gerichtename"
 
         //fills the array of ingredients by seperating it
         //if there is nothing to seperate, the array is filled with one item
