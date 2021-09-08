@@ -61,7 +61,7 @@
     <string name="aboutText">©Pascal Kühnold\nThis app is developed by Pascal Kühnold.</string>
 
     <string name="iconAttribution"><div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
-    <string name="welcomeText">v0.4.7\nHey, thanks a lot for testing my App!\n\n
+    <string name="welcomeText">v0.5.0\nHey, thanks a lot for testing my App!\n\n
         The App is still in development and it could be possible that you may run into problems.\n\n
         If so, I would appreciate it if you could tell me where this problem occurred.\n
         Should you come across serious errors, such as the app crashing, please send me a message as well.\n
@@ -91,6 +91,7 @@
         - New main menu design\n\n
         - Meal List can be sorted now\n\n
         - You can search for recipes on Chefkoch.de\n\n
+        - You can add meals by using Chefkoch.de -> Just click on add a meal -> Chefkoch.de -> search a meal you wish to add -> click on the blue add icon at the top\n\n
     </string>
 
     <string name="alles_klar">Alright</string>

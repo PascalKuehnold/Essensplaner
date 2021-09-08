@@ -127,7 +127,8 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
             val einkauflisteDao = EinkaufslisteDatabase.getDatabase(parent!!.context).einkaufslisteDao()
 
             for(zutat in alleZutatenList){
-                tempZutat = Zutat(0, zutat, isChecked = false)
+                val zutatClean = zutat.removePrefix("`")
+                tempZutat = Zutat(0, zutatClean, isChecked = false)
 
                 einkauflisteDao.insertAll(tempZutat)
             }

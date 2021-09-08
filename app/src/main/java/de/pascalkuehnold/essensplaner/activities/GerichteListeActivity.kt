@@ -38,7 +38,6 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var searchView: SearchView
 
     private var alertBuilder: AlertDialog.Builder? = null
-    private lateinit var alert: AlertDialog
 
     lateinit var sortedGerichte: MutableList<Gericht>
 
@@ -57,12 +56,12 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         btnAddGerichteButton.setOnClickListener{
             alertBuilder = AlertDialog.Builder(this, R.style.Theme_Essensplaner_DialogTheme)
             alert = alertBuilder?.create()!!
-            alert.setView(layoutInflater.inflate(R.layout.gericht_hinzufuegen_dialog, null))
-            alert.setTitle("Neues Gericht hinzufügen")
-            alert.setMessage("Neues Gericht selbst eintragen oder über Chefkoch.de anlegen.")
-            alert.setCancelable(true)
-            alert.setIcon(R.drawable.ic_add_to_shoppinglist)
-            alert.show()
+            alert!!.setView(layoutInflater.inflate(R.layout.gericht_hinzufuegen_dialog, null))
+            alert!!.setTitle("Neues Gericht hinzufügen")
+            alert!!.setMessage("Neues Gericht selbst eintragen oder über Chefkoch.de anlegen.")
+            alert!!.setCancelable(true)
+            alert!!.setIcon(R.drawable.ic_add_to_shoppinglist)
+            alert!!.show()
 
 
 
@@ -107,7 +106,6 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                         sortGerichteListe(sortedGerichte)
                     }
                 }
-
             }
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // write code to perform some action
@@ -181,10 +179,11 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         var prevZutat = ""
 
         for(zutat: String in alleZutatenList){
-            prevZutat += if(zutat == alleZutatenList.last()){
-                zutat
+            val zutatClean = zutat.removePrefix("`")
+            prevZutat += if(zutatClean == alleZutatenList.last()){
+                zutatClean
             } else {
-                "$zutat, "
+                "$zutatClean, "
             }
             gerichtZutaten = prevZutat
         }
@@ -237,7 +236,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
             inputText.textAlignment = TEXT_ALIGNMENT_CENTER
 
         }
-        alertDialogBuilder.setPositiveButton("Zu Chefkoch.de") { _, _ ->
+        alertDialogBuilder.setPositiveButton("Zu Chefkoch.de") { dialog, _ ->
             var recipeString = ""
             if (inputText != null) {
                 recipeString = if(inputText.text.isNotEmpty()){
@@ -258,7 +257,6 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
             }
             val customTabsIntent: CustomTabsIntent = builder.build()
             customTabsIntent.launchUrl(this, Uri.parse(recipeString))
-
         }
         alertDialogBuilder.setNegativeButton("Lieber nicht") { dialog, _ ->
             dialog.dismiss()
@@ -272,7 +270,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun addMealByUser(view: View) {
-        alert.dismiss()
+        alert?.dismiss()
         val intent = Intent(this, GerichtHinzufuegenActivity::class.java)
         startActivity(intent)
     }
@@ -295,6 +293,11 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         for (headline in newsHeadlines) {
             println(headline.text())
         }
+
+        val hasVegetarischText = doc.select(".ds-tag:contains(Vegetarisch)")
+        val hasVeganText = doc.select(".ds-tag:contains(Vegan)")
+
+        val isVegetarisch = hasVegetarischText.isNotEmpty() || hasVeganText.isNotEmpty()
 
         var menge: Double = 0.0
         var einheit: String = ""
@@ -369,7 +372,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         val rezeptErsteller: Elements = doc.select("div.ds-mb-right > a")
         print(rezeptErsteller.text())
 
-        Gericht.addGericht(this, doc.title(), zutatenNamenArray, false, false, false, zubereitungText)
+        Gericht.addGericht(this, doc.title(), zutatenNamenArray, isVegetarisch, false, false, zubereitungText)
     }
 
 
@@ -378,6 +381,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         override fun onReceive(context: Context, intent: Intent) {
             val uri: Uri? = intent.data
             if (uri != null) {
+                alert!!.dismiss()
                 Log.d("Broadcast URL", uri.toString())
                 Toast.makeText(context, uri.toString(), Toast.LENGTH_SHORT).show()
 
@@ -391,6 +395,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
     companion object{
         var urlList: ArrayList<String> = ArrayList()
+        var alert: AlertDialog? = null
     }
 
 }

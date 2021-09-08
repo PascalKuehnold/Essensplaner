@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.activities.GerichtEditierenActivity
+import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 
 class CustomZutatenAdapter(context: Context, zutaten: ArrayList<String>, callback: View.OnClickListener): BaseAdapter(), ListAdapter {
     private val mZutaten = zutaten
@@ -44,7 +45,7 @@ class CustomZutatenAdapter(context: Context, zutaten: ArrayList<String>, callbac
 
         val zutatenName = view?.findViewById<TextView>(R.id.zutatenName)
         if (zutatenName != null) {
-            zutatenName.text = mZutaten[position]
+            zutatenName.text = mZutaten[position].removePrefix("`").capitalize()
         }
 
         val imageViewZutatChecked = view?.findViewById<ImageView>(R.id.imageViewCheckedZutat)
@@ -103,7 +104,7 @@ class CustomZutatenAdapter(context: Context, zutaten: ArrayList<String>, callbac
 
         zutaten[position] = inputText
 
-        val tempZutatenString = createNewZutatenString(zutaten)
+        val tempZutatenString = Zutat.createNewZutatenString(zutaten)
         (mContext as GerichtEditierenActivity).changeGericht(tempZutatenString)
 
         Toast.makeText(mContext, ("TODO()004 $tempZutat wurde erfolgreich zu $inputText bearbeitet."), Toast.LENGTH_SHORT).show()
@@ -118,7 +119,7 @@ class CustomZutatenAdapter(context: Context, zutaten: ArrayList<String>, callbac
         alert.setPositiveButton(R.string.yes){ _: DialogInterface, _: Int ->
             mZutaten.removeAt(position)
             notifyDataSetChanged()
-            val tempZutatenString = createNewZutatenString(mZutaten)
+            val tempZutatenString = Zutat.createNewZutatenString(mZutaten)
             (mContext as GerichtEditierenActivity).changeGericht(tempZutatenString)
 
             Toast.makeText(mContext, ("TODO()002 $tempZutat was deleted successfully."), Toast.LENGTH_SHORT).show()
@@ -129,21 +130,6 @@ class CustomZutatenAdapter(context: Context, zutaten: ArrayList<String>, callbac
         alert.create()
         alert.show()
     }
-
-    //Method for creating ingredient string, after it was edited by the user
-    private fun createNewZutatenString(zutaten: List<String>): String {
-        val newZutaten = zutaten.toMutableList()
-
-        val stringBuilder = StringBuilder()
-        for (element: String in newZutaten) {
-            stringBuilder.append("$element,")
-        }
-        if (stringBuilder.endsWith(",")) {
-            stringBuilder.deleteCharAt(stringBuilder.length - 1)
-        }
-        return stringBuilder.toString()
-    }
-
 
 
 }
