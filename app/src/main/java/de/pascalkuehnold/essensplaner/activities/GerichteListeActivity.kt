@@ -275,7 +275,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         }
         val alert = alertDialogBuilder.create()
             alert.setTitle("TODO017() Weiterleitende Verlinkung")
-            alert.setMessage("TODO18() Hier kannst du dein gewünschtes Gericht eintragen und dann über \"Zu Chefkoch.de\" nach einem Rezept suchen.")
+            alert.setMessage("TODO18() Du wirst beim fortfahren auf Chefkoch.de weitergeleitet!\nEine Internetverbindung ist nötig.\nWLAN wird empfohlen.\n\nHier kannst du dein gewünschtes Gericht eintragen und dann über \"Zu Chefkoch.de\" nach einem Rezept suchen.")
             alert.setIcon(R.drawable.ic_info)
             alert.setView(inputText)
             alert.show()
