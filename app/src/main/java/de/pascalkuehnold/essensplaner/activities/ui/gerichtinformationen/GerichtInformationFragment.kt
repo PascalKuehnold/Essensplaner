@@ -24,7 +24,7 @@ class GerichtInformationFragment : Fragment() {
         gerichtInformationViewModel =
             ViewModelProvider(this).get(GerichtInformationViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_meal_information, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
+        val textView: TextView = root.findViewById(R.id.mealName)
         gerichtInformationViewModel.text.observe(viewLifecycleOwner, {
             textView.text = it
         })

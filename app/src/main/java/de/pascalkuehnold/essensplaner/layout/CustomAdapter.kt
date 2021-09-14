@@ -3,7 +3,6 @@ package de.pascalkuehnold.essensplaner.layout
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -110,18 +109,13 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
             lateinit var tempZutat: Zutat
 
 
-            val alleZutaten: String
-            if(selectedGericht.zutaten.isEmpty()){
-                alleZutaten = selectedGericht.gerichtName
+            val alleZutaten = if(selectedGericht.zutaten.isEmpty()){
+                selectedGericht.gerichtName
             } else {
-                alleZutaten = selectedGericht.zutaten
+                selectedGericht.zutaten
             }
 
-            val alleZutatenList = if(alleZutaten.startsWith("`")){
-                alleZutaten.split("´")
-            } else {
-                alleZutaten.split(",")
-            }
+            val alleZutatenList = Zutat.allIngredientsAsList(alleZutaten)
 
 
             val einkauflisteDao = EinkaufslisteDatabase.getDatabase(parent!!.context).einkaufslisteDao()
@@ -155,4 +149,6 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
 
         return view
     }
+
+
 }
