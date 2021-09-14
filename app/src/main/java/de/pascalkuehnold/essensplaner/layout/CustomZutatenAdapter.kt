@@ -57,7 +57,6 @@ class CustomZutatenAdapter(context: Context, zutaten: ArrayList<String>, callbac
         btnZutatBearbeiten?.setOnClickListener {
             if(mContext is GerichtEditierenActivity){
                 Zutat.createChangeZutatDialog(mContext, mZutaten, position, this)
-                notifyDataSetChanged()
             }
 
         }
@@ -66,7 +65,6 @@ class CustomZutatenAdapter(context: Context, zutaten: ArrayList<String>, callbac
         btnDeleteZutat?.setOnClickListener{
             if(mContext is GerichtEditierenActivity){
                 Zutat.deleteZutat(mContext, mZutaten, position, this)
-                notifyDataSetChanged()
             }
         }
 

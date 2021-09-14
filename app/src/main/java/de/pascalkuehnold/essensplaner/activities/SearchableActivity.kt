@@ -14,13 +14,14 @@ class SearchableActivity: Activity() {
         // Verify the action and get the query
         if (Intent.ACTION_SEARCH == intent.action) {
             intent.getStringExtra(SearchManager.QUERY)?.also { query ->
-                doMySearch(query)
+                //doMySearch(query)
             }
         }
     }
 
+    /*
     private fun doMySearch(query: String) {
 
     }
-
+    */
 }

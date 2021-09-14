@@ -21,6 +21,9 @@ class Gericht(
         @ColumnInfo(name = "vegetarisch") val isVegetarisch: Boolean,
         @ColumnInfo(name = "mehrere_tage") val mehrereTage: Boolean,
         @ColumnInfo(name = "schnelles_gericht") val schnellesGericht: Boolean,
+        @ColumnInfo(name = "ist_chefkoch_gericht") val isChefkochGericht: Boolean,
+        @ColumnInfo(name = "gesamt_kochzeit") val gesamtKochzeit: String,
+        @ColumnInfo(name = "gericht_author") val gerichtAuthor: String,
         @ColumnInfo(name = "rezept") val gerichtRezept: String
 ){
     companion object{
@@ -32,7 +35,17 @@ class Gericht(
 
         }
 
-        fun addGericht(applicationContext: Context, mealName: String, zutaten: List<String>, mealIsVeggie: Boolean, mealIsForMultipleDays: Boolean, mealIsFastPrepared: Boolean, mealReceipt: String){
+        fun addGericht(applicationContext: Context,
+                       mealName: String,
+                       zutaten: List<String>,
+                       mealIsVeggie: Boolean,
+                       mealIsForMultipleDays: Boolean,
+                       mealIsFastPrepared: Boolean,
+                       mealIsChefkochGericht: Boolean,
+                       mealOverallCooktime: String,
+                       mealAuthor: String,
+                       mealReceipt: String)
+        {
             val tempZutaten = Zutat.createNewZutatenString(zutaten)
 
             val gerichtDao = createConnection(applicationContext)
@@ -43,6 +56,9 @@ class Gericht(
                     mealIsVeggie,
                     mealIsForMultipleDays,
                     mealIsFastPrepared,
+                    mealIsChefkochGericht,
+                    mealOverallCooktime,
+                    mealAuthor,
                     mealReceipt
             )
 

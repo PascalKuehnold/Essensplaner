@@ -28,6 +28,9 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
     private var mealIsVeggie = false
     private var mealIsForMultipleDays = false
     private var mealIsFastPrepared = false
+    private var mealIsByChefkoch = false
+    private var mealCooktime = ""
+    private var mealAuthor = ""
     private var mealReceipt = ""
 
     private var url = ""
@@ -64,14 +67,19 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
             this.mealIsForMultipleDays = switchMultipleDays.isChecked
 
             if (this.mealName.isNotEmpty()) {
-                println("GerichteHinzufuegenActivity >> " + this.mealName +
-                        " Zutaten: " + Zutat.createNewZutatenString(zutaten) +
-                        " Vegetarisch: " + this.mealIsVeggie +
-                        " Schnelles Gericht: " + this.mealIsFastPrepared +
-                        " Mehrere Tage: " + this.mealIsForMultipleDays +
-                        " Rezept: " + this.mealReceipt)
                 try {
-                    Gericht.addGericht(applicationContext, this.mealName, this.zutaten, this.mealIsVeggie, this.mealIsForMultipleDays, this.mealIsFastPrepared, this.mealReceipt)
+                    Gericht.addGericht(
+                            applicationContext,
+                            this.mealName,
+                            this.zutaten,
+                            this.mealIsVeggie,
+                            this.mealIsForMultipleDays,
+                            this.mealIsFastPrepared,
+                            this.mealIsByChefkoch ,
+                            this.mealCooktime,
+                            this.mealAuthor,
+                            this.mealReceipt
+                    )
                 } catch (e: SQLiteConstraintException) {
                     Toast.makeText(this, this.mealName + " " + getString(R.string.textAlreadyInList), Toast.LENGTH_SHORT).show()
                 }
@@ -170,88 +178,5 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         }
         return super.onOptionsItemSelected(item)
     }
-
-    fun getChefkochGericht(url: String){
-        val doc = Jsoup.connect(url).get()
-        val html = doc.outerHtml()
-
-        print(doc.title())
-        val newsHeadlines: Elements = doc.select("h1")
-        for (headline in newsHeadlines) {
-            println(headline.text())
-        }
-
-        var menge: Double = 0.0
-        var einheit: String = ""
-
-
-        val mengenArray: ArrayList<Double> = ArrayList()
-        val einheitenArray: ArrayList<String> = ArrayList()
-
-        //Zutatenmenge und Einheit
-        val zutatenEinheiten: Elements = doc.select(".td-left")
-        for(zutatEinheit in zutatenEinheiten){
-            val regex = Regex(" ")
-            var text = zutatEinheit.text()
-
-
-            if(text.isEmpty()){
-                menge = 0.0
-            } else if(text.contains("½")){
-                menge = 0.5
-                text = text.replace("½", " ")
-            } else if(text.contains("¾")){
-                menge = 0.75
-                text = text.replace("¾", " ")
-            }
-
-            val zutat = text.trim().split(regex, 2)
-
-
-            try {
-                menge += zutat[0].toDouble()
-            } catch (e: Exception){
-                einheit = zutat[0]
-            }
-
-
-            if(zutat.size > 1){
-                einheit = zutat[1]
-            }
-
-            mengenArray.add(menge)
-            einheitenArray.add(einheit)
-
-            menge = 0.0
-            einheit = ""
-        }
-
-        //Zutatennamen
-        var zutatenNamenArray: ArrayList<String> = ArrayList()
-
-        val zutatenNamen: Elements = doc.select(".td-right span")
-        for(zutatenName in zutatenNamen){
-            var text = zutatenName.text()
-            zutatenNamenArray.add(text)
-
-        }
-
-        //Zusammenbringen der einzelnen Listen
-        for(i in 0 until zutatenEinheiten.size){
-            println("Menge: ${mengenArray[i]}; \tEinheit: ${einheitenArray[i]} \t\t-> Zutat: ${zutatenNamenArray[i]}")
-        }
-
-        //Zubereitungstext
-        val zubereitung: Elements = doc.select("article.ds-box.ds-grid-float.ds-col-12.ds-col-m-8.ds-or-3 > div:nth-child(3)")
-        val zubereitungText = zubereitung.html().replace("<br>", "\n")
-
-        print(zubereitungText)
-
-
-        //Ersteller des Rezeptes
-        val rezeptErsteller: Elements = doc.select("div.ds-mb-right > a")
-        print(rezeptErsteller.text())
-    }
-
 
 }

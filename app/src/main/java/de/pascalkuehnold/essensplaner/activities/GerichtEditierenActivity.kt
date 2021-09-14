@@ -46,7 +46,10 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
     private var mealIsVeggie = false
     private var mealIsForMultipleDays = false
     private var mealIsFastPrepared = false
+    private var mealIsByChefkoch = false
     private var mealReceipt = ""
+    private var mealCooktime = ""
+    private var mealAuthor = ""
 
     private var newGericht: Gericht? = null
     private lateinit var adapter: CustomZutatenAdapter
@@ -145,6 +148,9 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
                 mealIsVeggie = tempGericht.isVegetarisch
                 mealIsForMultipleDays = tempGericht.mehrereTage
                 mealIsFastPrepared = tempGericht.schnellesGericht
+                mealIsByChefkoch = tempGericht.isChefkochGericht
+                mealCooktime = tempGericht.gesamtKochzeit
+                mealAuthor = tempGericht.gerichtAuthor
                 mealReceipt = tempGericht.gerichtRezept
             }
 
@@ -236,7 +242,18 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
     //Method for changing the entire meal
     fun changeGericht(inZutaten: String){
 
-        newGericht = Gericht(gerichtID, mealName, inZutaten, mealIsVeggie, mealIsForMultipleDays, mealIsFastPrepared, mealReceipt)
+        newGericht = Gericht(
+                gerichtID,
+                gerichtName = mealName,
+                zutaten = inZutaten,
+                isVegetarisch =  mealIsVeggie,
+                mehrereTage =  mealIsForMultipleDays,
+                schnellesGericht = mealIsFastPrepared,
+                isChefkochGericht = mealIsByChefkoch,
+                gesamtKochzeit = mealCooktime,
+                gerichtAuthor = mealAuthor,
+                gerichtRezept =  mealReceipt
+        )
         isSaved = false
     }
 

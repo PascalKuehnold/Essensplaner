@@ -33,6 +33,9 @@ class GerichtActivity : AppCompatActivity() {
         gerichtName = intent.getStringExtra("mealName").toString()
         gerichtZutaten = intent.getStringExtra("mealIngredients").toString()
         zubereitungsText = intent.getStringExtra("mealRecipe").toString()
+        gerichtAuthor = intent.getStringExtra("mealAuthor").toString()
+        gerichtZubereitungsZeit = intent.getStringExtra("mealCookTime").toString()
+        gerichtVonChefkoch = intent.getBooleanExtra("mealByChefkoch", false)
 
     }
 
@@ -50,6 +53,9 @@ class GerichtActivity : AppCompatActivity() {
         var gerichtName = ""
         var gerichtZutaten = ""
         var zubereitungsText = ""
+        var gerichtAuthor = ""
+        var gerichtZubereitungsZeit = ""
+        var gerichtVonChefkoch = false
     }
 
 

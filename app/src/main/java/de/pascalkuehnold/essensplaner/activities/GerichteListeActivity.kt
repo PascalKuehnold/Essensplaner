@@ -171,6 +171,10 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         val multipleDays = gericht.mehrereTage
         val shortPrepareTime = gericht.schnellesGericht
         val zubereitungsText = gericht.gerichtRezept
+        val gerichtAuthor = gericht.gerichtAuthor
+        val zubereitungsZeit = gericht.gesamtKochzeit
+        val isChefkochGericht = gericht.isChefkochGericht
+
 
         val alleZutatenList = if(gerichtZutaten.startsWith("`")){
             gerichtZutaten.split("´")
@@ -218,6 +222,9 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                     gerichtIntent.putExtra("mealName", gerichtName)
                     gerichtIntent.putExtra("mealIngredients", gerichtZutaten)
                     gerichtIntent.putExtra("mealRecipe", zubereitungsText)
+                    gerichtIntent.putExtra("mealAuthor", gerichtAuthor)
+                    gerichtIntent.putExtra("mealCookTime", zubereitungsZeit)
+                    gerichtIntent.putExtra("mealByChefkoch", isChefkochGericht)
                     startActivity(gerichtIntent)
                 }
 
@@ -241,7 +248,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
             inputText.textAlignment = TEXT_ALIGNMENT_CENTER
 
         }
-        alertDialogBuilder.setPositiveButton("Zu Chefkoch.de") { dialog, _ ->
+        alertDialogBuilder.setPositiveButton("Zu Chefkoch.de") { _, _ ->
             var recipeString = ""
             if (inputText != null) {
                 recipeString = if(inputText.text.isNotEmpty()){
@@ -291,9 +298,6 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         StrictMode.setThreadPolicy(policy)
 
         val doc = Jsoup.connect(url).get()
-        val html = doc.outerHtml()
-
-        print(doc.title())
         val newsHeadlines: Elements = doc.select("h1")
         for (headline in newsHeadlines) {
             println(headline.text())
@@ -372,12 +376,29 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
         print(zubereitungText)
 
+        val zubereitungsZeit: Elements = doc.select(".rds-recipe-meta__badge:contains(Gesamtzeit)")
+
 
         //Ersteller des Rezeptes
         val rezeptErsteller: Elements = doc.select("div.ds-mb-right > a")
-        print(rezeptErsteller.text())
 
-        Gericht.addGericht(this, doc.title(), zutatenNamenArray, isVegetarisch, false, false, zubereitungText)
+        try {
+            Gericht.addGericht(
+                    this,
+                    newsHeadlines.text(),
+                    zutatenNamenArray,
+                    isVegetarisch,
+                    mealIsForMultipleDays = false,
+                    mealIsFastPrepared = false,
+                    mealIsChefkochGericht = true,
+                    mealOverallCooktime = zubereitungsZeit.text(),
+                    mealAuthor = rezeptErsteller.text(),
+                    mealReceipt = zubereitungText
+            )
+        } catch(e: Exception){
+            Toast.makeText(this, "TODO()35 Gericht konnte nicht angelegt werden. Wurde eine korrekte Rezeptseite aufgerufen?", Toast.LENGTH_LONG).show()
+        }
+
     }
 
 
@@ -386,13 +407,17 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         override fun onReceive(context: Context, intent: Intent) {
             val uri: Uri? = intent.data
             if (uri != null) {
-                alert!!.dismiss()
-                Log.d("Broadcast URL", uri.toString())
-                Toast.makeText(context, uri.toString(), Toast.LENGTH_SHORT).show()
+                if(uri.toString().startsWith("https://www.chefkoch.de/rezepte/")) {
 
-                urlList.add(uri.toString())
-                Log.d("URL", uri.toString())
+                    alert!!.dismiss()
+                    Log.d("Broadcast URL", uri.toString())
+                    Toast.makeText(context, uri.toString(), Toast.LENGTH_SHORT).show()
 
+                    urlList.add(uri.toString())
+                    Log.d("URL", uri.toString())
+                } else {
+                    Toast.makeText(context, "TODO36() Bitte füge ein gültiges Rezept hinzu", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
