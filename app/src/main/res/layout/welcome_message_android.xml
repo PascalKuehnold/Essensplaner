@@ -36,7 +36,7 @@
             android:scrollbars="vertical"
             android:textColor="#ddd"
             android:textSize="16sp"
-
+            android:isScrollContainer="true"
             />
 
         <Button

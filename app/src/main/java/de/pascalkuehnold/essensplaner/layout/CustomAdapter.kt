@@ -8,10 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import de.pascalkuehnold.essensplaner.R
-import de.pascalkuehnold.essensplaner.activities.GerichtEditierenActivity
-import de.pascalkuehnold.essensplaner.activities.GerichteListeActivity
-import de.pascalkuehnold.essensplaner.activities.Wochenplaner
-import de.pascalkuehnold.essensplaner.activities.WochenplanerVeggieActivity
+import de.pascalkuehnold.essensplaner.activities.*
 import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
@@ -115,7 +112,7 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
                 selectedGericht.zutaten
             }
 
-            val alleZutatenList = Zutat.allIngredientsAsList(alleZutaten)
+            val alleZutatenList = Zutat.generateIngredientsList(alleZutaten)
 
 
             val einkauflisteDao = EinkaufslisteDatabase.getDatabase(parent!!.context).einkaufslisteDao()

@@ -27,6 +27,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
+import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
@@ -167,7 +168,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         val gerichte = sortedGerichte
         val gericht = gerichte[v?.tag as Int]
         val gerichtName = gericht.gerichtName
-        var gerichtZutaten = gericht.zutaten
+        val gerichtZutaten = gericht.zutaten
         val multipleDays = gericht.mehrereTage
         val shortPrepareTime = gericht.schnellesGericht
         val zubereitungsText = gericht.gerichtRezept
@@ -175,38 +176,16 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         val zubereitungsZeit = gericht.gesamtKochzeit
         val isChefkochGericht = gericht.isChefkochGericht
 
-
-        val alleZutatenList = if(gerichtZutaten.startsWith("`")){
-            gerichtZutaten.split("´")
-        } else {
-            gerichtZutaten.split(",")
-        }
-        var prevZutat = ""
-
-        for(zutat: String in alleZutatenList){
-            val zutatClean = zutat.removePrefix("`")
-            prevZutat += if(zutatClean == alleZutatenList.last()){
-                zutatClean
-            } else {
-                "$zutatClean, "
-            }
-            gerichtZutaten = prevZutat
-        }
-
+        val zutaten = Zutat.allIngredientsAsList(gerichtZutaten)
+        val zutatenList = Zutat.createNewZutatenString(zutaten)
 
         AlertDialog.Builder(this)
                 .setMessage(
-                        (
-                                getString(R.string.gerichtNameInfo) + " " + gerichtName + "\n\n" +
-                                        getString(R.string.zutatenInfo) + " " + gerichtZutaten + "\n\n" +
-                                        getString(R.string.f_r_mehr_als_einen_tag) + ": " + (if (multipleDays) getString(
-                                        R.string.yes
-                                ) else getString(R.string.no)) + "\n\n" +
-                                        getString(R.string.schnelle_zubereitung) + ": " + (if (shortPrepareTime) getString(
-                                        R.string.yes
-                                ) else getString(R.string.no))
-                                )
-
+                        if(gerichtAuthor.isNotEmpty()){
+                            "by $gerichtAuthor on Chefkoch.de"
+                        } else {
+                            ""
+                        }
                 )
                 .setPositiveButton(getString(R.string.findRecipe)) { dialog, _ ->
                     showWarningExternalLink(
@@ -220,16 +199,15 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                     val gerichtIntent =
                         Intent(this, GerichtActivity::class.java)
                     gerichtIntent.putExtra("mealName", gerichtName)
-                    gerichtIntent.putExtra("mealIngredients", gerichtZutaten)
+                    gerichtIntent.putExtra("mealIngredients", gericht.zutaten)
                     gerichtIntent.putExtra("mealRecipe", zubereitungsText)
                     gerichtIntent.putExtra("mealAuthor", gerichtAuthor)
                     gerichtIntent.putExtra("mealCookTime", zubereitungsZeit)
                     gerichtIntent.putExtra("mealByChefkoch", isChefkochGericht)
                     startActivity(gerichtIntent)
                 }
-
                 .setCancelable(true)
-                .setTitle(getString(R.string.information))
+                .setTitle(gerichtName)
                 .setIcon(R.drawable.ic_info)
                 .create()
                 .show()

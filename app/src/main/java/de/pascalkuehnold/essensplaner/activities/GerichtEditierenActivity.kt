@@ -164,20 +164,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
 
         //fills the array of ingredients by seperating it
         //if there is nothing to seperate, the array is filled with one item
-        try{
-            zutaten = if(mealIngredients.startsWith("`")){
-                mealIngredients.split("´") as ArrayList<String>
-            } else {
-                mealIngredients.split(",") as ArrayList<String>
-            }
-
-            zutaten.removeAll(listOf(null, ""))
-        } catch (e: Exception){
-            zutaten = ArrayList()
-            if(mealIngredients.isNotEmpty()){
-                zutaten.add(mealIngredients)
-            }
-        }
+        zutaten = Zutat.generateIngredientsList(mealIngredients)
 
         //for the checkbox if the meal is vegetarian or not
         switchVegetarisch.setOnCheckedChangeListener{ _, isChecked ->
@@ -216,6 +203,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
+
 
 
 

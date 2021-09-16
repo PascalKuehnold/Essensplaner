@@ -6,13 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.view.isVisible
 import de.pascalkuehnold.essensplaner.R
+import de.pascalkuehnold.essensplaner.activities.GerichtActivity
 import de.pascalkuehnold.essensplaner.activities.GerichtEditierenActivity
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class CustomZutatenAdapter(context: Context, zutaten: ArrayList<String>, callback: View.OnClickListener): BaseAdapter(), ListAdapter {
+class CustomZutatenAdapter(context: Context, zutaten: ArrayList<String>, callback: View.OnClickListener?): BaseAdapter(), ListAdapter {
     private val mZutaten = zutaten
     private val mContext = context
     private val mCallback = callback
@@ -54,11 +56,12 @@ class CustomZutatenAdapter(context: Context, zutaten: ArrayList<String>, callbac
 
 
         val btnZutatBearbeiten = view?.findViewById<Button>(R.id.btnZutatBearbeiten)
+
+
         btnZutatBearbeiten?.setOnClickListener {
             if(mContext is GerichtEditierenActivity){
                 Zutat.createChangeZutatDialog(mContext, mZutaten, position, this)
             }
-
         }
 
         val btnDeleteZutat = view?.findViewById<Button>(R.id.btnDeleteZutat)
@@ -66,6 +69,12 @@ class CustomZutatenAdapter(context: Context, zutaten: ArrayList<String>, callbac
             if(mContext is GerichtEditierenActivity){
                 Zutat.deleteZutat(mContext, mZutaten, position, this)
             }
+        }
+
+        //If the user is in the meal information tab, these buttons are not shown
+        if(mContext is GerichtActivity){
+            btnZutatBearbeiten!!.isVisible = false
+            btnDeleteZutat!!.isVisible = false
         }
 
         return view

@@ -30,9 +30,9 @@ class Zutat(
             val stringBuilder = StringBuilder()
             for (element: String in newZutaten) {
                 if(element.startsWith("`") && element.endsWith("´")){
-                    stringBuilder.append(element)
+                    stringBuilder.append(element.removePrefix("`"))
                 } else {
-                    stringBuilder.append("$element,")
+                    stringBuilder.append("${element.removePrefix("`")},")
                 }
 
             }
@@ -107,6 +107,25 @@ class Zutat(
             // Create the AlertDialog object and return it
             builder.create()
             builder.show()
+        }
+
+        fun generateIngredientsList(mealIngredients: String): ArrayList<String> {
+            var zutaten: ArrayList<String>
+            try {
+                zutaten = if (mealIngredients.startsWith("`")) {
+                    mealIngredients.split("´") as ArrayList<String>
+                } else {
+                    mealIngredients.split(",") as ArrayList<String>
+                }
+
+                zutaten.removeAll(listOf(null, ""))
+            } catch (e: Exception) {
+                zutaten = ArrayList()
+                if (mealIngredients.isNotEmpty()) {
+                    zutaten.add(mealIngredients)
+                }
+            }
+            return zutaten
         }
 
     }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -13,6 +14,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.activities.GerichtActivity.Companion.gerichtVonChefkoch
+import de.pascalkuehnold.essensplaner.activities.GerichtActivity.Companion.gerichtZutaten
+import de.pascalkuehnold.essensplaner.dataclasses.Zutat
+import de.pascalkuehnold.essensplaner.layout.CustomZutatenAdapter
 
 class GerichtInformationFragment : Fragment() {
 
@@ -45,6 +49,16 @@ class GerichtInformationFragment : Fragment() {
         gerichtInformationViewModel.mealCookTime.observe(viewLifecycleOwner, {
             tvCookTime.text = it
         })
+
+        val lvZutaten: ListView = root.findViewById(R.id.zutatenAnzeige)
+        val zutaten = Zutat.generateIngredientsList(gerichtZutaten)
+
+
+        //creates the custom adapter
+        val adapter = CustomZutatenAdapter(container!!.context, zutaten, null)
+
+        //setting the adapter for the listview of ingredients
+        lvZutaten.adapter = adapter
 
 
         (activity as AppCompatActivity?)!!.supportActionBar?.setDisplayHomeAsUpEnabled(true)
