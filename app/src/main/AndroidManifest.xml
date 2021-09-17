@@ -17,6 +17,11 @@
             android:name=".activities.GerichtActivity"
             android:label="@string/title_activity_gericht"
             android:screenOrientation="portrait" />
+        <activity android:name=".activities.ScreenSlidePagerActivity"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Essensplaner.NoActionBar"
+            />
         <activity
             android:name=".activities.EinkaufslisteActivity"
             android:parentActivityName=".MainActivity"
