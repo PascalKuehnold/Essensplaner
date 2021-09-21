@@ -26,7 +26,10 @@
     <string name="alphabetischAtoZ">(a-z)</string>
     <string name="alphabetischZtoA">(z-a)</string>
     <string name="sortierenNachVegetarisch">veggie</string>
-    <string name="gericht_hinzuf_gen">Add meal</string>
+    <string name="mealAdd">Add meal</string>
+    <string name="mealAddNew">Neues Gericht hinzufügen</string>
+    <string name="mealAddNewMessage">Add a new meal by yourself or by using Chefkoch.de.</string>
+    <string name="authorOnChefkoch">by %1$s on Chefkoch.de</string>
     <string name="wasAddedText">" was added."</string>
     <string name="textAlreadyInList">" is already in the list."</string>
     <string name="textErrorAtMealAdd">Meal couldn\'t be added. Check input?</string>
@@ -114,10 +117,14 @@
     <string name="textNotEnoughMealsDescVeggie">You need at least 7 Veggie meals to create a Weekly Veggie planner</string>
     <string name="findRecipe">Find Recipe</string>
     <string name="gerichtAnzeigen">Show meal</string>
-    <string name="title_activity_gericht">MainActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
     <string name="check_connection">Check Connection</string>
-    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</string>
+    <string name="lorem_ipsum" translatable="false">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</string>
+    <string name="noInputFound">No Input</string>
+    <string name="eintragItem">"Item %1$s "</string>
+    <string name="externalLinkInfo">By continuing you will be forwarded to Chefkoch.de!\nAn Internetconnection is necessary.\nWLAN is recommended.\n\n</string>
+    <string name="desiredMeal">Here you can enter a headword and you can search for a recipe with that word by continuing.\n</string>
+    <string name="externalLinkTitle">Weiterleitende Verlinkung</string>
+    <string name="chefkochMealCouldNotBeAdded">Meal couldn\'t be added. Did you use a correct recipe site?</string>
+    <string name="chefkochMealAddError">Please use a correct recipe link.</string>
+    <string name="title_activity_gericht">Gericht Informationen</string>
 </resources>

@@ -16,9 +16,6 @@ import androidx.appcompat.widget.SwitchCompat
 import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
-import de.pascalkuehnold.essensplaner.dataclasses.Zutat
-import org.jsoup.Jsoup
-import org.jsoup.select.Elements
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -48,7 +45,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gericht_hinzufuegen)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setTitle(R.string.gericht_hinzuf_gen)
+        supportActionBar?.setTitle(R.string.mealAdd)
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
 
         textInputGericht = findViewById(R.id.textInputTextGericht)
@@ -130,16 +127,16 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
 
                 for(item in items){
                     if(zutaten.contains(item.capitalize(Locale.getDefault()))){
-                        Toast.makeText(this, "TODO014 $item ist schon vorhanden", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, String.format(getString(R.string.eintragItem), item) + getString(R.string.textAlreadyInList), Toast.LENGTH_SHORT).show()
                     } else {
                         val capItem = item.capitalize(Locale.getDefault())
                         zutaten.add(capItem)
-                        Toast.makeText(this, "Item" + " " + capItem + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, String.format(getString(R.string.eintragItem), capItem)  + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
                     }
                 }
                 zutatHinzufuegen()
             } else {
-                Toast.makeText(this, "TODO()005 Keine Eingabe...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.noInputFound, Toast.LENGTH_SHORT).show()
             }
         }
         builder.setNegativeButton(R.string.abbrechen) { dialog, _ ->

@@ -21,11 +21,14 @@
     <string name="deine_gerichte">Deine Gerichte</string>
     <string name="gerichtPlaceholderText">Gericht</string>
     <string name="zutatenPlaceholderText">Zutaten</string>
-    <string name="sortierenNach">sortieren nach…</string>
+    <string name="sortierenNach">sortieren nach…</string>wd
     <string name="alphabetischAtoZ">(a-z)</string>
     <string name="alphabetischZtoA">(z-a)</string>
     <string name="sortierenNachVegetarisch">veggie</string>
-    <string name="gericht_hinzuf_gen">Gericht hinzufügen</string>
+    <string name="mealAdd">Gericht hinzufügen</string>
+    <string name="mealAddNew">Neues Gericht hinzufügen</string>
+    <string name="mealAddNewMessage">Neues Gericht selbst eintragen oder über Chefkoch.de anlegen.</string>
+    <string name="authorOnChefkoch">von %1$s auf Chefkoch.de</string>
     <string name="wasAddedText"> wurde hinzugefügt.</string>
     <string name="textAlreadyInList"> ist bereits in der Liste.</string>
     <string name="textErrorAtMealAdd">Gericht konnte nicht hinzugefügt werden. Eingabe überprüfen?</string>
@@ -112,4 +115,12 @@
     <string name="findRecipe">Rezept suchen</string>
     <string name="gerichtAnzeigen">Gericht anzeigen</string>
     <string name="check_connection">Check Connection</string>
+    <string name="noInputFound">Keine Eingabe…</string>
+    <string name="eintragItem">"Eintrag %1$s "</string>
+    <string name="externalLinkInfo">Du wirst beim fortfahren auf Chefkoch.de weitergeleitet!\nEine Internetverbindung ist nötig.\nWLAN wird empfohlen.\n\n</string>
+    <string name="desiredMeal">Hier kannst du ein Stichwort eintragen und dann über \"Zu Chefkoch.de\" nach einem Rezept dafür suchen.\n</string>
+    <string name="externalLinkTitle">External Link</string>
+    <string name="chefkochMealCouldNotBeAdded">Gericht konnte nicht angelegt werden. Wurde eine korrekte Rezeptseite aufgerufen?</string>
+    <string name="chefkochMealAddError">Bitte füge ein gültiges Rezept hinzu</string>
+    <string name="title_activity_gericht">Gericht Informationen</string>
 </resources>

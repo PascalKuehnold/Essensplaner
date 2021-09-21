@@ -58,8 +58,8 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
             alertBuilder = AlertDialog.Builder(this, R.style.Theme_Essensplaner_DialogTheme)
             alert = alertBuilder?.create()!!
             alert!!.setView(layoutInflater.inflate(R.layout.gericht_hinzufuegen_dialog, null))
-            alert!!.setTitle("Neues Gericht hinzufügen")
-            alert!!.setMessage("Neues Gericht selbst eintragen oder über Chefkoch.de anlegen.")
+            alert!!.setTitle(getString(R.string.mealAddNew))
+            alert!!.setMessage(getString(R.string.mealAddNewMessage))
             alert!!.setCancelable(true)
             alert!!.setIcon(R.drawable.ic_add_to_shoppinglist)
             alert!!.show()
@@ -182,7 +182,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         AlertDialog.Builder(this)
                 .setMessage(
                         if(gerichtAuthor.isNotEmpty()){
-                            "by $gerichtAuthor on Chefkoch.de"
+                            String.format(getString(R.string.authorOnChefkoch), gerichtAuthor)
                         } else {
                             ""
                         }
@@ -234,6 +234,8 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                 } else {
                     "https://www.chefkoch.de/rezepte/"
                 }
+            } else {
+                recipeString = url
             }
 
             val builder = CustomTabsIntent.Builder()
@@ -251,9 +253,12 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         alertDialogBuilder.setNegativeButton("Lieber nicht") { dialog, _ ->
             dialog.dismiss()
         }
+
+        val message = if(!input){ getString(R.string.externalLinkInfo)} else { getString(R.string.externalLinkInfo) + getString(R.string.desiredMeal)}
+
         val alert = alertDialogBuilder.create()
-            alert.setTitle("TODO017() Weiterleitende Verlinkung")
-            alert.setMessage("TODO18() Du wirst beim fortfahren auf Chefkoch.de weitergeleitet!\nEine Internetverbindung ist nötig.\nWLAN wird empfohlen.\n\nHier kannst du dein gewünschtes Gericht eintragen und dann über \"Zu Chefkoch.de\" nach einem Rezept suchen.")
+            alert.setTitle(getString(R.string.externalLinkTitle))
+            alert.setMessage(message)
             alert.setIcon(R.drawable.ic_info)
             alert.setView(inputText)
             alert.show()
@@ -374,7 +379,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                     mealReceipt = zubereitungText
             )
         } catch(e: Exception){
-            Toast.makeText(this, "TODO()35 Gericht konnte nicht angelegt werden. Wurde eine korrekte Rezeptseite aufgerufen?", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.chefkochMealCouldNotBeAdded), Toast.LENGTH_LONG).show()
         }
 
     }
@@ -383,9 +388,13 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
     class ActionBroadcastReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
+            val regex = Regex("https:\\/\\/www.chefkoch.de\\/rezepte\\/\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)")
+
             val uri: Uri? = intent.data
+
+            val url = uri.toString()
             if (uri != null) {
-                if(uri.toString().startsWith("https://www.chefkoch.de/rezepte/")) {
+                if(url.matches(regex)) {
 
                     alert!!.dismiss()
                     Log.d("Broadcast URL", uri.toString())
@@ -394,7 +403,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                     urlList.add(uri.toString())
                     Log.d("URL", uri.toString())
                 } else {
-                    Toast.makeText(context, "TODO36() Bitte füge ein gültiges Rezept hinzu", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.chefkochMealAddError, Toast.LENGTH_SHORT).show()
                 }
             }
         }
