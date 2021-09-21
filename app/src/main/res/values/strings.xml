@@ -3,7 +3,6 @@
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="add_gerichte_float_button">Add meal</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="gericht_name">Meal name</string>
     <string name="zutat">Ingredient</string>
     <string name="vegetarisch">Vegetarian</string>

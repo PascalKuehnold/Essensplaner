@@ -227,15 +227,14 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
         }
         alertDialogBuilder.setPositiveButton("Zu Chefkoch.de") { _, _ ->
-            var recipeString = ""
-            if (inputText != null) {
-                recipeString = if(inputText.text.isNotEmpty()){
+            val recipeString: String = if (inputText != null) {
+                if(inputText.text.isNotEmpty()){
                     url + inputText.text + "/Rezepte.html"
                 } else {
                     "https://www.chefkoch.de/rezepte/"
                 }
             } else {
-                recipeString = url
+                url
             }
 
             val builder = CustomTabsIntent.Builder()
@@ -305,14 +304,18 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
             var text = zutatEinheit.text()
 
 
-            if(text.isEmpty()){
-                menge = 0.0
-            } else if(text.contains("½")){
-                menge = 0.5
-                text = text.replace("½", " ")
-            } else if(text.contains("¾")){
-                menge = 0.75
-                text = text.replace("¾", " ")
+            when {
+                text.isEmpty() -> {
+                    menge = 0.0
+                }
+                text.contains("½") -> {
+                    menge = 0.5
+                    text = text.replace("½", " ")
+                }
+                text.contains("¾") -> {
+                    menge = 0.75
+                    text = text.replace("¾", " ")
+                }
             }
 
             val zutat = text.trim().split(regex, 2)

@@ -14,7 +14,6 @@ import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import java.util.*
 
-//TODO() EinkaufslistenButton und funktion einführen
 class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: View.OnClickListener): BaseAdapter(), ListAdapter {
     private val gerichte = newGerichte
     val context = newContext

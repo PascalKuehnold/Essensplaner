@@ -95,7 +95,7 @@
                 android:textColorHint="@color/dark_grey"
                 android:textSize="22sp"
                 android:drawableEnd="@drawable/ic_add_to_shoppinglist"
-
+                android:autofillHints="Kartoffeln, Schrauben, Käse"
 
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btnAddItem"
