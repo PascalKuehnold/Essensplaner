@@ -83,14 +83,9 @@
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_info" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome Message For Android Application with Source Code. Welcome Message For Android Application with Source Code"
-            android:textColor="#fff"
-            android:textSize="25sp" />
+            android:src="@drawable/ic_info"
+            android:contentDescription="@string/information"
+            />
 
         <TextView
             android:layout_width="wrap_content"

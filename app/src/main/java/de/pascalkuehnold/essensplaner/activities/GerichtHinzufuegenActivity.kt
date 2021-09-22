@@ -30,8 +30,6 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
     private var mealAuthor = ""
     private var mealReceipt = ""
 
-    private var url = ""
-
     private var zutaten: ArrayList<String> = ArrayList()
 
     private lateinit var textInputGericht: TextInputEditText

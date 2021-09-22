@@ -11,7 +11,7 @@ import de.pascalkuehnold.essensplaner.R
 
 
 class ScreenSlidePageFragment : Fragment() {
-    lateinit var inputField: EditText
+    private lateinit var inputField: EditText
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -20,7 +20,7 @@ class ScreenSlidePageFragment : Fragment() {
     ): View {
         val root = inflater.inflate(R.layout.fragment_screen_slide_page, container, false)
 
-        inputField = root.findViewById<EditText>(R.id.inputField)
+        inputField = root.findViewById(R.id.inputField)
 
 
         return root

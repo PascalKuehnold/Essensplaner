@@ -163,7 +163,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
 
 
-    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+
     override fun onClick(v: View?) {
         val gerichte = sortedGerichte
         val gericht = gerichte[v?.tag as Int]
@@ -214,7 +214,6 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private fun showWarningExternalLink(url: String, input: Boolean) {
         var inputText: EditText? = null
 
@@ -223,7 +222,9 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
             inputText = EditText(this)
             inputText.hint = "Gericht eingeben"
             inputText.setHintTextColor(resources.getColor(R.color.lightGreyAlpha75))
-            inputText.textAlignment = TEXT_ALIGNMENT_CENTER
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                inputText.textAlignment = TEXT_ALIGNMENT_CENTER
+            }
 
         }
         alertDialogBuilder.setPositiveButton("Zu Chefkoch.de") { _, _ ->
@@ -290,8 +291,8 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
         val isVegetarisch = hasVegetarischText.isNotEmpty() || hasVeganText.isNotEmpty()
 
-        var menge: Double = 0.0
-        var einheit: String = ""
+        var menge = 0.0
+        var einheit = ""
 
 
         val mengenArray: ArrayList<Double> = ArrayList()

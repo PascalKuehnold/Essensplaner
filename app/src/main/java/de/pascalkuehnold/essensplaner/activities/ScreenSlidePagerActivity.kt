@@ -70,15 +70,15 @@ class ScreenSlidePagerActivity : AppCompatActivity() {
 
                 when(position){
                     0 -> {
-                        tvGerichtHinzufuegenHeader.text = "Gericht Namen hinzufügen"
+                        tvGerichtHinzufuegenHeader.text = getString(R.string.fragment_one_add_meal_name_title)
                     }
                     1 -> {
-                        tvGerichtHinzufuegenHeader.text = "Zutaten hinzufügen"
+                        tvGerichtHinzufuegenHeader.text = getString(R.string.fragment_two_add_ingredient_title)
                     }
-                    2 -> tvGerichtHinzufuegenHeader.text = "Kochzeit hinzufügen"
-                    3 -> tvGerichtHinzufuegenHeader.text = "Vegetarisch/Vegan"
-                    4 -> tvGerichtHinzufuegenHeader.text = "Für mehrere Tage geeignet"
-                    5 -> tvGerichtHinzufuegenHeader.text = "Zubereitungstext eingeben"
+                    2 -> tvGerichtHinzufuegenHeader.text = getString(R.string.fragment_three_add_cooktime_title)
+                    3 -> tvGerichtHinzufuegenHeader.text = getString(R.string.fragment_four_add_veggieOrNot_title)
+                    4 -> tvGerichtHinzufuegenHeader.text = getString(R.string.fragment_five_add_multiple_days_title)
+                    5 -> tvGerichtHinzufuegenHeader.text = getString(R.string.fragment_six_add_preperation_text_title)
                 }
             }
 

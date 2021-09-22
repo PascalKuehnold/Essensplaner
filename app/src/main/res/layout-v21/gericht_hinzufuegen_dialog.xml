@@ -26,8 +26,6 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
 
-            android:layout_alignParentRight="true"
-
 
             android:contentDescription="@string/description_own_meal" />
 
@@ -41,7 +39,7 @@
             android:textSize="18sp"
             android:layout_centerHorizontal="true"
             android:background="@android:color/transparent"
-            tools:ignore="RelativeOverlap" />
+            />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -80,9 +78,10 @@
             android:textSize="18sp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
+            android:elevation="10dp"
             android:background="@android:color/transparent"
 
-            tools:ignore="RelativeOverlap" />
+            />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -99,7 +98,6 @@
             android:background="@drawable/ic_info_light"
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
 
 

@@ -9,11 +9,9 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import de.pascalkuehnold.essensplaner.MainActivity
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
-import de.pascalkuehnold.essensplaner.database.WochenplanerVeggieDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.interfaces.GerichtDao
 import de.pascalkuehnold.essensplaner.interfaces.Wochenplan
@@ -42,7 +40,7 @@ open class Wochenplaner : Wochenplan(),AdapterView.OnItemSelectedListener, View.
 
         listOfTitles = arrayOf(getString(R.string.wochenplaner), getString(R.string.wochenplanerveggie))
 
-        dropdownTitleSpinner = supportActionBar!!.customView.findViewById<Spinner>(R.id.spinnerWochenplanerTitle)
+        dropdownTitleSpinner = supportActionBar!!.customView.findViewById(R.id.spinnerWochenplanerTitle)
         dropdownTitleSpinner.onItemSelectedListener = this
         val dropdownAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listOfTitles)
 

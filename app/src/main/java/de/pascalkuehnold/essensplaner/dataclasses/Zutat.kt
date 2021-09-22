@@ -30,9 +30,7 @@ class Zutat(
             val stringBuilder = StringBuilder()
             for (element: String in newZutaten) {
                 if(element.startsWith("`") && element.endsWith("´")){
-                    stringBuilder.append(element.removePrefix("`"))
-                } else {
-                    stringBuilder.append("${element.removePrefix("`")},")
+                    stringBuilder.append(element)
                 }
 
             }

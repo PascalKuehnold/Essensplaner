@@ -15,7 +15,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.SwitchCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
@@ -27,7 +26,6 @@ import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import de.pascalkuehnold.essensplaner.layout.CustomZutatenAdapter
 import java.util.*
-import kotlin.collections.ArrayList
 
 class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var inputFieldGericht: TextInputEditText

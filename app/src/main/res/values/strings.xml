@@ -7,14 +7,9 @@
     <string name="zutat">Ingredient</string>
     <string name="vegetarisch">Vegetarian</string>
     <string name="hinzuf_gen">Add</string>
-    <string name="alle_gerichte">All meals</string>
     <string name="wochenplaner">Weekly planner</string>
     <string name="neuer_plan">New plan</string>
     <string name="datenLoeschen">Delete data</string>
-    <string name="gericht">Meal:</string>
-    <string name="gericht_ndern">Edit meal:</string>
-    <string name="bearbeiten">Edit</string>
-    <string name="zutatenliste">Ingredient list</string>
     <string name="gericht_bearbeiten">Edit meal</string>
     <string name="gerichteliste">List of meals</string>
     <string name="einkaufsliste">Shopping list</string>
@@ -41,7 +36,6 @@
     <string name="aendern">Submit</string>
     <string name="namen_ndern">Change name:</string>
     <string name="zutaten_ndern">Change Ingredients:</string>
-    <string name="neuer_name">New Name</string>
     <string name="textZutatBearbeiten">Change ingredient</string>
     <string name="abbrechen">Cancel</string>
     <string name="deleteDataFromPhone">Delete all data from the device?</string>
@@ -54,7 +48,7 @@
     <string name="addedSuccessfully">was added successfully.</string>
     <string name="deleteGericht">Delete Meal</string>
     <string name="deleteGerichtText">Are you sure you want to delete this meal? It\'s no longer available after this action.</string>
-    <string name="add_ingredient">Add Ingredient</string>
+    <string name="fragment_two_add_ingredient_title">Add Ingredient(s)</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="search_hint">search…</string>s
@@ -63,7 +57,7 @@
     <string name="aboutText">©Pascal Kühnold\nThis app is developed by Pascal Kühnold.</string>
 
     <string name="iconAttribution"><div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
-    <string name="welcomeText">v0.5.0\nHey, thanks a lot for testing my App!\n\n
+    <string name="welcomeText">v0.6.0\nHey, thanks a lot for testing my App!\n\n
         The App is still in development and it could be possible that you may run into problems.\n\n
         If so, I would appreciate it if you could tell me where this problem occurred.\n
         Should you come across serious errors, such as the app crashing, please send me a message as well.\n
@@ -101,8 +95,6 @@
     <string name="welcomeHeadline">Welcome to the mealplanner</string>
     <string name="dontDisplayAnymore">Don\'t show again</string>
     <string name="wochenplanerveggie">Weekly planner veggie</string>
-    <string name="liste_loeschen">Delete List</string>
-    <string name="add_an_item_to_the_list">Add an item to the list</string>
     <string name="einkaufsliste_background_texture">einkaufsliste_background_texture</string>
     <string name="is_checked_in_list">Is checked in list</string>
     <string name="leftPositions">Open Positions: %1$d</string>
@@ -116,8 +108,6 @@
     <string name="textNotEnoughMealsDescVeggie">You need at least 7 Veggie meals to create a Weekly Veggie planner</string>
     <string name="findRecipe">Find Recipe</string>
     <string name="gerichtAnzeigen">Show meal</string>
-    <string name="check_connection">Check Connection</string>
-    <string name="lorem_ipsum" translatable="false">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</string>
     <string name="noInputFound">No Input</string>
     <string name="eintragItem">"Item %1$s "</string>
     <string name="externalLinkInfo">By continuing you will be forwarded to Chefkoch.de!\nAn Internetconnection is necessary.\nWLAN is recommended.\n\n</string>
@@ -126,4 +116,25 @@
     <string name="chefkochMealCouldNotBeAdded">Meal couldn\'t be added. Did you use a correct recipe site?</string>
     <string name="chefkochMealAddError">Please use a correct recipe link.</string>
     <string name="title_activity_gericht">Gericht Informationen</string>
+    <string name="veggie_meal">Veggie meal</string>
+    <string name="chefkoch_logo">Chefkoch Logo</string>
+    <string name="attribution">Attribution:</string>
+    <string name="new_position">New Position…</string>
+    <string name="meal">Meal</string>
+    <string name="preperation">Preparation</string>
+    <string name="monday_short">Mo.</string>
+    <string name="name_of_author">Name of the author</string>
+    <string name="duration">Duration:</string>
+    <string name="to_the_creator_website">To creator site</string>
+    <string name="description_own_meal">Description of your meal</string>
+    <string name="own_meal">Own Meal</string>
+    <string name="via_chefkoch">Via Chefkoch.de</string>
+    <string name="description_via_chefkoch_meal">Description via Chefkoch</string>
+    <string name="show_welcome_message">Show welcome message</string>
+    <string name="open_weeklyplanner_settings">Open weekly planner settings</string>
+    <string name="fragment_one_add_meal_name_title">Add meal name</string>
+    <string name="fragment_three_add_cooktime_title">Add cooktime</string>
+    <string name="fragment_four_add_veggieOrNot_title">Veggie/Vegan</string>
+    <string name="fragment_five_add_multiple_days_title">For multiple days</string>
+    <string name="fragment_six_add_preperation_text_title">Add preparation text</string>
 </resources>

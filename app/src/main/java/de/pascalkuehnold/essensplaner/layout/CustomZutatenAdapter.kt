@@ -18,7 +18,6 @@ class CustomZutatenAdapter(context: Context, zutaten: ArrayList<String>, callbac
     private val mZutaten = zutaten
     private val mContext = context
     private val mCallback = callback
-    private var isChecked = false
 
     override fun getCount(): Int {
         return mZutaten.size

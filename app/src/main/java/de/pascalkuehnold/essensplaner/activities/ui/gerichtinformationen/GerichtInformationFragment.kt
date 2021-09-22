@@ -1,6 +1,7 @@
 package de.pascalkuehnold.essensplaner.activities.ui.gerichtinformationen
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.activities.GerichtActivity.Companion.gerichtVonChefkoch
@@ -24,10 +24,11 @@ class GerichtInformationFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
+
         gerichtInformationViewModel =
             ViewModelProvider(this).get(GerichtInformationViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_meal_information, container, false)
@@ -65,5 +66,7 @@ class GerichtInformationFragment : Fragment() {
         (activity as AppCompatActivity?)!!.supportActionBar?.title = "Gericht Informationen"
         return root
     }
+
+
 
 }

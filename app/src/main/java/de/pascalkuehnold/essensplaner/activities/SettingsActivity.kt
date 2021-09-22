@@ -49,11 +49,10 @@ class SettingsActivity : AppCompatActivity(){
             editor.putBoolean(welcomeScreenShownPref, !b)
             editor.apply()
 
-            val message: String
-            if(b == true){
-                message = "Die Willkommensnachricht wird nun wieder angezeigt."
+            val message: String = if(b){
+                "Die Willkommensnachricht wird nun wieder angezeigt."
             } else {
-                message = "Die Willkommensnachricht wird nun nicht mehr angezeigt."
+                "Die Willkommensnachricht wird nun nicht mehr angezeigt."
             }
 
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

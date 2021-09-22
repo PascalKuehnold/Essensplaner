@@ -7,14 +7,9 @@
     <string name="zutat">Zutat</string>
     <string name="vegetarisch">Vegetarisch</string>
     <string name="hinzuf_gen">Hinzufügen</string>
-    <string name="alle_gerichte">Alle Gerichte</string>
     <string name="wochenplaner">Wochenplaner</string>
     <string name="neuer_plan">Neuer Plan</string>
     <string name="datenLoeschen">Daten löschen</string>
-    <string name="gericht">Gericht:</string>
-    <string name="gericht_ndern">Gericht Ändern:</string>
-    <string name="bearbeiten">Bearbeiten</string>
-    <string name="zutatenliste">Zutatenliste</string>
     <string name="gericht_bearbeiten">Gericht bearbeiten</string>
     <string name="gerichteliste">Gerichteliste</string>
     <string name="einkaufsliste">Einkaufsliste</string>
@@ -41,7 +36,6 @@
     <string name="aendern">Ändern</string>
     <string name="namen_ndern">Namen ändern:</string>
     <string name="zutaten_ndern">Zutaten ändern:</string>
-    <string name="neuer_name">Neuer Name</string>
     <string name="textZutatBearbeiten">Zutat bearbeiten</string>
     <string name="abbrechen">Abbrechen</string>
     <string name="deleteDataFromPhone">Alle Daten vom Gerät löschen?</string>
@@ -54,7 +48,7 @@
     <string name="addedSuccessfully">wurde erfolgreich hinzugefügt.</string>
     <string name="deleteGericht">Gericht löschen</string>
     <string name="deleteGerichtText">Sind Sie sicher, dass Sie dieses Gericht löschen wollen? Nach diesem Vorgang ist es nicht mehr verfügbar.</string>
-    <string name="add_ingredient">Zutat hinzufügen</string>
+    <string name="fragment_two_add_ingredient_title">Zutat(en) hinzufügen</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="search_hint">suche…</string>
@@ -62,7 +56,7 @@
     <string name="aboutText">©Pascal Kühnold\nDiese App wird von Pascal Kühnold entwickelt.</string>
 
     <string name="iconAttribution"><div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
-    <string name="welcomeText">v0.5.0\nHey, vielen Dank, dass du meine App testest!\n\n
+    <string name="welcomeText">v0.6.0\nHey, vielen Dank, dass du meine App testest!\n\n
         Die App befindet sich noch in der Entwicklung, daher ist es möglich, dass du auf Probleme stoßen könntest.\n\n
         Falls dem so ist, würde ich mich freuen, wenn du mir sagen könntest wo dieses Problem aufgetaucht ist.\n
         Falls es zu schwerwiegenden Fehlern kommen sollte, wie z.B. der Absturz der App, bitte ich auch um eine Nachricht.\n
@@ -99,8 +93,6 @@
     <string name="welcomeHeadline">Willkommen beim Essensplaner</string>
     <string name="dontDisplayAnymore">Nicht mehr anzeigen</string>
     <string name="wochenplanerveggie">Wochenplaner Vegetarisch</string>
-    <string name="liste_loeschen">Liste Löschen</string>
-    <string name="add_an_item_to_the_list">Add an item to the list</string>
     <string name="einkaufsliste_background_texture">einkaufsliste_background_texture</string>
     <string name="is_checked_in_list">Is checked in list</string>
     <string name="leftPositions">Noch offen: %1$d</string>
@@ -114,13 +106,33 @@
     <string name="textNotEnoughMealsDescVeggie">Du musst mindestens 7 Vegetarische Gerichte angelegt haben um auf diesen Plan zugreifen zu können.</string>
     <string name="findRecipe">Rezept suchen</string>
     <string name="gerichtAnzeigen">Gericht anzeigen</string>
-    <string name="check_connection">Check Connection</string>
     <string name="noInputFound">Keine Eingabe…</string>
     <string name="eintragItem">"Eintrag %1$s "</string>
     <string name="externalLinkInfo">Du wirst beim fortfahren auf Chefkoch.de weitergeleitet!\nEine Internetverbindung ist nötig.\nWLAN wird empfohlen.\n\n</string>
     <string name="desiredMeal">Hier kannst du ein Stichwort eintragen und dann über \"Zu Chefkoch.de\" nach einem Rezept dafür suchen.\n</string>
-    <string name="externalLinkTitle">External Link</string>
+    <string name="externalLinkTitle">Weiterleitende Verlinkung</string>
     <string name="chefkochMealCouldNotBeAdded">Gericht konnte nicht angelegt werden. Wurde eine korrekte Rezeptseite aufgerufen?</string>
     <string name="chefkochMealAddError">Bitte füge ein gültiges Rezept hinzu</string>
     <string name="title_activity_gericht">Gericht Informationen</string>
+    <string name="veggie_meal">Vegetarisches Gericht</string>
+    <string name="chefkoch_logo">Chefkoch Logo</string>
+    <string name="attribution">Attribution:</string>
+    <string name="new_position">Neue Position…</string>
+    <string name="meal">Gericht</string>
+    <string name="preperation">Zubereitung</string>
+    <string name="monday_short">Mo.</string>
+    <string name="name_of_author">Name des Authors</string>
+    <string name="duration">Dauer:</string>
+    <string name="to_the_creator_website">Zur Originalseite</string>
+    <string name="description_own_meal">Beschreibung eigenes Gericht</string>
+    <string name="own_meal">Eigenes Gericht</string>
+    <string name="via_chefkoch">Über Chefkoch.de</string>
+    <string name="description_via_chefkoch_meal">Beschreibung über Chefkoch.de</string>
+    <string name="show_welcome_message">Zeige Willkommensnachricht</string>
+    <string name="open_weeklyplanner_settings">Wochenplaner Einstellungen öffnen</string>
+    <string name="fragment_one_add_meal_name_title">Gericht Namen hinzufügen</string>
+    <string name="fragment_three_add_cooktime_title">Kochzeit hinzufügen</string>
+    <string name="fragment_four_add_veggieOrNot_title">Vegetarisch/Vegan</string>
+    <string name="fragment_five_add_multiple_days_title">Für mehrere Tage</string>
+    <string name="fragment_six_add_preperation_text_title">Zubereitungstext hinzufügen</string>
 </resources>

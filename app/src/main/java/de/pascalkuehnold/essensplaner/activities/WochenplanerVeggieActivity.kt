@@ -9,7 +9,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import de.pascalkuehnold.essensplaner.MainActivity
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerVeggieDatabase
@@ -26,7 +25,7 @@ open class WochenplanerVeggieActivity :Wochenplan(),AdapterView.OnItemSelectedLi
     private lateinit var listOfTitles: Array<String>
 
 
-    var daysToGenerate = 7
+    private var daysToGenerate = 7
     private var weeksGerichte = ArrayList<Gericht>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +39,7 @@ open class WochenplanerVeggieActivity :Wochenplan(),AdapterView.OnItemSelectedLi
 
         listOfTitles = arrayOf(getString(R.string.wochenplanerveggie),getString(R.string.wochenplaner))
 
-        dropdownTitleSpinner = supportActionBar!!.customView.findViewById<Spinner>(R.id.spinnerWochenplanerTitle)
+        dropdownTitleSpinner = supportActionBar!!.customView.findViewById(R.id.spinnerWochenplanerTitle)
         dropdownTitleSpinner.onItemSelectedListener = this
         val dropdownAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listOfTitles)
         dropdownTitleSpinner.setSelection(1)
@@ -144,7 +143,7 @@ open class WochenplanerVeggieActivity :Wochenplan(),AdapterView.OnItemSelectedLi
         println("Wochenplaner >> generateListOnScreen() -> Daten wurden an den Screen übergeben")
     }
 
-    fun getVeggieMealList(): List<Gericht>{
+    private fun getVeggieMealList(): List<Gericht>{
         val gerichtDao = AppDatabase.getDatabase(applicationContext).gerichtDao()
         println("Wochenplaner >> btnNeuerPlan pressed")
 

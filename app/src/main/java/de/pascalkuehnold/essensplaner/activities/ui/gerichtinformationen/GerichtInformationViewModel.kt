@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import de.pascalkuehnold.essensplaner.activities.GerichtActivity.Companion.gerichtAuthor
 import de.pascalkuehnold.essensplaner.activities.GerichtActivity.Companion.gerichtName
-import de.pascalkuehnold.essensplaner.activities.GerichtActivity.Companion.gerichtVonChefkoch
 import de.pascalkuehnold.essensplaner.activities.GerichtActivity.Companion.gerichtZubereitungsZeit
 
 class GerichtInformationViewModel : ViewModel() {

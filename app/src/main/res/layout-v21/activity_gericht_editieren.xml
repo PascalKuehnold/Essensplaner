@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
@@ -157,7 +156,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:clickable="true"
-            android:contentDescription="@string/add_ingredient"
+            android:contentDescription="@string/fragment_two_add_ingredient_title"
             android:focusable="true"
             android:src="@android:drawable/ic_input_add"
             app:fabCustomSize="30dp"
