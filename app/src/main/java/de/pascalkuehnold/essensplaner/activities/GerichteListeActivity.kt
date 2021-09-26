@@ -98,7 +98,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                     } else {
                         //filter by id
                         for (gericht in getGerichteListe()) {
-                            if (gericht.gerichtName.contains(newText.toString(), true)) {
+                            if (gericht.zutaten.contains(newText.toString(), true)) {
                                 data.add(gericht)
                             }
                         }
@@ -442,14 +442,20 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
             val url = uri.toString()
             if (uri != null) {
+
+
                 if(url.matches(regex)) {
+                    if(urlList.contains(url)){
+                        Toast.makeText(context, uri.toString() + " is already in the list", Toast.LENGTH_SHORT).show()
+                    } else {
+                        alert!!.dismiss()
+                        Log.d("Broadcast URL", uri.toString())
+                        Toast.makeText(context, uri.toString(), Toast.LENGTH_SHORT).show()
 
-                    alert!!.dismiss()
-                    Log.d("Broadcast URL", uri.toString())
-                    Toast.makeText(context, uri.toString(), Toast.LENGTH_SHORT).show()
+                        urlList.add(uri.toString())
+                        Log.d("URL", uri.toString())
+                    }
 
-                    urlList.add(uri.toString())
-                    Log.d("URL", uri.toString())
                 } else {
                     Toast.makeText(context, R.string.chefkochMealAddError, Toast.LENGTH_SHORT).show()
                 }
