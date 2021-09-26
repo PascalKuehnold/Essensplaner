@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     >
 
-
     <LinearLayout
         android:id="@+id/gerichteListeSearchBar"
         android:layout_width="match_parent"
@@ -31,6 +30,7 @@
 
 
     </LinearLayout>
+
 
     <ListView
         android:id="@+id/gerichteAnzeige"

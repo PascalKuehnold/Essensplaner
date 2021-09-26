@@ -2,6 +2,7 @@ package de.pascalkuehnold.essensplaner.activities
 
 import android.annotation.SuppressLint
 import android.app.PendingIntent
+import android.app.SearchManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -42,6 +43,8 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var sortedGerichte: MutableList<Gericht>
 
+    lateinit var mContext: Context
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gerichte_liste)
@@ -51,7 +54,11 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
 
         searchView = findViewById(R.id.sbGerichteListe)
+
+        mContext = applicationContext
+
         listView = findViewById(R.id.gerichteAnzeige)
+
 
         val btnAddGerichteButton = findViewById<FloatingActionButton>(R.id.floatingActionButton)
         btnAddGerichteButton.setOnClickListener{
@@ -69,6 +76,43 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
             refreshGerichteListe()
         }
 
+        // Get the SearchView and set the searchable configuration
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        searchView.apply {
+            var adapter: CustomAdapter? = null
+            // Assumes current activity is the searchable activity
+            setSearchableInfo(searchManager.getSearchableInfo(componentName))
+            isIconifiedByDefault = true // Do not iconify the widget; expand it by default
+            setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+
+                override fun onQueryTextSubmit(query: String?): Boolean {
+
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    //arraylist to hold selected cosmic bodies
+                    val data = ArrayList<Gericht>()
+                    if (!searchView.isEnabled) {
+                        refreshGerichteListe()
+                    } else {
+                        //filter by id
+                        for (gericht in getGerichteListe()) {
+                            if (gericht.gerichtName.contains(newText.toString(), true)) {
+                                data.add(gericht)
+                            }
+                        }
+                        //instatiate adapter a
+                        adapter = CustomAdapter(data, mContext,null)
+                    }
+                    //set the adapter to GridView
+                    listView.adapter = adapter
+                    adapter?.notifyDataSetChanged()
+                    return false
+                }
+
+            })
+        }
 
         val spinner: Spinner = findViewById(R.id.spinner)
         // Create an ArrayAdapter using the string array and a default spinner layout

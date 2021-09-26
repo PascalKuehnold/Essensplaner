@@ -54,9 +54,13 @@
     <string name="search_hint">search…</string>s
     <string name="about">About</string>
 
-    <string name="aboutText">©Pascal Kühnold\nThis app is developed by Pascal Kühnold.</string>
+    <string name="aboutText">©Pascal Kühnold\nThis app is developed by Pascal Kühnold.\n\nThe app is currently using Chefkoch.de as a way to add meals.\nThat means that you need to have an Internet-connection(WLAN recommended because of data use) and should be aware that you are directed to an external link</string>
 
-    <string name="iconAttribution"><div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div></string>
+    <string name="attribution_text">
+        <div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+        </div>
+        <div><a href="https://www.chefkoch.de" title="www.chefkoch.de">Chefkoch.de</a></div>
+    </string>
     <string name="welcomeText">v0.6.0\nHey, thanks a lot for testing my App!\n\n
         The App is still in development and it could be possible that you may run into problems.\n\n
         If so, I would appreciate it if you could tell me where this problem occurred.\n
@@ -67,6 +71,7 @@
         All previously entered data will be deleted.\n
         Please be aware of this.\n\n
         If you have any suggestions or ideas to improve the App, please feel free to contact me.(This includes usability and appearance as well)\n\n
+        The app is currently using Chefkoch.de as a way to add meals.\nThat means that you need to have an Internet-connection(WLAN recommended because of data use) and should be aware that you are directed to an external link.\n\n
         Have fun testing!\n
         Pascal
     </string>

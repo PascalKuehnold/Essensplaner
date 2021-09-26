@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.multidex.MultiDexApplication
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.activities.*
 import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
@@ -14,7 +15,7 @@ import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import java.util.*
 
-class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: View.OnClickListener): BaseAdapter(), ListAdapter {
+class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: View.OnClickListener?): BaseAdapter(), ListAdapter {
     private val gerichte = newGerichte
     val context = newContext
     private val mCallback = callback
@@ -54,7 +55,7 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
         row?.tag = position
 
         val weekOfDay = view?.findViewById<TextView>(R.id.dayOfTheWeek)
-        if(context is GerichteListeActivity){
+        if(context is GerichteListeActivity || context is MultiDexApplication){
             if (weekOfDay != null) {
                 weekOfDay.visibility = View.INVISIBLE
             }

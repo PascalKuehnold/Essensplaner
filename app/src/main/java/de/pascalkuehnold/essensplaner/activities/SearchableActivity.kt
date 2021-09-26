@@ -11,20 +11,25 @@ class SearchableActivity: Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.search)
 
-        /*
-        // Verify the action and get the query
+
+
+        handleIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        setIntent(intent)
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent) {
         if (Intent.ACTION_SEARCH == intent.action) {
             intent.getStringExtra(SearchManager.QUERY)?.also { query ->
-                //doMySearch(query)
+                doMySearch(query)
             }
         }
-        */
-
     }
 
-    /*
     private fun doMySearch(query: String) {
-
+        println(query)
     }
-    */
 }
