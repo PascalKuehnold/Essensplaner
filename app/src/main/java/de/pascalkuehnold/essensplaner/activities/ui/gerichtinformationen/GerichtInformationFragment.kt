@@ -1,5 +1,7 @@
 package de.pascalkuehnold.essensplaner.activities.ui.gerichtinformationen
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,8 +15,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import de.pascalkuehnold.essensplaner.R
+import de.pascalkuehnold.essensplaner.activities.GerichtActivity.Companion.chefkochUrl
 import de.pascalkuehnold.essensplaner.activities.GerichtActivity.Companion.gerichtVonChefkoch
 import de.pascalkuehnold.essensplaner.activities.GerichtActivity.Companion.gerichtZutaten
+import de.pascalkuehnold.essensplaner.activities.GerichteListeActivity
+import de.pascalkuehnold.essensplaner.dataclasses.ChefkochMeal
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import de.pascalkuehnold.essensplaner.layout.CustomZutatenAdapter
 
@@ -53,6 +58,16 @@ class GerichtInformationFragment : Fragment() {
 
         val lvZutaten: ListView = root.findViewById(R.id.zutatenAnzeige)
         val zutaten = Zutat.generateIngredientsList(gerichtZutaten)
+
+        val btnOriginalRecipe: TextView = root.findViewById(R.id.originalRecipeWebsite)
+        btnOriginalRecipe.apply {
+            setOnClickListener{
+                println(chefkochUrl)
+                val openURL = Intent(Intent.ACTION_VIEW)
+                openURL.data = Uri.parse(chefkochUrl)
+                startActivity(openURL)
+            }
+        }
 
 
         //creates the custom adapter

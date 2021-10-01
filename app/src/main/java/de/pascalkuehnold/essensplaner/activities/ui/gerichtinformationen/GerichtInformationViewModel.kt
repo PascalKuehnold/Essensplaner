@@ -23,4 +23,6 @@ class GerichtInformationViewModel : ViewModel() {
         value = gerichtZubereitungsZeit
     }
     val mealCookTime: LiveData<String> = _mealCookTime
+
+
 }

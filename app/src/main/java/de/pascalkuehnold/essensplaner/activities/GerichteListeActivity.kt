@@ -27,6 +27,7 @@ import androidx.core.graphics.drawable.toBitmap
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
+import de.pascalkuehnold.essensplaner.dataclasses.ChefkochMeal
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
@@ -163,7 +164,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         super.onResume()
         if(urlList.isNotEmpty()){
             for(url in urlList){
-                getChefkochGericht(url)
+                ChefkochMeal(mContext, url).getChefkochGericht()
             }
         }
         refreshGerichteListe()
@@ -219,6 +220,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         val gerichtAuthor = gericht.gerichtAuthor
         val zubereitungsZeit = gericht.gesamtKochzeit
         val isChefkochGericht = gericht.isChefkochGericht
+        val chefkochUrl = gericht.chefkochUrl
 
         val zutaten = Zutat.allIngredientsAsList(gerichtZutaten)
         val zutatenList = Zutat.createNewZutatenString(zutaten)
@@ -248,6 +250,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                     gerichtIntent.putExtra("mealAuthor", gerichtAuthor)
                     gerichtIntent.putExtra("mealCookTime", zubereitungsZeit)
                     gerichtIntent.putExtra("mealByChefkoch", isChefkochGericht)
+                    gerichtIntent.putExtra("chefkochUrl", chefkochUrl)
                     startActivity(gerichtIntent)
                 }
                 .setCancelable(true)
@@ -258,7 +261,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    private fun showWarningExternalLink(url: String, input: Boolean) {
+    fun showWarningExternalLink(url: String, input: Boolean) {
         var inputText: EditText? = null
 
         val alertDialogBuilder = AlertDialog.Builder(this, R.style.Theme_Essensplaner_DialogTheme)
@@ -319,118 +322,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         showWarningExternalLink("https://www.chefkoch.de/rs/s0/", true)
     }
 
-    private fun getChefkochGericht(url: String){
-        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
 
-        StrictMode.setThreadPolicy(policy)
-
-        val doc = Jsoup.connect(url).get()
-        val newsHeadlines: Elements = doc.select("h1")
-        for (headline in newsHeadlines) {
-            println(headline.text())
-        }
-
-        val hasVegetarischText = doc.select(".ds-tag:contains(Vegetarisch)")
-        val hasVeganText = doc.select(".ds-tag:contains(Vegan)")
-
-        val isVegetarisch = hasVegetarischText.isNotEmpty() || hasVeganText.isNotEmpty()
-
-        var menge = 0.0
-        var einheit = ""
-
-
-        val mengenArray: ArrayList<Double> = ArrayList()
-        val einheitenArray: ArrayList<String> = ArrayList()
-
-        //Zutatenmenge und Einheit
-        val zutatenEinheiten: Elements = doc.select(".td-left")
-        for(zutatEinheit in zutatenEinheiten){
-            val regex = Regex(" ")
-            var text = zutatEinheit.text()
-
-
-            when {
-                text.isEmpty() -> {
-                    menge = 0.0
-                }
-                text.contains("½") -> {
-                    menge = 0.5
-                    text = text.replace("½", " ")
-                }
-                text.contains("¾") -> {
-                    menge = 0.75
-                    text = text.replace("¾", " ")
-                }
-            }
-
-            val zutat = text.trim().split(regex, 2)
-
-
-            try {
-                menge += zutat[0].toDouble()
-            } catch (e: Exception){
-                einheit = zutat[0]
-            }
-
-
-            if(zutat.size > 1){
-                einheit = zutat[1]
-            }
-
-            mengenArray.add(menge)
-            einheitenArray.add(einheit)
-
-            menge = 0.0
-            einheit = ""
-
-
-        }
-
-        //Zutatennamen
-        val zutatenNamenArray: ArrayList<String> = ArrayList()
-
-        val zutatenNamen: Elements = doc.select(".td-right span")
-        for(zutatenName in zutatenNamen){
-            val text = "`${zutatenName.text()}´"
-            zutatenNamenArray.add(text)
-
-        }
-
-        //Zusammenbringen der einzelnen Listen
-        for(i in 0 until zutatenEinheiten.size){
-            println("Menge: ${mengenArray[i]}; \tEinheit: ${einheitenArray[i]} \t\t-> Zutat: ${zutatenNamenArray[i]}")
-        }
-
-        //Zubereitungstext
-        val zubereitung: Elements = doc.select("article.ds-box.ds-grid-float.ds-col-12.ds-col-m-8.ds-or-3 > div:nth-child(3)")
-        val zubereitungText = zubereitung.html().replace("<br>", "\n")
-
-        print(zubereitungText)
-
-        val zubereitungsZeit: Elements = doc.select(".rds-recipe-meta__badge:contains(Gesamtzeit)")
-
-
-        //Ersteller des Rezeptes
-        val rezeptErsteller: Elements = doc.select("div.ds-mb-right > a")
-
-        try {
-            Gericht.addGericht(
-                    this,
-                    newsHeadlines.text(),
-                    zutatenNamenArray,
-                    isVegetarisch,
-                    mealIsForMultipleDays = false,
-                    mealIsFastPrepared = false,
-                    mealIsChefkochGericht = true,
-                    mealOverallCooktime = zubereitungsZeit.text(),
-                    mealAuthor = rezeptErsteller.text(),
-                    mealReceipt = zubereitungText
-            )
-        } catch(e: Exception){
-            Toast.makeText(this, getString(R.string.chefkochMealCouldNotBeAdded), Toast.LENGTH_LONG).show()
-        }
-
-    }
 
 
 

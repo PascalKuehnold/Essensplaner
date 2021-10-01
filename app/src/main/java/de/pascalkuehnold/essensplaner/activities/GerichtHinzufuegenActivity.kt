@@ -29,6 +29,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
     private var mealCooktime = ""
     private var mealAuthor = ""
     private var mealReceipt = ""
+    private var mealChefkochUrl = ""
 
     private var zutaten: ArrayList<String> = ArrayList()
 
@@ -73,7 +74,8 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
                             this.mealIsByChefkoch ,
                             this.mealCooktime,
                             this.mealAuthor,
-                            this.mealReceipt
+                            this.mealReceipt,
+                            this.mealChefkochUrl
                     )
                 } catch (e: SQLiteConstraintException) {
                     Toast.makeText(this, this.mealName + " " + getString(R.string.textAlreadyInList), Toast.LENGTH_SHORT).show()

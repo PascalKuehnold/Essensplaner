@@ -24,7 +24,8 @@ class Gericht(
         @ColumnInfo(name = "ist_chefkoch_gericht") val isChefkochGericht: Boolean,
         @ColumnInfo(name = "gesamt_kochzeit") val gesamtKochzeit: String,
         @ColumnInfo(name = "gericht_author") val gerichtAuthor: String,
-        @ColumnInfo(name = "rezept") val gerichtRezept: String
+        @ColumnInfo(name = "rezept") val gerichtRezept: String,
+        @ColumnInfo(name = "chefkoch_url") val chefkochUrl: String
 ){
     companion object{
         //method for saving the meal
@@ -44,7 +45,9 @@ class Gericht(
                        mealIsChefkochGericht: Boolean,
                        mealOverallCooktime: String,
                        mealAuthor: String,
-                       mealReceipt: String)
+                       mealReceipt: String,
+                       chefkochUrl: String
+                        )
         {
             val tempZutaten = Zutat.createNewZutatenString(zutaten)
 
@@ -59,7 +62,8 @@ class Gericht(
                     mealIsChefkochGericht,
                     mealOverallCooktime,
                     mealAuthor,
-                    mealReceipt
+                    mealReceipt,
+                    chefkochUrl
             )
 
             gerichtDao.insertAll(newGericht)

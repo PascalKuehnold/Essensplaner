@@ -48,6 +48,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
     private var mealReceipt = ""
     private var mealCooktime = ""
     private var mealAuthor = ""
+    private var mealChefkochUrl = ""
 
     private var newGericht: Gericht? = null
     private lateinit var adapter: CustomZutatenAdapter
@@ -150,6 +151,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
                 mealCooktime = tempGericht.gesamtKochzeit
                 mealAuthor = tempGericht.gerichtAuthor
                 mealReceipt = tempGericht.gerichtRezept
+                mealChefkochUrl = tempGericht.chefkochUrl
             }
 
             switchVegetarisch.isChecked = mealIsVeggie
@@ -238,7 +240,8 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
                 isChefkochGericht = mealIsByChefkoch,
                 gesamtKochzeit = mealCooktime,
                 gerichtAuthor = mealAuthor,
-                gerichtRezept =  mealReceipt
+                gerichtRezept =  mealReceipt,
+                chefkochUrl = mealChefkochUrl
         )
         isSaved = false
     }

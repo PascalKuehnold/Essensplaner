@@ -29,6 +29,7 @@ class GerichtActivity : AppCompatActivity() {
         gerichtAuthor = intent.getStringExtra("mealAuthor").toString()
         gerichtZubereitungsZeit = intent.getStringExtra("mealCookTime").toString()
         gerichtVonChefkoch = intent.getBooleanExtra("mealByChefkoch", false)
+        chefkochUrl = intent.getStringExtra("chefkochUrl").toString()
 
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -65,6 +66,7 @@ class GerichtActivity : AppCompatActivity() {
         var gerichtAuthor = ""
         var gerichtZubereitungsZeit = ""
         var gerichtVonChefkoch = false
+        var chefkochUrl = ""
     }
 
 

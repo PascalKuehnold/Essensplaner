@@ -84,6 +84,7 @@
             android:textColor="@color/white"
             />
         <TextView
+            android:id="@+id/originalRecipeWebsite"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/to_the_creator_website"
