@@ -13,8 +13,12 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.toDrawable
+import androidx.core.view.get
+import androidx.databinding.DataBindingUtil
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
+import de.pascalkuehnold.essensplaner.databinding.ActivityEinkaufslisteBinding
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import de.pascalkuehnold.essensplaner.interfaces.EinkaufslisteDao
 import java.util.*
@@ -24,7 +28,6 @@ import kotlin.collections.ArrayList
 class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsListView.OnScrollListener{
     private lateinit var listEinkaufsliste: ListView
     private lateinit var einkaufsliste: ArrayList<Zutat>
-    private lateinit var btnListDelete: Button
     private lateinit var btnAddItem: Button
     private lateinit var textViewLeftPositions: TextView
     private lateinit var addNewPositionTextField: EditText
@@ -36,7 +39,14 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_einkaufsliste)
+        //setContentView(R.layout.activity_einkaufsliste)
+
+        val binding: ActivityEinkaufslisteBinding = DataBindingUtil.setContentView(this, R.layout.activity_einkaufsliste)
+        binding.leftPositions.apply{
+            setOnClickListener {
+                scrollToNextOpenPosition(it)
+            }
+        }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.einkaufsliste)
@@ -45,7 +55,6 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
         listEinkaufsliste = findViewById(R.id.listViewEinkaufsliste)
         listEinkaufsliste.setOnScrollListener(this)
 
-        btnListDelete = findViewById(R.id.btnDeleteList)
         btnAddItem = findViewById(R.id.btnAddItem)
         addNewPositionTextField = findViewById(R.id.newPositionEditText)
         textViewLeftPositions = findViewById(R.id.leftPositions)
@@ -64,24 +73,6 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
             }
         })
 
-
-        btnListDelete.setOnClickListener{
-            val alert = AlertDialog.Builder(this)
-            alert.setTitle(getString(R.string.delete))
-            alert.setMessage("TODO()010 -> Einkaufsliste wird gelöscht. Fortfahren?")
-            alert.setPositiveButton(getString(R.string.yes)) { _: DialogInterface, _: Int ->
-                createConnection().delete()
-                loadEinkaufsliste()
-                generateListOnScreen()
-            }
-            alert.setNegativeButton(getString(R.string.no)){ dialog: DialogInterface, _: Int ->
-                dialog.cancel()
-            }
-            alert.create()
-            alert.show()
-
-
-        }
 
         btnAddItem.setOnClickListener{
             addNewItem()
@@ -179,8 +170,18 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
                 onBackPressed()
                 return true
             }
+            R.id.deleteMealButton -> {
+                deleteList()
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
+        // If you don't have res/menu, just create a directory named "menu" inside res
+        menuInflater.inflate(R.menu.mymenu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onClick(v: View?) {
@@ -220,6 +221,32 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
                 listEinkaufsliste.setSelection(firstVisibleRow)
             }
 
+        }
+    }
+
+
+    private fun deleteList(){
+        val alert = AlertDialog.Builder(this)
+        alert.setTitle(getString(R.string.delete))
+        alert.setMessage("TODO()010 -> Einkaufsliste wird gelöscht. Fortfahren?")
+        alert.setPositiveButton(getString(R.string.yes)) { _: DialogInterface, _: Int ->
+            createConnection().delete()
+            loadEinkaufsliste()
+            generateListOnScreen()
+        }
+        alert.setNegativeButton(getString(R.string.no)){ dialog: DialogInterface, _: Int ->
+            dialog.cancel()
+        }
+        alert.create()
+        alert.show()
+    }
+
+    private fun scrollToNextOpenPosition(view: View){
+        println("Position wurde geklickt")
+        for(pos: Zutat in einkaufsliste){
+            if(!pos.isChecked) {
+                listEinkaufsliste.setSelection(einkaufsliste.indexOf(pos))
+            }
         }
     }
 
