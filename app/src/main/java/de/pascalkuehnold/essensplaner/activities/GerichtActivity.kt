@@ -3,6 +3,7 @@ package de.pascalkuehnold.essensplaner.activities
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
@@ -13,6 +14,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import de.pascalkuehnold.essensplaner.R
+import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 
 
 class GerichtActivity : AppCompatActivity() {
@@ -22,6 +24,10 @@ class GerichtActivity : AppCompatActivity() {
         setContentView(R.layout.activity_gericht)
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+        gerichtId = intent.getLongExtra("gerichtId", 0)
+
+        //TODO If id = 0 STOP PROCESS
 
         gerichtName = intent.getStringExtra("mealName").toString()
         gerichtZutaten = intent.getStringExtra("mealIngredients").toString()
@@ -60,6 +66,7 @@ class GerichtActivity : AppCompatActivity() {
     }
 
     companion object{
+        var gerichtId: Long = 0
         var gerichtName = ""
         var gerichtZutaten = ""
         var zubereitungsText = ""

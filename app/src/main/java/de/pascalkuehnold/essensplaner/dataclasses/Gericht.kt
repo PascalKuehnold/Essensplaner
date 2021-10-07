@@ -1,8 +1,12 @@
 package de.pascalkuehnold.essensplaner.dataclasses
 
 import android.content.Context
+import android.os.Parcelable
 import android.widget.Toast
 import androidx.room.*
+import androidx.versionedparcelable.ParcelField
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
@@ -10,6 +14,7 @@ import de.pascalkuehnold.essensplaner.database.WochenplanerVeggieDatabase
 import de.pascalkuehnold.essensplaner.interfaces.GerichtDao
 import kotlinx.coroutines.runBlocking
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 @Entity
@@ -25,7 +30,8 @@ class Gericht(
         @ColumnInfo(name = "gesamt_kochzeit") val gesamtKochzeit: String,
         @ColumnInfo(name = "gericht_author") val gerichtAuthor: String,
         @ColumnInfo(name = "rezept") val gerichtRezept: String,
-        @ColumnInfo(name = "chefkoch_url") val chefkochUrl: String
+        @ColumnInfo(name = "chefkoch_url") val chefkochUrl: String,
+        @ColumnInfo(name = "zutaten") val zutatenList: List<Zutat>
 ){
     companion object{
         //method for saving the meal
@@ -46,7 +52,8 @@ class Gericht(
                        mealOverallCooktime: String,
                        mealAuthor: String,
                        mealReceipt: String,
-                       chefkochUrl: String
+                       chefkochUrl: String,
+                       zutatenList: ArrayList<Zutat>
                         )
         {
             val tempZutaten = Zutat.createNewZutatenString(zutaten)
@@ -63,7 +70,8 @@ class Gericht(
                     mealOverallCooktime,
                     mealAuthor,
                     mealReceipt,
-                    chefkochUrl
+                    chefkochUrl,
+                    zutatenList
             )
 
             gerichtDao.insertAll(newGericht)
@@ -76,6 +84,14 @@ class Gericht(
         }
 
     }
+}
+
+class ZutatTypeConverter {
+    @TypeConverter
+    fun listToJson(value: List<Zutat>?) = Gson().toJson(value)
+
+    @TypeConverter
+    fun jsonToList(value: String) = Gson().fromJson(value, Array<Zutat>::class.java).toList()
 }
 
 

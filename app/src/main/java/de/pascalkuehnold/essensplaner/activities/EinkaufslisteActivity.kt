@@ -42,6 +42,7 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
         //setContentView(R.layout.activity_einkaufsliste)
 
         val binding: ActivityEinkaufslisteBinding = DataBindingUtil.setContentView(this, R.layout.activity_einkaufsliste)
+
         binding.leftPositions.apply{
             setOnClickListener {
                 scrollToNextOpenPosition(it)
@@ -246,6 +247,7 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
         for(pos: Zutat in einkaufsliste){
             if(!pos.isChecked) {
                 listEinkaufsliste.setSelection(einkaufsliste.indexOf(pos))
+                break
             }
         }
     }

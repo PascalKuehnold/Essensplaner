@@ -6,10 +6,7 @@ import android.text.InputType
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Index
-import androidx.room.PrimaryKey
+import androidx.room.*
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.activities.GerichtEditierenActivity
 import de.pascalkuehnold.essensplaner.layout.CustomZutatenAdapter
@@ -19,7 +16,7 @@ import de.pascalkuehnold.essensplaner.layout.CustomZutatenAdapter
 class Zutat(
     @PrimaryKey(autoGenerate = true) var id: Long,
     @ColumnInfo(name ="zutaten_name") var zutatenName: String,
-    @ColumnInfo(name ="checked") var isChecked: Boolean
+    @ColumnInfo(name ="checked") var isChecked: Boolean = false
 
 
 ){
@@ -128,3 +125,5 @@ class Zutat(
 
     }
 }
+
+

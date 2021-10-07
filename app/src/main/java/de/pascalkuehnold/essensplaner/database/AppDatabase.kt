@@ -4,10 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
+import de.pascalkuehnold.essensplaner.dataclasses.ZutatTypeConverter
 import de.pascalkuehnold.essensplaner.interfaces.GerichtDao
 
 @Database(entities = [Gericht::class], version = 1, exportSchema = false)
+@TypeConverters(ZutatTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun gerichtDao(): GerichtDao
 

@@ -4,10 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
+import de.pascalkuehnold.essensplaner.dataclasses.ZutatTypeConverter
 import de.pascalkuehnold.essensplaner.interfaces.WochenplanerVeggieDao
 
 @Database(entities = [Gericht::class], version = 1, exportSchema = false)
+@TypeConverters(ZutatTypeConverter::class)
 abstract class WochenplanerVeggieDatabase : RoomDatabase() {
     abstract fun wochenGerichteVeggieDao(): WochenplanerVeggieDao
 

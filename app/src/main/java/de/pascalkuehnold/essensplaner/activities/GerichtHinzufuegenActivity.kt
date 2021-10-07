@@ -16,6 +16,7 @@ import androidx.appcompat.widget.SwitchCompat
 import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
+import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -63,6 +64,11 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
             this.mealIsForMultipleDays = switchMultipleDays.isChecked
 
             if (this.mealName.isNotEmpty()) {
+                val zutatenNewTemp = ArrayList<Zutat>()
+                zutatenNewTemp.add(Zutat(0, "Honig"))
+                zutatenNewTemp.add(Zutat(0, "Salz"))
+                zutatenNewTemp.add(Zutat(0, "Pfeffer"))
+
                 try {
                     Gericht.addGericht(
                             applicationContext,
@@ -75,8 +81,11 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
                             this.mealCooktime,
                             this.mealAuthor,
                             this.mealReceipt,
-                            this.mealChefkochUrl
+                            this.mealChefkochUrl,
+                            zutatenNewTemp
                     )
+
+                    for(zutat: Zutat in zutatenNewTemp) {println(zutat.zutatenName)}
                 } catch (e: SQLiteConstraintException) {
                     Toast.makeText(this, this.mealName + " " + getString(R.string.textAlreadyInList), Toast.LENGTH_SHORT).show()
                 }

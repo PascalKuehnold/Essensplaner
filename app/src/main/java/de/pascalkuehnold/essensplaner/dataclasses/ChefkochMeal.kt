@@ -120,6 +120,9 @@ class ChefkochMeal(_context: Context, _url: String) {
     }
 
     private fun addMealByChefkoch(){
+        val zutatList = java.util.ArrayList<Zutat>()
+        zutatList.add(Zutat(0, "neuezutatlulchefkochöuö"))
+
         try {
             Gericht.addGericht(
                 mContext,
@@ -132,7 +135,8 @@ class ChefkochMeal(_context: Context, _url: String) {
                 mealOverallCooktime = zubereitungsZeit.text(),
                 mealAuthor = rezeptErsteller.text(),
                 mealReceipt = zubereitungText,
-                chefkochUrl = url
+                chefkochUrl = url,
+                zutatenList = zutatList
             )
         } catch(e: Exception){
             Toast.makeText(mContext, R.string.chefkochMealCouldNotBeAdded, Toast.LENGTH_LONG).show()

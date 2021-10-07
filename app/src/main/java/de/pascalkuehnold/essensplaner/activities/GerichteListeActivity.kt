@@ -11,6 +11,7 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
 import android.os.StrictMode
 import android.util.Log
 import android.view.MenuItem
@@ -212,6 +213,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         val gerichte = sortedGerichte
         val gericht = gerichte[v?.tag as Int]
+        val gerichtId = gericht.id
         val gerichtName = gericht.gerichtName
         val gerichtZutaten = gericht.zutaten
         val multipleDays = gericht.mehrereTage
@@ -244,6 +246,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
                     val gerichtIntent =
                         Intent(this, GerichtActivity::class.java)
+                    gerichtIntent.putExtra("gerichtId", gerichtId)
                     gerichtIntent.putExtra("mealName", gerichtName)
                     gerichtIntent.putExtra("mealIngredients", gericht.zutaten)
                     gerichtIntent.putExtra("mealRecipe", zubereitungsText)

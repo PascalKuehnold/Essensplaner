@@ -229,6 +229,8 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
 
     //Method for changing the entire meal
     fun changeGericht(inZutaten: String){
+        val zutatList = ArrayList<Zutat>()
+        zutatList.add(Zutat(0, "neuezutatlul"))
 
         newGericht = Gericht(
                 gerichtID,
@@ -241,7 +243,8 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
                 gesamtKochzeit = mealCooktime,
                 gerichtAuthor = mealAuthor,
                 gerichtRezept =  mealReceipt,
-                chefkochUrl = mealChefkochUrl
+                chefkochUrl = mealChefkochUrl,
+            zutatenList = zutatList
         )
         isSaved = false
     }

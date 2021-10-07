@@ -16,10 +16,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.activities.GerichtActivity.Companion.chefkochUrl
+import de.pascalkuehnold.essensplaner.activities.GerichtActivity.Companion.gerichtId
 import de.pascalkuehnold.essensplaner.activities.GerichtActivity.Companion.gerichtVonChefkoch
 import de.pascalkuehnold.essensplaner.activities.GerichtActivity.Companion.gerichtZutaten
 import de.pascalkuehnold.essensplaner.activities.GerichteListeActivity
+import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.ChefkochMeal
+import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import de.pascalkuehnold.essensplaner.layout.CustomZutatenAdapter
 
@@ -59,6 +62,13 @@ class GerichtInformationFragment : Fragment() {
         val lvZutaten: ListView = root.findViewById(R.id.zutatenAnzeige)
         val zutaten = Zutat.generateIngredientsList(gerichtZutaten)
 
+        val zutatenArray = AppDatabase.getDatabase(requireContext()).gerichtDao().loadByID(gerichtId)!!.zutatenList
+        val zutatenAsString = ArrayList<String>()
+
+        for(zutat: Zutat in zutatenArray){
+            zutatenAsString.add(zutat.zutatenName)
+        }
+
         val btnOriginalRecipe: TextView = root.findViewById(R.id.originalRecipeWebsite)
         btnOriginalRecipe.apply {
             setOnClickListener{
@@ -71,7 +81,7 @@ class GerichtInformationFragment : Fragment() {
 
 
         //creates the custom adapter
-        val adapter = CustomZutatenAdapter(container!!.context, zutaten, null)
+        val adapter = CustomZutatenAdapter(container!!.context, zutatenAsString, null)
 
         //setting the adapter for the listview of ingredients
         lvZutaten.adapter = adapter
@@ -79,6 +89,8 @@ class GerichtInformationFragment : Fragment() {
 
         (activity as AppCompatActivity?)!!.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as AppCompatActivity?)!!.supportActionBar?.title = "Gericht Informationen"
+
+
         return root
     }
 
