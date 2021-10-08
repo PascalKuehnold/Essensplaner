@@ -60,7 +60,6 @@ class GerichtInformationFragment : Fragment() {
         })
 
         val lvZutaten: ListView = root.findViewById(R.id.zutatenAnzeige)
-        val zutaten = Zutat.generateIngredientsList(gerichtZutaten)
 
         val zutatenArray = AppDatabase.getDatabase(requireContext()).gerichtDao().loadByID(gerichtId)!!.zutatenList
         val zutatenAsString = ArrayList<String>()
@@ -81,7 +80,7 @@ class GerichtInformationFragment : Fragment() {
 
 
         //creates the custom adapter
-        val adapter = CustomZutatenAdapter(container!!.context, zutatenAsString, null)
+        val adapter = CustomZutatenAdapter(container!!.context, zutatenArray as ArrayList<Zutat>, null)
 
         //setting the adapter for the listview of ingredients
         lvZutaten.adapter = adapter

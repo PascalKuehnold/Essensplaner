@@ -17,6 +17,7 @@ import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
+import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -32,7 +33,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
     private var mealReceipt = ""
     private var mealChefkochUrl = ""
 
-    private var zutaten: ArrayList<String> = ArrayList()
+    private var zutaten: ArrayList<Zutat> = ArrayList()
 
     private lateinit var textInputGericht: TextInputEditText
     private lateinit var btnZutatHinzufuegen: Button
@@ -54,7 +55,6 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         val btnHinzufuegen = findViewById<Button>(R.id.btnHinzufuegenGericht)
 
 
-
         btnHinzufuegen.setOnClickListener {
             btnHinzufuegen.requestFocus()
 
@@ -64,16 +64,11 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
             this.mealIsForMultipleDays = switchMultipleDays.isChecked
 
             if (this.mealName.isNotEmpty()) {
-                val zutatenNewTemp = ArrayList<Zutat>()
-                zutatenNewTemp.add(Zutat(0, "Honig"))
-                zutatenNewTemp.add(Zutat(0, "Salz"))
-                zutatenNewTemp.add(Zutat(0, "Pfeffer"))
 
                 try {
                     Gericht.addGericht(
                             applicationContext,
                             this.mealName,
-                            this.zutaten,
                             this.mealIsVeggie,
                             this.mealIsForMultipleDays,
                             this.mealIsFastPrepared,
@@ -82,10 +77,9 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
                             this.mealAuthor,
                             this.mealReceipt,
                             this.mealChefkochUrl,
-                            zutatenNewTemp
+                            this.zutaten
                     )
 
-                    for(zutat: Zutat in zutatenNewTemp) {println(zutat.zutatenName)}
                 } catch (e: SQLiteConstraintException) {
                     Toast.makeText(this, this.mealName + " " + getString(R.string.textAlreadyInList), Toast.LENGTH_SHORT).show()
                 }
@@ -135,12 +129,12 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
                 val items = inputText.lines()
 
                 for(item in items){
-                    if(zutaten.contains(item.capitalize(Locale.getDefault()))){
-                        Toast.makeText(this, String.format(getString(R.string.eintragItem), item) + getString(R.string.textAlreadyInList), Toast.LENGTH_SHORT).show()
-                    } else {
+                    try {
                         val capItem = item.capitalize(Locale.getDefault())
-                        zutaten.add(capItem)
+                        zutaten.add(Zutat(0, capItem))
                         Toast.makeText(this, String.format(getString(R.string.eintragItem), capItem)  + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
+                    } catch (e: Exception){
+                        e.printStackTrace()
                     }
                 }
                 zutatHinzufuegen()

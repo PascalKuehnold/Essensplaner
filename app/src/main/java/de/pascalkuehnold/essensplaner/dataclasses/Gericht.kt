@@ -22,7 +22,6 @@ class Gericht(
 
         @PrimaryKey(autoGenerate = true) var id: Long,
         @ColumnInfo(name = "gericht_name") var gerichtName: String,
-        @ColumnInfo(name = "zutaten_liste") val zutaten: String,
         @ColumnInfo(name = "vegetarisch") val isVegetarisch: Boolean,
         @ColumnInfo(name = "mehrere_tage") val mehrereTage: Boolean,
         @ColumnInfo(name = "schnelles_gericht") val schnellesGericht: Boolean,
@@ -44,7 +43,6 @@ class Gericht(
 
         fun addGericht(applicationContext: Context,
                        mealName: String,
-                       zutaten: List<String>,
                        mealIsVeggie: Boolean,
                        mealIsForMultipleDays: Boolean,
                        mealIsFastPrepared: Boolean,
@@ -56,13 +54,11 @@ class Gericht(
                        zutatenList: ArrayList<Zutat>
                         )
         {
-            val tempZutaten = Zutat.createNewZutatenString(zutaten)
 
             val gerichtDao = createConnection(applicationContext)
             val newGericht = Gericht(
                     0,
                     mealName.capitalize(Locale.getDefault()),
-                    tempZutaten,
                     mealIsVeggie,
                     mealIsForMultipleDays,
                     mealIsFastPrepared,
@@ -84,6 +80,7 @@ class Gericht(
         }
 
     }
+
 }
 
 class ZutatTypeConverter {

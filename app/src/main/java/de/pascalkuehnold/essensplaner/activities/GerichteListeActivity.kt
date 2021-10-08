@@ -31,9 +31,11 @@ import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.ChefkochMeal
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
+import de.pascalkuehnold.essensplaner.handler.ExternalLinkHandler
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
+import java.lang.Exception
 
 
 //TODO Search algorithm
@@ -100,9 +102,17 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                     } else {
                         //filter by id
                         for (gericht in getGerichteListe()) {
-                            if (gericht.zutaten.contains(newText.toString(), true) || gericht.gerichtName.contains(newText.toString(), true)) {
+                            try {
                                 data.add(gericht)
+                            } catch (e: Exception){
+                                e.printStackTrace()
                             }
+
+                            /*
+                            if (gericht.zutatenList.contains(newText.toString(), true) || gericht.gerichtName.contains(newText.toString(), true)) {
+
+                            }
+                            */
                         }
                         //instatiate adapter a
                         adapter = CustomAdapter(data, mContext,null)
@@ -215,7 +225,6 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         val gericht = gerichte[v?.tag as Int]
         val gerichtId = gericht.id
         val gerichtName = gericht.gerichtName
-        val gerichtZutaten = gericht.zutaten
         val multipleDays = gericht.mehrereTage
         val shortPrepareTime = gericht.schnellesGericht
         val zubereitungsText = gericht.gerichtRezept
@@ -224,8 +233,6 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         val isChefkochGericht = gericht.isChefkochGericht
         val chefkochUrl = gericht.chefkochUrl
 
-        val zutaten = Zutat.allIngredientsAsList(gerichtZutaten)
-        val zutatenList = Zutat.createNewZutatenString(zutaten)
 
         AlertDialog.Builder(this)
                 .setMessage(
@@ -236,7 +243,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                         }
                 )
                 .setPositiveButton(getString(R.string.findRecipe)) { dialog, _ ->
-                    showWarningExternalLink(
+                    ExternalLinkHandler(this).showWarningExternalLink(
                             "https://www.chefkoch.de/rs/s0/${gericht.gerichtName}/Rezepte.html",
                             false
                     )
@@ -248,7 +255,6 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                         Intent(this, GerichtActivity::class.java)
                     gerichtIntent.putExtra("gerichtId", gerichtId)
                     gerichtIntent.putExtra("mealName", gerichtName)
-                    gerichtIntent.putExtra("mealIngredients", gericht.zutaten)
                     gerichtIntent.putExtra("mealRecipe", zubereitungsText)
                     gerichtIntent.putExtra("mealAuthor", gerichtAuthor)
                     gerichtIntent.putExtra("mealCookTime", zubereitungsZeit)
@@ -263,56 +269,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                 .show()
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
-    fun showWarningExternalLink(url: String, input: Boolean) {
-        var inputText: EditText? = null
 
-        val alertDialogBuilder = AlertDialog.Builder(this, R.style.Theme_Essensplaner_DialogTheme)
-        if(input){
-            inputText = EditText(this)
-            inputText.hint = "Gericht eingeben"
-            inputText.setHintTextColor(resources.getColor(R.color.lightGreyAlpha75))
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                inputText.textAlignment = TEXT_ALIGNMENT_CENTER
-            }
-
-        }
-        alertDialogBuilder.setPositiveButton("Zu Chefkoch.de") { _, _ ->
-            val recipeString: String = if (inputText != null) {
-                if(inputText.text.isNotEmpty()){
-                    url + inputText.text + "/Rezepte.html"
-                } else {
-                    "https://www.chefkoch.de/rezepte/"
-                }
-            } else {
-                url
-            }
-
-            val builder = CustomTabsIntent.Builder()
-
-            val sendLinkIntent = Intent(this@GerichteListeActivity, ActionBroadcastReceiver::class.java)
-            sendLinkIntent.putExtra(Intent.EXTRA_SUBJECT, "This is the link you were exploring")
-            val pendingIntent = PendingIntent.getBroadcast(this, 0, sendLinkIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-            // Set the action button
-            AppCompatResources.getDrawable(this, R.drawable.ic_add_to_shoppinglist)?.let {
-                builder.setActionButton(it.toBitmap(), "Add this link to your dig", pendingIntent, false)
-            }
-            val customTabsIntent: CustomTabsIntent = builder.build()
-            customTabsIntent.launchUrl(this, Uri.parse(recipeString))
-        }
-        alertDialogBuilder.setNegativeButton("Lieber nicht") { dialog, _ ->
-            dialog.dismiss()
-        }
-
-        val message = if(!input){ getString(R.string.externalLinkInfo)} else { getString(R.string.externalLinkInfo) + getString(R.string.desiredMeal)}
-
-        val alert = alertDialogBuilder.create()
-            alert.setTitle(getString(R.string.externalLinkTitle))
-            alert.setMessage(message)
-            alert.setIcon(R.drawable.ic_info)
-            alert.setView(inputText)
-            alert.show()
-    }
 
     fun addMealByUser(view: View) {
         alert?.dismiss()
@@ -322,12 +279,8 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     fun addMealByChefkoch(view: View){
-        showWarningExternalLink("https://www.chefkoch.de/rs/s0/", true)
+        ExternalLinkHandler(this).showWarningExternalLink("https://www.chefkoch.de/rs/s0/", true)
     }
-
-
-
-
 
     class ActionBroadcastReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {

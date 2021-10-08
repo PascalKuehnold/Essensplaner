@@ -120,14 +120,16 @@ class ChefkochMeal(_context: Context, _url: String) {
     }
 
     private fun addMealByChefkoch(){
-        val zutatList = java.util.ArrayList<Zutat>()
-        zutatList.add(Zutat(0, "neuezutatlulchefkochöuö"))
+        val zutatList = ArrayList<Zutat>()
+
+        for(zutat: String in zutatenNamenArray){
+            zutatList.add(Zutat(0, zutat))
+        }
 
         try {
             Gericht.addGericht(
                 mContext,
                 newsHeadlines.text(),
-                zutatenNamenArray,
                 isVegetarisch,
                 mealIsForMultipleDays = false,
                 mealIsFastPrepared = false,

@@ -14,7 +14,7 @@ import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class CustomZutatenAdapter(context: Context, zutaten: ArrayList<String>, callback: View.OnClickListener?): BaseAdapter(), ListAdapter {
+class CustomZutatenAdapter(context: Context, zutaten: ArrayList<Zutat>, callback: View.OnClickListener?): BaseAdapter(), ListAdapter {
     private val mZutaten = zutaten
     private val mContext = context
     private val mCallback = callback
@@ -45,7 +45,7 @@ class CustomZutatenAdapter(context: Context, zutaten: ArrayList<String>, callbac
 
         val zutatenName = view?.findViewById<TextView>(R.id.zutatenName)
         if (zutatenName != null) {
-            zutatenName.text = mZutaten[position].removePrefix("`").capitalize(Locale.getDefault())
+            zutatenName.text = mZutaten[position].zutatenName.removePrefix("`").removeSuffix("´").capitalize(Locale.getDefault())
         }
 
         val imageViewZutatChecked = view?.findViewById<ImageView>(R.id.imageViewCheckedZutat)

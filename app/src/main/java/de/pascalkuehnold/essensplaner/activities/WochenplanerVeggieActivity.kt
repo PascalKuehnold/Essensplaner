@@ -13,6 +13,7 @@ import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerVeggieDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
+import de.pascalkuehnold.essensplaner.handler.ExternalLinkHandler
 import de.pascalkuehnold.essensplaner.interfaces.Wochenplan
 import de.pascalkuehnold.essensplaner.interfaces.WochenplanerVeggieDao
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
@@ -193,41 +194,49 @@ open class WochenplanerVeggieActivity :Wochenplan(),AdapterView.OnItemSelectedLi
     override fun onClick(v: View?) {
         val gerichte = getWeeksGerichte()
         val gericht = gerichte[v?.tag as Int]
+        val gerichtId = gericht.id
         val gerichtName = gericht.gerichtName
-        var gerichtZutaten = gericht.zutaten
         val multipleDays = gericht.mehrereTage
         val shortPrepareTime = gericht.schnellesGericht
-
-        val alleZutatenList = gerichtZutaten.split(",")
-        var prevZutat = ""
-
-        for(zutat: String in alleZutatenList){
-            prevZutat += if(zutat == alleZutatenList.last()){
-                zutat
-            } else {
-                "$zutat, "
-            }
-            gerichtZutaten = prevZutat
-        }
+        val zubereitungsText = gericht.gerichtRezept
+        val gerichtAuthor = gericht.gerichtAuthor
+        val zubereitungsZeit = gericht.gesamtKochzeit
+        val isChefkochGericht = gericht.isChefkochGericht
+        val chefkochUrl = gericht.chefkochUrl
 
 
         AlertDialog.Builder(this)
-                .setMessage((
-                        getString(R.string.gerichtNameInfo) + " " + gerichtName + "\n\n" +
-                                getString(R.string.zutatenInfo) + " " + gerichtZutaten + "\n\n" +
-                                getString(R.string.f_r_mehr_als_einen_tag) + ": " + (if(multipleDays)getString(R.string.yes) else getString(R.string.no)) + "\n\n" +
-                                getString(R.string.schnelle_zubereitung) + ": " + (if(shortPrepareTime)getString(R.string.yes) else getString(R.string.no))
-                        )
-
-                )
-                .setPositiveButton(getString(R.string.rezeptAnsicht)) { _, _ ->
-
+            .setMessage(
+                if(gerichtAuthor.isNotEmpty()){
+                    String.format(getString(R.string.authorOnChefkoch), gerichtAuthor)
+                } else {
+                    ""
                 }
-                .setCancelable(true)
-                .setTitle(getString(R.string.information))
-                .setIcon(R.drawable.ic_info)
-                .create()
-                .show()
-    }
+            )
+            .setPositiveButton(getString(R.string.findRecipe)) { dialog, _ ->
+                ExternalLinkHandler(this).showWarningExternalLink(
+                    "https://www.chefkoch.de/rs/s0/${gericht.gerichtName}/Rezepte.html",
+                    false
+                )
+                dialog.dismiss()
+            }
+            .setNegativeButton(getString(R.string.gerichtAnzeigen)){ _, _ ->
 
+                val gerichtIntent =
+                    Intent(this, GerichtActivity::class.java)
+                gerichtIntent.putExtra("gerichtId", gerichtId)
+                gerichtIntent.putExtra("mealName", gerichtName)
+                gerichtIntent.putExtra("mealRecipe", zubereitungsText)
+                gerichtIntent.putExtra("mealAuthor", gerichtAuthor)
+                gerichtIntent.putExtra("mealCookTime", zubereitungsZeit)
+                gerichtIntent.putExtra("mealByChefkoch", isChefkochGericht)
+                gerichtIntent.putExtra("chefkochUrl", chefkochUrl)
+                startActivity(gerichtIntent)
+            }
+            .setCancelable(true)
+            .setTitle(gerichtName)
+            .setIcon(R.drawable.ic_info)
+            .create()
+            .show()
+    }
 }

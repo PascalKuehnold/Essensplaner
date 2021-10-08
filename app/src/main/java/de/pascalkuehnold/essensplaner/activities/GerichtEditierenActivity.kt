@@ -53,7 +53,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
     private var newGericht: Gericht? = null
     private lateinit var adapter: CustomZutatenAdapter
 
-    private lateinit var zutaten: ArrayList<String>
+    private lateinit var zutaten: ArrayList<Zutat>
 
     private var isSaved = false
     private var gerichtID: Long = -1
@@ -108,15 +108,15 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
                 val items = inputText.lines()
 
                 for(item in items){
-                    if(zutaten.contains(item.capitalize(Locale.getDefault()))){
-                        Toast.makeText(this, "TODO014 $item ist schon vorhanden", Toast.LENGTH_SHORT).show()
-                    } else {
-                        zutaten.add(item.capitalize(Locale.getDefault()))
-                        changeGericht(Zutat.createNewZutatenString(zutaten))
+                    try {
+                        zutaten.add(Zutat(0, item.capitalize(Locale.getDefault())))
+                        changeGericht(zutaten)
                         isSaved = false
 
                         adapter.notifyDataSetChanged()
                         Toast.makeText(this, getString(R.string.zutat) + " " + inputText + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
+                    } catch (e: Exception) {
+                        Toast.makeText(this, "TODO014 $item ist schon vorhanden", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -143,7 +143,6 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
             if (tempGericht != null) {
                 oldGerichtName.text = tempGericht.gerichtName
                 mealName = tempGericht.gerichtName
-                mealIngredients = tempGericht.zutaten
                 mealIsVeggie = tempGericht.isVegetarisch
                 mealIsForMultipleDays = tempGericht.mehrereTage
                 mealIsFastPrepared = tempGericht.schnellesGericht
@@ -152,6 +151,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
                 mealAuthor = tempGericht.gerichtAuthor
                 mealReceipt = tempGericht.gerichtRezept
                 mealChefkochUrl = tempGericht.chefkochUrl
+                zutaten = tempGericht.zutatenList as ArrayList<Zutat>
             }
 
             switchVegetarisch.isChecked = mealIsVeggie
@@ -162,29 +162,26 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
         //sets the hint text of the meal name
         inputFieldGericht.hint = "Neuer Gerichtename"
 
-        //fills the array of ingredients by seperating it
-        //if there is nothing to seperate, the array is filled with one item
-        zutaten = Zutat.generateIngredientsList(mealIngredients)
 
         //for the checkbox if the meal is vegetarian or not
         switchVegetarisch.setOnCheckedChangeListener{ _, isChecked ->
             mealIsVeggie = isChecked
             isSaved = false
-            changeGericht(Zutat.createNewZutatenString(zutaten))
+            changeGericht(zutaten)
         }
 
         //for the checkbox if the meal can be for multiple days or not
         switchMultipleDays.setOnCheckedChangeListener{ _, isChecked ->
             mealIsForMultipleDays = isChecked
             isSaved = false
-            changeGericht(Zutat.createNewZutatenString(zutaten))
+            changeGericht(zutaten)
         }
 
         //for the checkbox if the meal can be fast prepared
         switchFastPreperation.setOnCheckedChangeListener{ _, isChecked ->
             mealIsFastPrepared = isChecked
             isSaved = false
-            changeGericht(Zutat.createNewZutatenString(zutaten))
+            changeGericht(zutaten)
         }
 
         //creates the custom adapter
@@ -199,7 +196,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
                 hideSoftKeyboard(v)
                 mealName = inputFieldGericht.text.toString()
                 isSaved = false
-                changeGericht(Zutat.createNewZutatenString(zutaten))
+                changeGericht(zutaten)
             }
         }
     }
@@ -228,14 +225,11 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
 
 
     //Method for changing the entire meal
-    fun changeGericht(inZutaten: String){
-        val zutatList = ArrayList<Zutat>()
-        zutatList.add(Zutat(0, "neuezutatlul"))
+    fun changeGericht(inZutaten: ArrayList<Zutat>){
 
         newGericht = Gericht(
                 gerichtID,
                 gerichtName = mealName,
-                zutaten = inZutaten,
                 isVegetarisch =  mealIsVeggie,
                 mehrereTage =  mealIsForMultipleDays,
                 schnellesGericht = mealIsFastPrepared,
@@ -244,7 +238,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
                 gerichtAuthor = mealAuthor,
                 gerichtRezept =  mealReceipt,
                 chefkochUrl = mealChefkochUrl,
-            zutatenList = zutatList
+            zutatenList = inZutaten
         )
         isSaved = false
     }
@@ -255,7 +249,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
     override fun onBackPressed() {
         if(!inputFieldGericht.text.isNullOrBlank()){
             mealName = inputFieldGericht.text.toString()
-            changeGericht(Zutat.createNewZutatenString(zutaten))
+            changeGericht(zutaten)
         }
 
         if (newGericht != null && !isSaved){

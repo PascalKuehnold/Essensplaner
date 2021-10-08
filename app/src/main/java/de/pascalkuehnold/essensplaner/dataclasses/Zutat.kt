@@ -46,26 +46,24 @@ class Zutat(
         }
 
         //Method for updating the ingredient and refresh the ingredient listview
-        private fun updateZutat(mContext: Context, inputText: String, zutaten: ArrayList<String>, position: Int){
+        private fun updateZutat(mContext: Context, inputText: String, zutaten: ArrayList<Zutat>, position: Int){
             val tempZutat = zutaten[position]
 
-            zutaten[position] = inputText
+            zutaten[position].zutatenName = inputText
 
-            val tempZutatenString = createNewZutatenString(zutaten)
-            (mContext as GerichtEditierenActivity).changeGericht(tempZutatenString)
+            (mContext as GerichtEditierenActivity).changeGericht(zutaten)
 
             Toast.makeText(mContext, ("TODO()004 $tempZutat wurde erfolgreich zu $inputText bearbeitet."), Toast.LENGTH_SHORT).show()
         }
 
-        fun deleteZutat(mContext: Context, mZutaten: ArrayList<String>, position: Int, customZutatenAdapter: CustomZutatenAdapter){
+        fun deleteZutat(mContext: Context, mZutaten: ArrayList<Zutat>, position: Int, customZutatenAdapter: CustomZutatenAdapter){
             val tempZutat = mZutaten[position]
 
             val alert = AlertDialog.Builder(mContext)
             alert.setMessage("TODO()001 Delete?")
             alert.setPositiveButton(R.string.yes){ _: DialogInterface, _: Int ->
                 mZutaten.removeAt(position)
-                val tempZutatenString = createNewZutatenString(mZutaten)
-                (mContext as GerichtEditierenActivity).changeGericht(tempZutatenString)
+                (mContext as GerichtEditierenActivity).changeGericht(mZutaten)
                 Toast.makeText(mContext, ("TODO()002 $tempZutat was deleted successfully."), Toast.LENGTH_SHORT).show()
                 customZutatenAdapter.notifyDataSetChanged()
             }
@@ -78,7 +76,7 @@ class Zutat(
         }
 
         //Method that creates a dialog for changing an ingredient
-        fun createChangeZutatDialog(mContext: Context, zutatenNew: ArrayList<String>, position: Int, customZutatenAdapter: CustomZutatenAdapter) {
+        fun createChangeZutatDialog(mContext: Context, zutatenNew: ArrayList<Zutat>, position: Int, customZutatenAdapter: CustomZutatenAdapter) {
             // Use the Builder class for convenient dialog construction
             var inputText: String
 
@@ -124,6 +122,8 @@ class Zutat(
         }
 
     }
+
+
 }
 
 

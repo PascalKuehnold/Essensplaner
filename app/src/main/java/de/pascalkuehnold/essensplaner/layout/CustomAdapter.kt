@@ -104,25 +104,23 @@ class CustomAdapter(newGerichte: List<Gericht>, newContext: Context, callback: V
         val btnGerichtZurEinkaufslisteHinzufuegen = view?.findViewById<Button>(R.id.btnHinzufuegenZurEinkaufsliste)
         btnGerichtZurEinkaufslisteHinzufuegen?.setOnClickListener{
             lateinit var tempZutat: Zutat
-
-
-            val alleZutaten = if(selectedGericht.zutaten.isEmpty()){
-                selectedGericht.gerichtName
-            } else {
-                selectedGericht.zutaten
-            }
-
-            val alleZutatenList = Zutat.generateIngredientsList(alleZutaten)
-
-
             val einkauflisteDao = EinkaufslisteDatabase.getDatabase(parent!!.context).einkaufslisteDao()
 
-            for(zutat in alleZutatenList){
-                val zutatClean = zutat.removePrefix("`")
-                tempZutat = Zutat(0, zutatClean, isChecked = false)
+            val alleZutatenList = selectedGericht.zutatenList
+            if(alleZutatenList.isEmpty()){
+                einkauflisteDao.insertAll(Zutat(0, selectedGericht.gerichtName))
+            } else {
+                for(zutat in alleZutatenList){
+                    val zutatClean = zutat.zutatenName.removePrefix("`").removeSuffix("´")
+                    tempZutat = Zutat(0, zutatClean)
 
-                einkauflisteDao.insertAll(tempZutat)
+                    einkauflisteDao.insertAll(tempZutat)
+                }
             }
+
+
+
+
 
             if(alleZutatenList.size > 1){
                 Toast.makeText(parent.context, "TODO() -> Zutaten von Gericht ${selectedGericht.gerichtName} wurden zur Einkaufsliste hinzugefügt", Toast.LENGTH_SHORT).show()
