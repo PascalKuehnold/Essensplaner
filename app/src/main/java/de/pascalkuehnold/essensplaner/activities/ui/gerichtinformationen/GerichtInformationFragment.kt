@@ -24,6 +24,7 @@ import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.ChefkochMeal
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
+import de.pascalkuehnold.essensplaner.handler.ExternalLinkHandler
 import de.pascalkuehnold.essensplaner.layout.CustomZutatenAdapter
 
 class GerichtInformationFragment : Fragment() {
@@ -71,10 +72,11 @@ class GerichtInformationFragment : Fragment() {
         val btnOriginalRecipe: TextView = root.findViewById(R.id.originalRecipeWebsite)
         btnOriginalRecipe.apply {
             setOnClickListener{
-                println(chefkochUrl)
-                val openURL = Intent(Intent.ACTION_VIEW)
-                openURL.data = Uri.parse(chefkochUrl)
-                startActivity(openURL)
+                ExternalLinkHandler(container!!.context).showWarningExternalLink(chefkochUrl, false)
+                //println(chefkochUrl)
+                //val openURL = Intent(Intent.ACTION_VIEW)
+                //openURL.data = Uri.parse(chefkochUrl)
+                //startActivity(openURL)
             }
         }
 

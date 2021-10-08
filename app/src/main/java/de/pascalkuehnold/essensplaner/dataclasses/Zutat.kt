@@ -123,6 +123,10 @@ class Zutat(
 
     }
 
+    override fun toString(): String {
+        return zutatenName
+    }
+
 
 }
 

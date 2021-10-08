@@ -102,17 +102,13 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                     } else {
                         //filter by id
                         for (gericht in getGerichteListe()) {
-                            try {
+
+                            val tempZutatenList = gericht.zutatenList.toString()
+
+                            if (tempZutatenList.contains(newText.toString(), true) || gericht.gerichtName.contains(newText.toString(), true)) {
                                 data.add(gericht)
-                            } catch (e: Exception){
-                                e.printStackTrace()
                             }
 
-                            /*
-                            if (gericht.zutatenList.contains(newText.toString(), true) || gericht.gerichtName.contains(newText.toString(), true)) {
-
-                            }
-                            */
                         }
                         //instatiate adapter a
                         adapter = CustomAdapter(data, mContext,null)
