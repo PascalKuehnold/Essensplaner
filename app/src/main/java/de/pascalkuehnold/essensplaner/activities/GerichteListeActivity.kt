@@ -1,7 +1,5 @@
 package de.pascalkuehnold.essensplaner.activities
 
-import android.annotation.SuppressLint
-import android.app.PendingIntent
 import android.app.SearchManager
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -11,31 +9,21 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Parcelable
-import android.os.StrictMode
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.view.View.TEXT_ALIGNMENT_CENTER
 import android.view.WindowManager
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.browser.customtabs.CustomTabsIntent
-import androidx.core.graphics.drawable.toBitmap
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.ChefkochMeal
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
-import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import de.pascalkuehnold.essensplaner.handler.ExternalLinkHandler
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
-import org.jsoup.Jsoup
-import org.jsoup.select.Elements
-import java.lang.Exception
 
 
 //TODO Search algorithm
@@ -165,10 +153,14 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
         refreshGerichteListe()
+
+
+
     }
 
     override fun onResume() {
         super.onResume()
+
         if(urlList.isNotEmpty()){
             for(url in urlList){
                 ChefkochMeal(mContext, url).getChefkochGericht()
@@ -280,6 +272,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
     class ActionBroadcastReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
+
             val regex = Regex("https:\\/\\/www.chefkoch.de\\/rezepte\\/\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)")
 
             val uri: Uri? = intent.data
@@ -306,11 +299,14 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
+
+
     }
 
     companion object{
         var urlList: ArrayList<String> = ArrayList()
         var alert: AlertDialog? = null
     }
+
 
 }

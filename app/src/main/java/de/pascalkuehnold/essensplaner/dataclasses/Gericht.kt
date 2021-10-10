@@ -88,7 +88,7 @@ class ZutatTypeConverter {
     fun listToJson(value: List<Zutat>?) = Gson().toJson(value)
 
     @TypeConverter
-    fun jsonToList(value: String) = Gson().fromJson(value, Array<Zutat>::class.java).toList()
+    fun jsonToList(value: String) = ArrayList(Gson().fromJson(value, Array<Zutat>::class.java).toList())
 }
 
 

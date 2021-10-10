@@ -3,14 +3,16 @@ package de.pascalkuehnold.essensplaner.dataclasses
 import android.content.Context
 import android.os.StrictMode
 import android.widget.Toast
+import androidx.annotation.UiThread
 import de.pascalkuehnold.essensplaner.R
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
 
 class ChefkochMeal(_context: Context, _url: String) {
-    private var url = _url
     private var mContext = _context
+    private var url = _url
+
 
     private lateinit var doc: Document
     private lateinit var newsHeadlines: Elements
@@ -29,7 +31,10 @@ class ChefkochMeal(_context: Context, _url: String) {
     private var zutatenNamenArray: ArrayList<String> = ArrayList()
     private var zubereitungText: String = ""
 
+
+
     fun getChefkochGericht(){
+
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
 

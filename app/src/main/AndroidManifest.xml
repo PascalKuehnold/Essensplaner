@@ -13,15 +13,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Essensplaner">
+        <activity android:name=".activities.SplashScreen"></activity>
         <activity
             android:name=".activities.GerichtActivity"
             android:label="@string/title_activity_gericht"
             android:screenOrientation="portrait" />
-        <activity android:name=".activities.ScreenSlidePagerActivity"
+        <activity
+            android:name=".activities.ScreenSlidePagerActivity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Essensplaner.NoActionBar"
-            />
+            android:theme="@style/Theme.Essensplaner.NoActionBar" />
         <activity
             android:name=".activities.EinkaufslisteActivity"
             android:parentActivityName=".MainActivity"
@@ -85,12 +86,9 @@
             </intent-filter>
         </activity>
 
-
         <receiver
             android:name=".activities.GerichteListeActivity$ActionBroadcastReceiver"
             android:enabled="true" />
     </application>
-
-
 
 </manifest>

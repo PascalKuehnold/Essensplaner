@@ -52,9 +52,12 @@ class ExternalLinkHandler(_mContext: Context) {
                 sendLinkIntent.putExtra(Intent.EXTRA_SUBJECT, "This is the link you were exploring")
                 val pendingIntent = PendingIntent.getBroadcast(mContext, 0, sendLinkIntent, PendingIntent.FLAG_UPDATE_CURRENT)
                 // Set the action button
-                AppCompatResources.getDrawable(mContext, R.drawable.ic_add_to_shoppinglist)?.let {
-                    builder.setActionButton(it.toBitmap(), "Add this link to your dig", pendingIntent, false)
+                AppCompatResources.getDrawable(mContext, R.drawable.ic_add_chefkochmeal_text_image)?.let {
+
+                    builder.setActionButton(it.toBitmap(), "Recipe Url", pendingIntent, false)
                 }
+                builder.setShowTitle(true)
+                builder.addMenuItem(mContext.getString(R.string.mealAdd), pendingIntent)
                 val customTabsIntent: CustomTabsIntent = builder.build()
                 customTabsIntent.launchUrl(mContext, Uri.parse(recipeString))
             }

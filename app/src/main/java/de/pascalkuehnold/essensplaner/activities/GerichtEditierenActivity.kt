@@ -26,6 +26,7 @@ import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import de.pascalkuehnold.essensplaner.layout.CustomZutatenAdapter
 import java.util.*
+import kotlin.collections.ArrayList
 
 class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var inputFieldGericht: TextInputEditText
@@ -40,7 +41,6 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
 
 
     private var mealName =""
-    private var mealIngredients = ""
     private var mealIsVeggie = false
     private var mealIsForMultipleDays = false
     private var mealIsFastPrepared = false
@@ -53,7 +53,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
     private var newGericht: Gericht? = null
     private lateinit var adapter: CustomZutatenAdapter
 
-    private lateinit var zutaten: ArrayList<Zutat>
+    private var zutaten: ArrayList<Zutat> = ArrayList()
 
     private var isSaved = false
     private var gerichtID: Long = -1
@@ -151,7 +151,10 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
                 mealAuthor = tempGericht.gerichtAuthor
                 mealReceipt = tempGericht.gerichtRezept
                 mealChefkochUrl = tempGericht.chefkochUrl
-                zutaten = tempGericht.zutatenList as ArrayList<Zutat>
+                if(!tempGericht.zutatenList.isNullOrEmpty()){
+                    zutaten = tempGericht.zutatenList as ArrayList<Zutat>
+                }
+
             }
 
             switchVegetarisch.isChecked = mealIsVeggie
