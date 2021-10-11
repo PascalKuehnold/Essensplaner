@@ -1,6 +1,7 @@
 package de.pascalkuehnold.essensplaner.dataclasses
 
 import android.content.Context
+import android.net.Uri
 import android.os.StrictMode
 import android.widget.Toast
 import androidx.annotation.UiThread

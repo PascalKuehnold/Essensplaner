@@ -9,7 +9,7 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
     dataBinding.enabled = true
-
+    android.defaultConfig.vectorDrawables.useSupportLibrary = true
     defaultConfig {
         applicationId "de.pascalkuehnold.essensplaner"
         minSdkVersion 16

@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.view.View
 import android.widget.EditText
+import android.widget.RemoteViews
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.browser.customtabs.CustomTabsIntent
@@ -45,19 +46,21 @@ class ExternalLinkHandler(_mContext: Context) {
 
             val builder = CustomTabsIntent.Builder()
 
+            val remoteViews = RemoteViews(mContext.packageName, R.layout.customtab_add_meal_bottom_layout)
+            remoteViews.setImageViewResource(R.id.btn_custom_tab_add_meal, R.drawable.ic_add_to_shoppinglist)
+            val clickableIDs = intArrayOf(R.id.btn_custom_tab_add_meal)
 
             if(mContext is GerichteListeActivity){
-                //TODO change code
                 val sendLinkIntent = Intent(mContext, GerichteListeActivity.ActionBroadcastReceiver::class.java)
                 sendLinkIntent.putExtra(Intent.EXTRA_SUBJECT, "This is the link you were exploring")
                 val pendingIntent = PendingIntent.getBroadcast(mContext, 0, sendLinkIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-                // Set the action button
-                AppCompatResources.getDrawable(mContext, R.drawable.ic_add_chefkochmeal_text_image)?.let {
 
-                    builder.setActionButton(it.toBitmap(), "Recipe Url", pendingIntent, false)
-                }
+                builder.setToolbarColor(mContext.resources.getColor(R.color.newBackgroundColor))
+                // Set the action button
+                builder.setSecondaryToolbarViews(remoteViews, clickableIDs , pendingIntent)
                 builder.setShowTitle(true)
                 builder.addMenuItem(mContext.getString(R.string.mealAdd), pendingIntent)
+                builder.setUrlBarHidingEnabled(false)
                 val customTabsIntent: CustomTabsIntent = builder.build()
                 customTabsIntent.launchUrl(mContext, Uri.parse(recipeString))
             }

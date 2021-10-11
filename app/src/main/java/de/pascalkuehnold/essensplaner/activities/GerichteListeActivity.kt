@@ -24,6 +24,7 @@ import de.pascalkuehnold.essensplaner.dataclasses.ChefkochMeal
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.handler.ExternalLinkHandler
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
+import org.jsoup.Jsoup
 
 
 //TODO Search algorithm
@@ -279,7 +280,6 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
             val url = uri.toString()
             if (uri != null) {
-
 
                 if(url.matches(regex)) {
                     if(urlList.contains(url)){
