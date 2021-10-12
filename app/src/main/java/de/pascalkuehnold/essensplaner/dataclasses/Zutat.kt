@@ -16,7 +16,9 @@ import de.pascalkuehnold.essensplaner.layout.CustomZutatenAdapter
 class Zutat(
     @PrimaryKey(autoGenerate = true) var id: Long,
     @ColumnInfo(name ="zutaten_name") var zutatenName: String,
-    @ColumnInfo(name ="checked") var isChecked: Boolean = false
+    @ColumnInfo(name ="checked") var isChecked: Boolean = false,
+    @ColumnInfo(name ="zutaten_einheit") var zutatenMengenEinheit: String = "",
+    @ColumnInfo(name ="zutaten_menge") var zutatenMenge: Double = 0.0
 
 
 ){
@@ -126,6 +128,8 @@ class Zutat(
     override fun toString(): String {
         return zutatenName
     }
+
+
 
 
 }

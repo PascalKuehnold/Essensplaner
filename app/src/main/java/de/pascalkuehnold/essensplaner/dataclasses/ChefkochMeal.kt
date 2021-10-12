@@ -3,6 +3,7 @@ package de.pascalkuehnold.essensplaner.dataclasses
 import android.content.Context
 import android.net.Uri
 import android.os.StrictMode
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.UiThread
 import de.pascalkuehnold.essensplaner.R
@@ -24,6 +25,7 @@ class ChefkochMeal(_context: Context, _url: String) {
     private lateinit var zubereitungsZeit: Elements
     private lateinit var rezeptErsteller: Elements
     private lateinit var zutatenNamen: Elements
+    private lateinit var personenAnzahlElements: Elements
 
     private var isVegetarisch: Boolean = false
     private lateinit var ingredientsAsList: ArrayList<String>
@@ -31,7 +33,7 @@ class ChefkochMeal(_context: Context, _url: String) {
     private var einheitenArray: ArrayList<String> = ArrayList()
     private var zutatenNamenArray: ArrayList<String> = ArrayList()
     private var zubereitungText: String = ""
-
+    private var personenAnzahl: Int = 0
 
 
     fun getChefkochGericht(){
@@ -49,6 +51,7 @@ class ChefkochMeal(_context: Context, _url: String) {
         getAmountsAndUnitsAsList()
         ingredientsAsList = getIngriedientsAsList()
         zubereitungText = zubereitung.html().replace("<br>", "\n")
+        personenAnzahl = personenAnzahlElements.attr("value").toInt()
 
         //Zusammenbringen der einzelnen Listen
         for(i in 0 until zutatenEinheiten.size){
@@ -66,6 +69,7 @@ class ChefkochMeal(_context: Context, _url: String) {
             doc.select("article.ds-box.ds-grid-float.ds-col-12.ds-col-m-8.ds-or-3 > div:nth-child(3)")
         zubereitungsZeit = doc.select(".rds-recipe-meta__badge:contains(Gesamtzeit)")
         rezeptErsteller = doc.select("div.ds-mb-right > a")
+        personenAnzahlElements = doc.select("[name='Portionen']")
     }
 
     private fun getAmountsAndUnitsAsList(){
@@ -129,7 +133,11 @@ class ChefkochMeal(_context: Context, _url: String) {
         val zutatList = ArrayList<Zutat>()
 
         for(zutat: String in zutatenNamenArray){
-            zutatList.add(Zutat(0, zutat))
+            val index = zutatenNamenArray.indexOf(zutat)
+
+            zutatList.add(Zutat(0, zutat, zutatenMenge = mengenArray[index], zutatenMengenEinheit = einheitenArray[index]))
+
+            Log.d("Hinzugefügte Zutat", "$zutat wurde mit der Mengeneinheit ${mengenArray[index]} und der Einheit ${einheitenArray[index]} erstellt")
         }
 
         try {
@@ -144,7 +152,8 @@ class ChefkochMeal(_context: Context, _url: String) {
                 mealAuthor = rezeptErsteller.text(),
                 mealReceipt = zubereitungText,
                 chefkochUrl = url,
-                zutatenList = zutatList
+                zutatenList = zutatList,
+                personenAnzahl = personenAnzahl
             )
         } catch(e: Exception){
             Toast.makeText(mContext, R.string.chefkochMealCouldNotBeAdded, Toast.LENGTH_LONG).show()

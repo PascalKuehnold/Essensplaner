@@ -16,7 +16,7 @@ import kotlinx.coroutines.runBlocking
 import java.util.*
 import kotlin.collections.ArrayList
 
-
+//TODO SETTINGS FOR STANDARD COUNT OF PORTIONS
 @Entity
 class Gericht(
 
@@ -30,7 +30,8 @@ class Gericht(
         @ColumnInfo(name = "gericht_author") val gerichtAuthor: String,
         @ColumnInfo(name = "rezept") val gerichtRezept: String,
         @ColumnInfo(name = "chefkoch_url") val chefkochUrl: String,
-        @ColumnInfo(name = "zutaten") val zutatenList: List<Zutat>
+        @ColumnInfo(name = "zutaten") val zutatenList: List<Zutat>,
+        @ColumnInfo(name = "personen_anzahl") val personenAnzahl: Int
 ){
     companion object{
         //method for saving the meal
@@ -51,7 +52,8 @@ class Gericht(
                        mealAuthor: String,
                        mealReceipt: String,
                        chefkochUrl: String,
-                       zutatenList: ArrayList<Zutat>
+                       zutatenList: ArrayList<Zutat>,
+                       personenAnzahl: Int = 1
                         )
         {
 
@@ -67,11 +69,12 @@ class Gericht(
                     mealAuthor,
                     mealReceipt,
                     chefkochUrl,
-                    zutatenList
+                    zutatenList,
+                    personenAnzahl
             )
 
             gerichtDao.insertAll(newGericht)
-            println("GerichtHandler >> " + newGericht.gerichtName + " was added successfully")
+            println("GerichtHandler >> " + newGericht.gerichtName + "for $personenAnzahl was added successfully")
             Toast.makeText(applicationContext, mealName + " " + (R.string.wasAddedText), Toast.LENGTH_SHORT).show()
         }
 

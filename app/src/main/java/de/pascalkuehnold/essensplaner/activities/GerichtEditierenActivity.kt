@@ -49,6 +49,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
     private var mealCooktime = ""
     private var mealAuthor = ""
     private var mealChefkochUrl = ""
+    private var mealPeopleCount = 1
 
     private var newGericht: Gericht? = null
     private lateinit var adapter: CustomZutatenAdapter
@@ -154,6 +155,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
                 if(!tempGericht.zutatenList.isNullOrEmpty()){
                     zutaten = tempGericht.zutatenList as ArrayList<Zutat>
                 }
+                mealPeopleCount = tempGericht.personenAnzahl
 
             }
 
@@ -241,7 +243,8 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
                 gerichtAuthor = mealAuthor,
                 gerichtRezept =  mealReceipt,
                 chefkochUrl = mealChefkochUrl,
-            zutatenList = inZutaten
+            zutatenList = inZutaten,
+            personenAnzahl = mealPeopleCount
         )
         isSaved = false
     }
