@@ -48,7 +48,7 @@ class ExternalLinkHandler(_mContext: Context) {
 
             val remoteViews = RemoteViews(mContext.packageName, R.layout.customtab_add_meal_bottom_layout)
             remoteViews.setImageViewResource(R.id.btn_custom_tab_add_meal, R.drawable.ic_add_to_shoppinglist)
-            val clickableIDs = intArrayOf(R.id.btn_custom_tab_add_meal)
+            val clickableIDs = intArrayOf(R.id.layout_btn_custom_tab_add_meal)
 
             if(mContext is GerichteListeActivity){
                 val sendLinkIntent = Intent(mContext, GerichteListeActivity.ActionBroadcastReceiver::class.java)

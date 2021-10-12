@@ -26,8 +26,6 @@ import de.pascalkuehnold.essensplaner.handler.ExternalLinkHandler
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
 import org.jsoup.Jsoup
 
-
-//TODO Search algorithm
 class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var listView: ListView
     private lateinit var searchView: SearchView
