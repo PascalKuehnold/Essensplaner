@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
+import com.google.android.gms.ads.MobileAds
 import de.pascalkuehnold.essensplaner.activities.*
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
@@ -32,6 +33,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        MobileAds.initialize(this) {}
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this)
         val intent = intent

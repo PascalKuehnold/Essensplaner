@@ -16,6 +16,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
 import de.pascalkuehnold.essensplaner.databinding.ActivityEinkaufslisteBinding
@@ -31,6 +33,7 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
     private lateinit var btnAddItem: Button
     private lateinit var textViewLeftPositions: TextView
     private lateinit var addNewPositionTextField: EditText
+    private lateinit var mAdView : AdView
 
     private var firstVisibleRow: Int = 0
     private var lastVisibleRow: Int = 0
@@ -48,6 +51,10 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
                 scrollToNextOpenPosition(it)
             }
         }
+
+        mAdView = findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.einkaufsliste)
