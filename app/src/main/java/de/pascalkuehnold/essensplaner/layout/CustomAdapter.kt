@@ -1,21 +1,21 @@
 package de.pascalkuehnold.essensplaner.layout
 
-import android.R.attr.button
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.widget.*
 import androidx.multidex.MultiDexApplication
 import de.pascalkuehnold.essensplaner.R
-import de.pascalkuehnold.essensplaner.activities.*
+import de.pascalkuehnold.essensplaner.activities.GerichtEditierenActivity
+import de.pascalkuehnold.essensplaner.activities.GerichteListeActivity
+import de.pascalkuehnold.essensplaner.activities.Wochenplaner
+import de.pascalkuehnold.essensplaner.activities.WochenplanerVeggieActivity
 import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat

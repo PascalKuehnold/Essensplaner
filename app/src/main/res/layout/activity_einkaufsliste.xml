@@ -135,6 +135,7 @@
 
                 <ListView
                     android:id="@+id/listViewEinkaufsliste"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:divider="@drawable/gradient_white_to_blue"

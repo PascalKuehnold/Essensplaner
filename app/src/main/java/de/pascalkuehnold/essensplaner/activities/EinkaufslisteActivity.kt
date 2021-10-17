@@ -13,8 +13,6 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.drawable.toDrawable
-import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
@@ -42,7 +40,6 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_einkaufsliste)
 
         val binding: ActivityEinkaufslisteBinding = DataBindingUtil.setContentView(this, R.layout.activity_einkaufsliste)
 

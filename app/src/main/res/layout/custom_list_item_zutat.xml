@@ -6,6 +6,7 @@
     android:layout_height="40dp"
     android:orientation="horizontal"
     android:id="@+id/rowClick"
+    android:gravity="center"
     >
 
     <ImageView
@@ -25,7 +26,9 @@
         android:id="@+id/zutatLayout"
         android:layout_width="250dp"
         android:layout_height="45dp"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:gravity="center"
+        >
 
 
         <TextView

@@ -10,9 +10,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.RemoteViews
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.core.graphics.drawable.toBitmap
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.activities.GerichteListeActivity
 

@@ -2,6 +2,7 @@ package de.pascalkuehnold.essensplaner.layout
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,6 @@ import de.pascalkuehnold.essensplaner.activities.GerichtActivity
 import de.pascalkuehnold.essensplaner.activities.GerichtEditierenActivity
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class CustomZutatenAdapter(context: Context, zutaten: ArrayList<Zutat>, callback: View.OnClickListener?): BaseAdapter(), ListAdapter {
     private val mZutaten = zutaten
@@ -74,6 +74,8 @@ class CustomZutatenAdapter(context: Context, zutaten: ArrayList<Zutat>, callback
         if(mContext is GerichtActivity){
             btnZutatBearbeiten!!.isVisible = false
             btnDeleteZutat!!.isVisible = false
+            imageViewZutatChecked!!.isVisible = false
+            zutatenName!!.gravity = Gravity.CENTER
         }
 
         return view

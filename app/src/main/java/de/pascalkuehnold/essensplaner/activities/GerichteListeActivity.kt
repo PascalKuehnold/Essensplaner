@@ -24,7 +24,6 @@ import de.pascalkuehnold.essensplaner.dataclasses.ChefkochMeal
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.handler.ExternalLinkHandler
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
-import org.jsoup.Jsoup
 
 class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var listView: ListView

@@ -2,14 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="50dp"
     android:orientation="horizontal"
+    android:gravity="center"
     >
 
-
-
     <ImageView
-        android:layout_gravity="center_vertical"
+        android:layout_gravity="center"
         android:id="@+id/imageViewVegetarian"
         android:layout_width="32dp"
         android:layout_height="32dp"
@@ -19,15 +18,12 @@
         android:contentDescription="@string/veggie_meal"
         />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
 
         <LinearLayout
             android:layout_width="225dp"
             android:layout_height="70dp"
             android:orientation="vertical"
+            android:gravity="center_vertical"
             android:id="@+id/rowClick"
 
             >
@@ -55,20 +51,6 @@
 
                 />
 
-            <!--
-            <TextView
-                android:id="@+id/zutaten"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:text ="@string/zutatenPlaceholderText"
-                android:textColor="@color/white"
-                android:maxLines="2"
-
-                />
-            -->
-
         </LinearLayout>
 
         <android.widget.Button
@@ -76,7 +58,7 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:background="@drawable/ic_add_to_shoppinglist_new"
-            android:layout_marginTop="10dp"
+
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             />
@@ -86,16 +68,6 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:background="@drawable/ic_edit_gericht"
-            android:layout_marginTop="10dp"
             />
-    </LinearLayout>
-
-
-
-
-
-
-
-
 
 </LinearLayout>

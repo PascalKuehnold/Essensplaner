@@ -1,9 +1,6 @@
 package de.pascalkuehnold.essensplaner.activities.ui.gerichtinformationen
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,11 +15,7 @@ import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.activities.GerichtActivity.Companion.chefkochUrl
 import de.pascalkuehnold.essensplaner.activities.GerichtActivity.Companion.gerichtId
 import de.pascalkuehnold.essensplaner.activities.GerichtActivity.Companion.gerichtVonChefkoch
-import de.pascalkuehnold.essensplaner.activities.GerichtActivity.Companion.gerichtZutaten
-import de.pascalkuehnold.essensplaner.activities.GerichteListeActivity
 import de.pascalkuehnold.essensplaner.database.AppDatabase
-import de.pascalkuehnold.essensplaner.dataclasses.ChefkochMeal
-import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import de.pascalkuehnold.essensplaner.handler.ExternalLinkHandler
 import de.pascalkuehnold.essensplaner.layout.CustomZutatenAdapter

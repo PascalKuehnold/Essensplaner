@@ -1,12 +1,9 @@
 package de.pascalkuehnold.essensplaner.dataclasses
 
 import android.content.Context
-import android.os.Parcelable
 import android.widget.Toast
 import androidx.room.*
-import androidx.versionedparcelable.ParcelField
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase

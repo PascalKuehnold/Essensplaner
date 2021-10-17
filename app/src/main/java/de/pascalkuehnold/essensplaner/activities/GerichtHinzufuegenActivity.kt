@@ -9,7 +9,9 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
@@ -17,7 +19,6 @@ import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
-import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -33,6 +34,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
     private var mealReceipt = ""
     private var mealChefkochUrl = ""
 
+    private val tempZutatenStringArray: ArrayList<String> = ArrayList()
     private var zutaten: ArrayList<Zutat> = ArrayList()
 
     private lateinit var textInputGericht: TextInputEditText
@@ -115,6 +117,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         val builder = AlertDialog.Builder(this)
         builder.setTitle(getString(R.string.textZutatHinzufuegen))
 
+
         val input = EditText(this)
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.inputType = InputType.TYPE_CLASS_TEXT
@@ -128,11 +131,19 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
                 val inputText = input.text.toString().trim().replace(reg, "\n")
                 val items = inputText.lines()
 
+
                 for(item in items){
                     try {
                         val capItem = item.capitalize(Locale.getDefault())
-                        zutaten.add(Zutat(0, capItem))
-                        Toast.makeText(this, String.format(getString(R.string.eintragItem), capItem)  + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
+                        if(tempZutatenStringArray.contains(capItem)){
+                            Toast.makeText(this, String.format(getString(R.string.eintragItem), capItem)  + getString(R.string.textAlreadyInList), Toast.LENGTH_SHORT).show()
+                        } else {
+                            tempZutatenStringArray.add(capItem)
+                            zutaten.add(Zutat(0, capItem))
+                            Toast.makeText(this, String.format(getString(R.string.eintragItem), capItem)  + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
+                        }
+
+
                     } catch (e: Exception){
                         e.printStackTrace()
                     }
@@ -164,6 +175,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         switchVegetarisch.isChecked = false
         switchMultipleDays.isChecked = false
         switchFastPreperation.isChecked = false
+        tempZutatenStringArray.removeAll(ArrayList())
 
         textInputGericht.requestFocus()
         textInputGericht.showSoftKeyboard()

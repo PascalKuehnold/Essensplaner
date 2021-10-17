@@ -1,11 +1,9 @@
 package de.pascalkuehnold.essensplaner.dataclasses
 
 import android.content.Context
-import android.net.Uri
 import android.os.StrictMode
 import android.util.Log
 import android.widget.Toast
-import androidx.annotation.UiThread
 import de.pascalkuehnold.essensplaner.R
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document

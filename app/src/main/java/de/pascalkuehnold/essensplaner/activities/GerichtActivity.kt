@@ -3,18 +3,14 @@ package de.pascalkuehnold.essensplaner.activities
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import de.pascalkuehnold.essensplaner.R
-import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 
 
 class GerichtActivity : AppCompatActivity() {
