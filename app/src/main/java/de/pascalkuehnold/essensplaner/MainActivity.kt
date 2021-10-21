@@ -15,18 +15,28 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
+import com.google.android.ump.*
 import de.pascalkuehnold.essensplaner.activities.*
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerVeggieDatabase
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
     private var introMessage: RelativeLayout? = null
     private var appContent: LinearLayout? = null
     private var welcomeText: TextView? = null
+    private lateinit var mAdView : AdView
+
+    private lateinit var consentInformation: ConsentInformation
+    private var consentForm: ConsentForm? = null
+
     private var clicked = false
     private val welcomeScreenShownPref = "welcomeScreenShown"
     private lateinit var mPrefs: SharedPreferences
@@ -35,6 +45,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         MobileAds.initialize(this) {}
+
+
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this)
         val intent = intent
@@ -84,6 +96,10 @@ class MainActivity : AppCompatActivity() {
     private fun showMainLayout() {
         setContentView(R.layout.activity_main)
 
+        createConsentRequest()
+
+        loadAds()
+
         val btnAlleGerichteAnzeigen = findViewById<Button>(R.id.btnAlleGerichteAnzeigen)
         btnAlleGerichteAnzeigen.setOnClickListener {
             val intent = Intent(this, GerichteListeActivity::class.java)
@@ -101,6 +117,65 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, EinkaufslisteActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun createConsentRequest(){
+        val debugSettings = ConsentDebugSettings.Builder(this)
+            .setDebugGeography(ConsentDebugSettings.DebugGeography.DEBUG_GEOGRAPHY_EEA)
+            .addTestDeviceHashedId("B2689791AE08F24716FE1BB4093E0BAF")
+            .build()
+        // Set tag for underage of consent. false means users are not underage.
+        // Set tag for underage of consent. false means users are not underage.
+        val params = ConsentRequestParameters.Builder()
+            .setTagForUnderAgeOfConsent(false)
+            .setConsentDebugSettings(debugSettings)
+            .build()
+
+        consentInformation = UserMessagingPlatform.getConsentInformation(this)
+        consentInformation.requestConsentInfoUpdate(
+            this,
+            params,
+            {
+                // The consent information state was updated.
+                // You are now ready to check if a form is available.
+                if (consentInformation.isConsentFormAvailable) {
+                    loadForm();
+                }
+            },
+            {
+                // Handle the error.
+            })
+    }
+
+    private fun loadForm(){
+        UserMessagingPlatform.loadConsentForm(
+            this,
+            { consentForm ->
+                this@MainActivity.consentForm = consentForm
+                if (consentInformation.consentStatus == ConsentInformation.ConsentStatus.REQUIRED) {
+                    consentForm.show(
+                        this@MainActivity
+                    ) { // Handle dismissal by reloading form.
+                        loadForm()
+                    }
+                }
+            }
+        ) {
+            /// Handle Error.
+        }
+    }
+
+    private fun loadAds() {
+        val testDeviceIds = Arrays.asList("33BE2250B43518CCDA7DE426D04EE231")
+
+        val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
+
+        MobileAds.setRequestConfiguration(configuration)
+
+        mAdView = findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        adRequest.isTestDevice(this)
+        mAdView.loadAd(adRequest)
     }
 
 
@@ -123,6 +198,7 @@ class MainActivity : AppCompatActivity() {
         when(item.itemId){
             R.id.about -> {
                 startActivity(Intent(this, AboutActivity::class.java))
+                consentInformation.reset()
             }
         }
 
@@ -168,7 +244,11 @@ class MainActivity : AppCompatActivity() {
         editor.putBoolean(welcomeScreenShownPref, true)
         editor.apply() // Very important to save the preference
 
-        Toast.makeText(this, "Die Nachricht wird nun nicht mehr beim Start angezeigt.", Toast.LENGTH_LONG).show()
+        Toast.makeText(
+            this,
+            "Die Nachricht wird nun nicht mehr beim Start angezeigt.",
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     override fun onBackPressed() {

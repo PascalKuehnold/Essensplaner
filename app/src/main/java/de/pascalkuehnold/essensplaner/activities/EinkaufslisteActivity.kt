@@ -16,6 +16,9 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
+import com.google.android.ump.*
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
 import de.pascalkuehnold.essensplaner.databinding.ActivityEinkaufslisteBinding
@@ -33,6 +36,9 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
     private lateinit var addNewPositionTextField: EditText
     private lateinit var mAdView : AdView
 
+    private lateinit var consentInformation: ConsentInformation
+    private var consentForm: ConsentForm? = null
+
     private var firstVisibleRow: Int = 0
     private var lastVisibleRow: Int = 0
 
@@ -48,10 +54,9 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
                 scrollToNextOpenPosition(it)
             }
         }
+        createConsentRequest()
+        loadAds()
 
-        mAdView = findViewById(R.id.adView)
-        val adRequest = AdRequest.Builder().build()
-        mAdView.loadAd(adRequest)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.einkaufsliste)
@@ -86,6 +91,19 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
 
         loadEinkaufsliste()
         generateListOnScreen()
+    }
+
+    private fun loadAds() {
+        val testDeviceIds = Arrays.asList("33BE2250B43518CCDA7DE426D04EE231")
+
+        val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
+
+        MobileAds.setRequestConfiguration(configuration)
+
+        mAdView = findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        adRequest.isTestDevice(this)
+        mAdView.loadAd(adRequest)
     }
 
     private fun hideSoftKeyboard(view: View) {
@@ -142,7 +160,57 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
         leftItems = 0
         println("Wochenplaner >> loadWeekgerichte() -> Daten wurden geladen")
     }
+    private fun createConsentRequest(){
+        val debugSettings = ConsentDebugSettings.Builder(this)
+            .setDebugGeography(ConsentDebugSettings.DebugGeography.DEBUG_GEOGRAPHY_EEA)
+            .addTestDeviceHashedId("B2689791AE08F24716FE1BB4093E0BAF")
+            .build()
+        // Set tag for underage of consent. false means users are not underage.
+        // Set tag for underage of consent. false means users are not underage.
+        val params = ConsentRequestParameters.Builder()
+            .setTagForUnderAgeOfConsent(false)
+            .setConsentDebugSettings(debugSettings)
+            .build()
 
+        consentInformation = UserMessagingPlatform.getConsentInformation(this)
+        consentInformation.requestConsentInfoUpdate(
+            this,
+            params,
+            {
+                // The consent information state was updated.
+                // You are now ready to check if a form is available.
+                if (consentInformation.isConsentFormAvailable) {
+                    loadForm();
+                }
+            },
+            {
+                // Handle the error.
+            })
+        loadForm()
+    }
+
+    private fun loadForm(){
+        UserMessagingPlatform.loadConsentForm(
+            this,
+            { consentForm ->
+                this@EinkaufslisteActivity.consentForm = consentForm
+                if (consentInformation.consentStatus == ConsentInformation.ConsentStatus.REQUIRED) {
+                    consentForm.show(
+                        this@EinkaufslisteActivity
+                    ) { // Handle dismissal by reloading form.
+                        loadForm()
+                    }
+                }
+                if(consentInformation.consentStatus == ConsentInformation.ConsentStatus.UNKNOWN){
+                    consentForm.show(this@EinkaufslisteActivity){
+                        loadForm()
+                    }
+                }
+            }
+        ) {
+            /// Handle Error.
+        }
+    }
 
     private fun generateListOnScreen(){
         val einkaufslisteString: ArrayList<Zutat> = ArrayList()

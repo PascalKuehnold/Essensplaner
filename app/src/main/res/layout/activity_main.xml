@@ -88,5 +88,12 @@
         app:layout_anchorGravity="center"
         app:popupTheme="@style/Theme.Essensplaner.PopupOverlay" />
 
-
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginTop="4dp"
+        app:adSize="BANNER"
+        app:adUnitId="ca-app-pub-3940256099942544/6300978111" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
