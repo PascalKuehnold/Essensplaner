@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
+import com.google.ads.mediation.admob.AdMobAdapter
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
@@ -98,8 +100,6 @@ class MainActivity : AppCompatActivity() {
 
         createConsentRequest()
 
-        loadAds()
-
         val btnAlleGerichteAnzeigen = findViewById<Button>(R.id.btnAlleGerichteAnzeigen)
         btnAlleGerichteAnzeigen.setOnClickListener {
             val intent = Intent(this, GerichteListeActivity::class.java)
@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
     private fun createConsentRequest(){
         val debugSettings = ConsentDebugSettings.Builder(this)
             .setDebugGeography(ConsentDebugSettings.DebugGeography.DEBUG_GEOGRAPHY_EEA)
-            .addTestDeviceHashedId("B2689791AE08F24716FE1BB4093E0BAF")
+            .addTestDeviceHashedId("2FE31AA7C088CFDF640E6FA10264809E")
             .build()
         // Set tag for underage of consent. false means users are not underage.
         // Set tag for underage of consent. false means users are not underage.
@@ -145,12 +145,12 @@ class MainActivity : AppCompatActivity() {
             {
                 // Handle the error.
             })
+
+
     }
 
     private fun loadForm(){
-        UserMessagingPlatform.loadConsentForm(
-            this,
-            { consentForm ->
+        UserMessagingPlatform.loadConsentForm(this,{ consentForm ->
                 this@MainActivity.consentForm = consentForm
                 if (consentInformation.consentStatus == ConsentInformation.ConsentStatus.REQUIRED) {
                     consentForm.show(
@@ -159,24 +159,66 @@ class MainActivity : AppCompatActivity() {
                         loadForm()
                     }
                 }
+                if(consentInformation.consentStatus == ConsentInformation.ConsentStatus.UNKNOWN){
+                    consentForm.show(
+                        this@MainActivity
+                    ) { // Handle dismissal by reloading form.
+                        loadForm()
+                    }
+                }
+
+                if(consentInformation.consentStatus == ConsentInformation.ConsentStatus.OBTAINED){
+                    Log.d("ESSENSPLANER ADS", "PERSONALIZED LOADED")
+                    loadAds()
+                }
+
             }
         ) {
             /// Handle Error.
         }
     }
 
-    private fun loadAds() {
-        val testDeviceIds = Arrays.asList("33BE2250B43518CCDA7DE426D04EE231")
+    private fun loadAds(){
+        val testDeviceIds = Arrays.asList("2FE31AA7C088CFDF640E6FA10264809E")
 
         val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
 
         MobileAds.setRequestConfiguration(configuration)
 
+
+        val adRequest: AdRequest = AdRequest.Builder().build()
         mAdView = findViewById(R.id.adView)
-        val adRequest = AdRequest.Builder().build()
         adRequest.isTestDevice(this)
         mAdView.loadAd(adRequest)
     }
+
+//    private fun loadAds(isPersonalized: Boolean) {
+//        val testDeviceIds = Arrays.asList("33BE2250B43518CCDA7DE426D04EE231")
+//
+//        val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
+//
+//        MobileAds.setRequestConfiguration(configuration)
+//
+//        mAdView = findViewById(R.id.adView)
+//        val adRequest: AdRequest
+//
+//
+//        if(isPersonalized){
+//            adRequest = AdRequest.Builder().build()
+//        } else {
+//            val bundle = Bundle()
+//            bundle.putString("npa", "1")
+//
+//            adRequest = AdRequest.Builder()
+//                .addNetworkExtrasBundle(AdMobAdapter::class.java, bundle)
+//                .build()
+//        }
+//
+//
+//
+//        adRequest.isTestDevice(this)
+//        mAdView.loadAd(adRequest)
+//    }
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -198,6 +240,7 @@ class MainActivity : AppCompatActivity() {
         when(item.itemId){
             R.id.about -> {
                 startActivity(Intent(this, AboutActivity::class.java))
+                Log.d("ESSENSPLANER", "CONSENT INFORMATION WAS RESETTED")
                 consentInformation.reset()
             }
         }

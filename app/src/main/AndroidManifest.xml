@@ -18,7 +18,6 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-9044567512818908~1900481518"/>
-
         <activity
             android:name=".activities.GerichtActivity"
             android:label="@string/title_activity_gericht"

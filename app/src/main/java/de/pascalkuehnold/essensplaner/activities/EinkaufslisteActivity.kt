@@ -54,7 +54,7 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
                 scrollToNextOpenPosition(it)
             }
         }
-        createConsentRequest()
+
         loadAds()
 
 
@@ -94,7 +94,7 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
     }
 
     private fun loadAds() {
-        val testDeviceIds = Arrays.asList("33BE2250B43518CCDA7DE426D04EE231")
+        val testDeviceIds = Arrays.asList("2FE31AA7C088CFDF640E6FA10264809E")
 
         val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
 
@@ -160,57 +160,9 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
         leftItems = 0
         println("Wochenplaner >> loadWeekgerichte() -> Daten wurden geladen")
     }
-    private fun createConsentRequest(){
-        val debugSettings = ConsentDebugSettings.Builder(this)
-            .setDebugGeography(ConsentDebugSettings.DebugGeography.DEBUG_GEOGRAPHY_EEA)
-            .addTestDeviceHashedId("B2689791AE08F24716FE1BB4093E0BAF")
-            .build()
-        // Set tag for underage of consent. false means users are not underage.
-        // Set tag for underage of consent. false means users are not underage.
-        val params = ConsentRequestParameters.Builder()
-            .setTagForUnderAgeOfConsent(false)
-            .setConsentDebugSettings(debugSettings)
-            .build()
 
-        consentInformation = UserMessagingPlatform.getConsentInformation(this)
-        consentInformation.requestConsentInfoUpdate(
-            this,
-            params,
-            {
-                // The consent information state was updated.
-                // You are now ready to check if a form is available.
-                if (consentInformation.isConsentFormAvailable) {
-                    loadForm();
-                }
-            },
-            {
-                // Handle the error.
-            })
-        loadForm()
-    }
 
-    private fun loadForm(){
-        UserMessagingPlatform.loadConsentForm(
-            this,
-            { consentForm ->
-                this@EinkaufslisteActivity.consentForm = consentForm
-                if (consentInformation.consentStatus == ConsentInformation.ConsentStatus.REQUIRED) {
-                    consentForm.show(
-                        this@EinkaufslisteActivity
-                    ) { // Handle dismissal by reloading form.
-                        loadForm()
-                    }
-                }
-                if(consentInformation.consentStatus == ConsentInformation.ConsentStatus.UNKNOWN){
-                    consentForm.show(this@EinkaufslisteActivity){
-                        loadForm()
-                    }
-                }
-            }
-        ) {
-            /// Handle Error.
-        }
-    }
+
 
     private fun generateListOnScreen(){
         val einkaufslisteString: ArrayList<Zutat> = ArrayList()
