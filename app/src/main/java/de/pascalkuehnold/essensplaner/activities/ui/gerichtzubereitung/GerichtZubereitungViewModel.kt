@@ -11,4 +11,5 @@ class GerichtZubereitungViewModel : ViewModel() {
         value = zubereitungsText
     }
     val text: LiveData<String> = _text
+
 }
