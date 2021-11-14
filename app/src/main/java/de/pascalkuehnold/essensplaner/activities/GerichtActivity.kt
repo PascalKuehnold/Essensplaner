@@ -32,6 +32,7 @@ class GerichtActivity : AppCompatActivity() {
         gerichtZubereitungsZeit = intent.getStringExtra("mealCookTime").toString()
         gerichtVonChefkoch = intent.getBooleanExtra("mealByChefkoch", false)
         chefkochUrl = intent.getStringExtra("chefkochUrl").toString()
+        isVegeterian = intent.getBooleanExtra("isVegetarian", false)
 
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -70,6 +71,7 @@ class GerichtActivity : AppCompatActivity() {
         var gerichtZubereitungsZeit = ""
         var gerichtVonChefkoch = false
         var chefkochUrl = ""
+        var isVegeterian = false
     }
 
 

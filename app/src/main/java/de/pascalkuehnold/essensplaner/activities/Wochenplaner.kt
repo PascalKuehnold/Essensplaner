@@ -248,7 +248,7 @@ open class Wochenplaner : Wochenplan(),AdapterView.OnItemSelectedListener, View.
                 }
             )
             .setPositiveButton(getString(R.string.findRecipe)) { dialog, _ ->
-                ExternalLinkHandler(this).showWarningExternalLink(
+                ExternalLinkHandler(this, gerichtId).showWarningExternalLink(
                     "https://www.chefkoch.de/rs/s0/${gericht.gerichtName}/Rezepte.html",
                     false
                 )

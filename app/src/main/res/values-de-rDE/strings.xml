@@ -74,26 +74,6 @@
         Viel Spaß beim Testen!\n
         Pascal
     </string>
-    <string name="whatsNew">Was ist neu?\n\n
-        - Es können Gerichte erstellt werden\n\n
-        - Es können Gerichte bearbeitet werden\n\n
-        - Es können Gerichte gelöscht werden\n\n
-        - Es können einzelne Zutaten zu den Gerichten hinzugefügt werden\n\n
-        - Es können einzelne Zutaten bearbeitet werden (Name ändern)\n\n
-        - Es können einzelne Zutaten gelöscht werden\n\n
-        - Der Wochenplaner erstellt für 7 Tage Gerichte, (Es müssen mindestens 7 Gerichte angelegt sein)\n\n
-        - Den Wochenplaner gibt es auch in der Veggie Version (Pfeil in der Titelleiste)\n\n
-        - Es können Informationen zum Gericht aufgerufen werden(innerhalb der Listen)\n\n
-        - Es können Zutaten zur Einkaufsliste hinzugefügt werden\n\n
-        - Über die Gerichteliste können die Zutaten aus einem Gericht zur Einkaufsliste hinzugefügt werden\n\n
-        - Positionen in der Einkaufsliste können als erledigt markiert werden\n\n
-        - In der Einkaufsliste hat der Benutzer einen Überblick, wieviele Positionen noch nicht abgehakt sind\n\n
-        - Neues Hauptmenü Design\n\n
-        - Gerichteliste kann sortiert werden\n\n
-        - Du kannst nun nach Rezepten auf Chefkoch.de suchen\n\n
-        - Du kannst jetzt Gerichte über Chefkoch.de hinzufügen -> Einfach auf Gericht hinzufügen -> Chefkoch.de -> Ein Gericht suchen -> Und das blaue Icon im oberen Bereich klicken\n\n
-        - Gerichte werden nun automatisch als Vegetarisch gekennzeichnet, falls diese auf Chefkoch.de als Vegetarisch markiert wurden\n\n
-    </string>
 
 
     <string name="alles_klar">Alles klar</string>
@@ -142,4 +122,6 @@
     <string name="fragment_four_add_veggieOrNot_title">Vegetarisch/Vegan</string>
     <string name="fragment_five_add_multiple_days_title">Für mehrere Tage</string>
     <string name="fragment_six_add_preperation_text_title">Zubereitungstext hinzufügen</string>
+    <string name="privacy_policy_title">Datenschutzerklärung</string>
+    <string name="terms_of_service_title">Nutzungsbedingungen</string>
 </resources>

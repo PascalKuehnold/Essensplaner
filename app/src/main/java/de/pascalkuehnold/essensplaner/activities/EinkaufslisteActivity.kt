@@ -94,7 +94,7 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
     }
 
     private fun loadAds() {
-        val testDeviceIds = Arrays.asList("2FE31AA7C088CFDF640E6FA10264809E")
+        /*val testDeviceIds = Arrays.asList("2FE31AA7C088CFDF640E6FA10264809E")
 
         val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
 
@@ -103,7 +103,21 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
         mAdView = findViewById(R.id.adView)
         val adRequest = AdRequest.Builder().build()
         adRequest.isTestDevice(this)
-        mAdView.loadAd(adRequest)
+        mAdView.loadAd(adRequest)*/
+
+
+            //val testDeviceIds = Arrays.asList("2FE31AA7C088CFDF640E6FA10264809E")
+
+            //val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
+
+            //MobileAds.setRequestConfiguration(configuration)
+
+
+            val adRequest: AdRequest = AdRequest.Builder().build()
+            mAdView = findViewById(R.id.adView)
+            //adRequest.isTestDevice(this)
+            mAdView.loadAd(adRequest)
+
     }
 
     private fun hideSoftKeyboard(view: View) {

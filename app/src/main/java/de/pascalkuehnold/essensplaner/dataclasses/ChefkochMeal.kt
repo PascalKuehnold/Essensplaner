@@ -146,7 +146,7 @@ class ChefkochMeal(_context: Context, _url: String) {
                 mealIsForMultipleDays = false,
                 mealIsFastPrepared = false,
                 mealIsChefkochGericht = true,
-                mealOverallCooktime = zubereitungsZeit.text(),
+                mealOverallCooktime = zubereitungsZeit.text().removeRange(0,1),
                 mealAuthor = rezeptErsteller.text(),
                 mealReceipt = zubereitungText,
                 chefkochUrl = url,

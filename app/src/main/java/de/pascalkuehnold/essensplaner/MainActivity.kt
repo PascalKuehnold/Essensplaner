@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
@@ -16,7 +17,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
-import com.google.ads.mediation.admob.AdMobAdapter
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
@@ -82,17 +82,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun dismissWelcomeMessageBox(view: View?) {
+        introMessage!!.visibility = View.INVISIBLE
+        appContent!!.visibility = View.VISIBLE
 
-        if(!clicked){
-            clicked = true
-            welcomeText!!.text = getString(R.string.whatsNew)
-        } else {
-            introMessage!!.visibility = View.INVISIBLE
-            appContent!!.visibility = View.VISIBLE
-
-            showMainLayout()
-            clicked = false
-        }
+        showMainLayout()
     }
 
     private fun showMainLayout() {
@@ -150,47 +143,47 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadForm(){
-        UserMessagingPlatform.loadConsentForm(this,{ consentForm ->
-                this@MainActivity.consentForm = consentForm
-                if (consentInformation.consentStatus == ConsentInformation.ConsentStatus.REQUIRED) {
-                    consentForm.show(
-                        this@MainActivity
-                    ) { // Handle dismissal by reloading form.
-                        loadForm()
-                    }
+        UserMessagingPlatform.loadConsentForm(this, { consentForm ->
+            this@MainActivity.consentForm = consentForm
+            if (consentInformation.consentStatus == ConsentInformation.ConsentStatus.REQUIRED) {
+                consentForm.show(
+                    this@MainActivity
+                ) { // Handle dismissal by reloading form.
+                    loadForm()
                 }
-                if(consentInformation.consentStatus == ConsentInformation.ConsentStatus.UNKNOWN){
-                    consentForm.show(
-                        this@MainActivity
-                    ) { // Handle dismissal by reloading form.
-                        loadForm()
-                    }
-                }
-
-                if(consentInformation.consentStatus == ConsentInformation.ConsentStatus.OBTAINED){
-                    Log.d("ESSENSPLANER ADS", "PERSONALIZED LOADED")
-                    loadAds()
-                }
-
             }
+            if (consentInformation.consentStatus == ConsentInformation.ConsentStatus.UNKNOWN) {
+                consentForm.show(
+                    this@MainActivity
+                ) { // Handle dismissal by reloading form.
+                    loadForm()
+                }
+            }
+
+            if (consentInformation.consentStatus == ConsentInformation.ConsentStatus.OBTAINED) {
+                Log.d("ESSENSPLANER ADS", "PERSONALIZED LOADED")
+                //loadAds()
+            }
+
+        }
         ) {
             /// Handle Error.
         }
     }
 
-    private fun loadAds(){
-        val testDeviceIds = Arrays.asList("2FE31AA7C088CFDF640E6FA10264809E")
+    /*private fun loadAds(){
+        //val testDeviceIds = Arrays.asList("2FE31AA7C088CFDF640E6FA10264809E")
 
-        val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
+        //val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
 
-        MobileAds.setRequestConfiguration(configuration)
+        //MobileAds.setRequestConfiguration(configuration)
 
 
         val adRequest: AdRequest = AdRequest.Builder().build()
         mAdView = findViewById(R.id.adView)
-        adRequest.isTestDevice(this)
+        //adRequest.isTestDevice(this)
         mAdView.loadAd(adRequest)
-    }
+    }*/
 
 //    private fun loadAds(isPersonalized: Boolean) {
 //        val testDeviceIds = Arrays.asList("33BE2250B43518CCDA7DE426D04EE231")
@@ -240,6 +233,7 @@ class MainActivity : AppCompatActivity() {
         when(item.itemId){
             R.id.about -> {
                 startActivity(Intent(this, AboutActivity::class.java))
+                //TODO DEBUG PURPOSE ONLY
                 Log.d("ESSENSPLANER", "CONSENT INFORMATION WAS RESETTED")
                 consentInformation.reset()
             }
@@ -250,6 +244,21 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, SettingsActivity::class.java))
             }
         }
+
+        when(item.itemId){
+            R.id.menu_privacy_policy -> {
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/essensplaner-privacy-policy/deutsch"))
+                startActivity(browserIntent)
+            }
+        }
+
+        when(item.itemId){
+            R.id.menu_terms_of_service -> {
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/essensplaner-terms-conditions/deutsch"))
+                startActivity(browserIntent)
+            }
+        }
+
 
         return when (item.itemId) {
             R.id.action_settings -> true

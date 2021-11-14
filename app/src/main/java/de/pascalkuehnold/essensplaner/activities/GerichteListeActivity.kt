@@ -23,6 +23,7 @@ import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.ChefkochMeal
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.handler.ExternalLinkHandler
+import de.pascalkuehnold.essensplaner.interfaces.GerichtDao
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
 
 class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
@@ -218,6 +219,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         val zubereitungsZeit = gericht.gesamtKochzeit
         val isChefkochGericht = gericht.isChefkochGericht
         val chefkochUrl = gericht.chefkochUrl
+        val isVegetarian = gericht.isVegetarisch
 
 
         AlertDialog.Builder(this)
@@ -229,7 +231,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                         }
                 )
                 .setPositiveButton(getString(R.string.findRecipe)) { dialog, _ ->
-                    ExternalLinkHandler(this).showWarningExternalLink(
+                    ExternalLinkHandler(this, gerichtId).showWarningExternalLink(
                             "https://www.chefkoch.de/rs/s0/${gericht.gerichtName}/Rezepte.html",
                             false
                     )
@@ -246,6 +248,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                     gerichtIntent.putExtra("mealCookTime", zubereitungsZeit)
                     gerichtIntent.putExtra("mealByChefkoch", isChefkochGericht)
                     gerichtIntent.putExtra("chefkochUrl", chefkochUrl)
+                    gerichtIntent.putExtra("isVegetarian", isVegetarian)
                     startActivity(gerichtIntent)
                 }
                 .setCancelable(true)
@@ -265,7 +268,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     fun addMealByChefkoch(view: View){
-        ExternalLinkHandler(this).showWarningExternalLink("https://www.chefkoch.de/rs/s0/", true)
+        ExternalLinkHandler(this, null).showWarningExternalLink("https://www.chefkoch.de/rs/s0/", true)
     }
 
     class ActionBroadcastReceiver : BroadcastReceiver() {
@@ -274,25 +277,36 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
             val regex = Regex("https:\\/\\/www.chefkoch.de\\/rezepte\\/\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)")
 
             val uri: Uri? = intent.data
+            val gerichtPosition: Long = intent.getLongExtra("gerichtPos", -1)
 
             val url = uri.toString()
             if (uri != null) {
 
-                if(url.matches(regex)) {
-                    if(urlList.contains(url)){
-                        Toast.makeText(context, uri.toString() + " is already in the list", Toast.LENGTH_SHORT).show()
-                    } else {
-                        alert!!.dismiss()
-                        Log.d("Broadcast URL", uri.toString())
-                        Toast.makeText(context, uri.toString(), Toast.LENGTH_SHORT).show()
+                if(gerichtPosition > 0){
+                    val gerichtDao = AppDatabase.getDatabase(context).gerichtDao()
+                    val gericht = gerichtDao.loadByID(gerichtPosition)
 
-                        urlList.add(uri.toString())
-                        Log.d("URL", uri.toString())
+                    if (gericht != null) {
+                        gerichtDao.delete(gericht)
+                    }
+                }
+
+                    if(url.matches(regex)) {
+                        if(urlList.contains(url)){
+                            Toast.makeText(context, uri.toString() + " is already in the list", Toast.LENGTH_SHORT).show()
+                        } else {
+                            alert!!.dismiss()
+                            Log.d("Broadcast URL", uri.toString())
+                            Toast.makeText(context, uri.toString(), Toast.LENGTH_SHORT).show()
+
+                            urlList.add(uri.toString())
+                            Log.d("URL", uri.toString())
+                        }
+
+                    } else {
+                        Toast.makeText(context, R.string.chefkochMealAddError, Toast.LENGTH_SHORT).show()
                     }
 
-                } else {
-                    Toast.makeText(context, R.string.chefkochMealAddError, Toast.LENGTH_SHORT).show()
-                }
             }
         }
 

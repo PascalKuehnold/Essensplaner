@@ -23,7 +23,7 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:alpha="0.2"
+            android:alpha="0.1"
             android:background="@drawable/einkaufslist_background_texture_smaller"
             android:contentDescription="@string/einkaufsliste_background_texture" />
 

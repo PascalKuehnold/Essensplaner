@@ -29,6 +29,7 @@
             android:layout_height="150dp"
             android:text="@string/gerichteliste"
             android:textSize="32sp"
+            android:autoSizeMaxTextSize="32sp"
             android:maxLines="1"
             android:layout_marginTop="25dp"
             app:backgroundTint="@color/newHeaderColor"
@@ -47,6 +48,7 @@
             android:layout_height="150dp"
             android:text="@string/wochenplaner"
             android:textSize="32sp"
+            android:autoSizeMaxTextSize="32sp"
             android:maxLines="1"
             app:backgroundTint="@color/newHeaderColor"
             android:fontFamily="@font/architects_daughter_regular"
@@ -65,6 +67,7 @@
             android:layout_height="150dp"
             android:text="@string/einkaufsliste"
             android:textSize="32sp"
+            android:autoSizeMaxTextSize="32sp"
             android:maxLines="1"
             android:layout_marginBottom="25dp"
             android:fontFamily="@font/architects_daughter_regular"
@@ -90,7 +93,7 @@
 
 
 
-    <com.google.android.gms.ads.AdView
+    <!--<com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
         android:layout_width="wrap_content"
@@ -99,5 +102,5 @@
         android:layout_gravity="bottom|center_horizontal"
         ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-9044567512818908/9696410160"
-        />
+        />-->
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

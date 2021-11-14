@@ -75,26 +75,7 @@
         Have fun testing!\n
         Pascal
     </string>
-    <string name="whatsNew">What can you do?\n\n
-        - You can create meals\n\n
-        - You can edit meals\n\n
-        - You can delete meals\n\n
-        - You can add single ingredients to the meal\n\n
-        - You can edit the ingredients by name\n\n
-        - You can delete ingredients\n\n
-        - The weekly planner creates meals for 7 days(You must have 7 meals in the meal list)\n\n
-        - The weekly planner is also available as veggie only(just click the arrow on top where it says weekly planner)\n\n
-        - You can lookup the information about a meal(just click on it in the meal list)\n\n
-        - You can add ingredients or other things to the shopping list\n\n
-        - You can also add all of the ingredients for a meal to the shopping list with just one click(click on notice symbol)\n\n
-        - You can check the positions in the shopping list as done\n\n
-        - You can also see how many positions are not checked in the shopping list\n\n
-        - New main menu design\n\n
-        - Meal List can be sorted now\n\n
-        - You can search for recipes on Chefkoch.de\n\n
-        - You can add meals by using Chefkoch.de -> Just click on add a meal -> Chefkoch.de -> search a meal you wish to add -> click on the blue add icon at the top\n\n
-        - Meals by Chefkoch.de are now added automatically as veggie meal if it is tagged as veggie on the website\n\n
-    </string>
+
 
     <string name="alles_klar">Alright</string>
     <string name="welcomeHeadline">Welcome to the mealplanner</string>
@@ -142,4 +123,6 @@
     <string name="fragment_four_add_veggieOrNot_title">Veggie/Vegan</string>
     <string name="fragment_five_add_multiple_days_title">For multiple days</string>
     <string name="fragment_six_add_preperation_text_title">Add preparation text</string>
+    <string name="privacy_policy_title">Privacy Policy</string>
+    <string name="terms_of_service_title">Terms of Service</string>
 </resources>

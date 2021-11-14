@@ -14,8 +14,9 @@ import androidx.browser.customtabs.CustomTabsIntent
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.activities.GerichteListeActivity
 
-class ExternalLinkHandler(_mContext: Context) {
+class ExternalLinkHandler(_mContext: Context, _mGerichtPos: Long?) {
     private val mContext = _mContext
+    private val mGerichtPos = _mGerichtPos
 
     @SuppressLint("UseCompatLoadingForDrawables")
     fun showWarningExternalLink(url: String, input: Boolean) {
@@ -51,6 +52,7 @@ class ExternalLinkHandler(_mContext: Context) {
             if(mContext is GerichteListeActivity){
                 val sendLinkIntent = Intent(mContext, GerichteListeActivity.ActionBroadcastReceiver::class.java)
                 sendLinkIntent.putExtra(Intent.EXTRA_SUBJECT, "This is the link you were exploring")
+                sendLinkIntent.putExtra("gerichtPos", mGerichtPos)
                 val pendingIntent = PendingIntent.getBroadcast(mContext, 0, sendLinkIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
                 builder.setToolbarColor(mContext.resources.getColor(R.color.newBackgroundColor))
