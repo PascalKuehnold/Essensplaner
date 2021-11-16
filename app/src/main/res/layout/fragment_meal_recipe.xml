@@ -10,58 +10,62 @@
         android:id="@+id/imageView_LockRecipeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_lock_closed_white"
+        android:layout_margin="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="10dp"
 
-        />
+        app:srcCompat="@drawable/ic_lock_closed_white" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/recipeViewTextInputLayout"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/recipeViewTextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="@dimen/bottomNavBar"
+        android:background="@color/newBackgroundColor"
+        android:isScrollContainer="true"
+        android:orientation="vertical"
+        android:scrollbars="vertical"
+        android:textColorHint="@color/lightGrey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_LockRecipeText">
+
+        <com.google.android.material.textfield.TextInputEditText
+
+            android:id="@+id/editText_meal_recipe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            app:layout_constraintTop_toBottomOf="@id/imageView_LockRecipeText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:background="@color/newBackgroundColor"
-            android:orientation="vertical"
-            android:scrollbars="vertical"
-            android:isScrollContainer="true"
-            android:hint="Fenster öffnen und Zubereitungstext eingeben"
-            android:textColorHint="@color/lightGrey"
-            >
+            android:enabled="true"
+            android:focusableInTouchMode="true"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:singleLine="false"
+            android:textColor="@color/white" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editText_meal_recipe"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/newBackgroundColor"
-                android:singleLine="false"
-                android:enabled="true"
-                android:focusableInTouchMode="true"
-                android:inputType="textMultiLine"
-                android:textColor="@color/white" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
+    <!--    <TextView-->
+    <!--        android:id="@+id/text_notifications"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="8dp"-->
+    <!--        android:layout_marginTop="8dp"-->
+    <!--        android:layout_marginEnd="8dp"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        android:textSize="20sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        android:scrollbars="vertical"-->
+    <!--        android:isScrollContainer="true"-->
 
-        <!--    <TextView-->
-        <!--        android:id="@+id/text_notifications"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:layout_marginStart="8dp"-->
-        <!--        android:layout_marginTop="8dp"-->
-        <!--        android:layout_marginEnd="8dp"-->
-        <!--        android:textColor="@color/white"-->
-        <!--        android:textSize="20sp"-->
-        <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--        app:layout_constraintEnd_toEndOf="parent"-->
-        <!--        app:layout_constraintStart_toStartOf="parent"-->
-        <!--        app:layout_constraintTop_toTopOf="parent"-->
-        <!--        android:scrollbars="vertical"-->
-        <!--        android:isScrollContainer="true"-->
-
-        <!--        />-->
+    <!--        />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

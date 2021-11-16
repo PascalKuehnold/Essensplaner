@@ -26,6 +26,9 @@ class GerichtZubereitungFragment : Fragment() {
         gerichtZubereitungViewModel.text.observe(viewLifecycleOwner, {
             if(it.isNotEmpty()){
                 editText.setText(it)
+                editText.hint = ""
+            } else {
+                editText.setText("Fenster öffnen und Zubereitungstext eingeben")
             }
 
         })
