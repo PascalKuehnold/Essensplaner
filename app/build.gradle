@@ -12,7 +12,7 @@ android {
     android.defaultConfig.vectorDrawables.useSupportLibrary = true
     defaultConfig {
         applicationId "de.pascalkuehnold.essensplaner"
-        minSdkVersion 16
+        minSdkVersion 22
         targetSdkVersion 30
         versionCode 1
         versionName "0.6.0"

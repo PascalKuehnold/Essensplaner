@@ -25,7 +25,7 @@ class ExternalLinkHandler(_mContext: Context, _mGerichtPos: Long?) {
         val alertDialogBuilder = AlertDialog.Builder(mContext, R.style.Theme_Essensplaner_DialogTheme)
         if(input){
             inputText = EditText(mContext)
-            inputText.hint = "Gericht eingeben"
+            inputText.hint = "Stichpunkt eingeben"
             inputText.setHintTextColor(mContext.resources.getColor(R.color.lightGreyAlpha75))
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                 inputText.textAlignment = View.TEXT_ALIGNMENT_CENTER

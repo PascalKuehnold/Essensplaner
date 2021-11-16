@@ -12,7 +12,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Essensplaner">
+        android:theme="@style/Theme.Essensplaner"
+        >
 
         <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
         <meta-data
@@ -35,11 +36,15 @@
         <activity
             android:name=".activities.AboutActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.Essensplaner.NoActionBar" />
+            android:theme="@style/Theme.Essensplaner.NoActionBar"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".activities.SettingsActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.Essensplaner.NoActionBar" />
+            android:theme="@style/Theme.Essensplaner.NoActionBar"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".activities.GerichtEditierenActivity"
             android:configChanges="orientation"

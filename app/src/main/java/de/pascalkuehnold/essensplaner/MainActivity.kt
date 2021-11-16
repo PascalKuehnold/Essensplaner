@@ -78,6 +78,7 @@ class MainActivity : AppCompatActivity() {
         appContent = findViewById<View>(R.id.app_content_layout) as LinearLayout
         welcomeText = findViewById<View>(R.id.welcome_message) as TextView
 
+
         welcomeText!!.movementMethod = ScrollingMovementMethod()
     }
 

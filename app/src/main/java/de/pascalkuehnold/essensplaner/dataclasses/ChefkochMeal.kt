@@ -48,7 +48,7 @@ class ChefkochMeal(_context: Context, _url: String) {
         isVegetarisch = hasVegetarischText.isNotEmpty() || hasVeganText.isNotEmpty()
         getAmountsAndUnitsAsList()
         ingredientsAsList = getIngriedientsAsList()
-        zubereitungText = zubereitung.html().replace("<br>", "\n")
+        zubereitungText = zubereitung.html().replace("<br> ", "\n")
         personenAnzahl = personenAnzahlElements.attr("value").toInt()
 
         //Zusammenbringen der einzelnen Listen
@@ -147,7 +147,7 @@ class ChefkochMeal(_context: Context, _url: String) {
                 mealIsFastPrepared = false,
                 mealIsChefkochGericht = true,
                 mealOverallCooktime = zubereitungsZeit.text().removeRange(0,1),
-                mealAuthor = rezeptErsteller.text(),
+                mealAuthor = if(rezeptErsteller.text().isNullOrEmpty()) {"Chefkoch.de"} else {rezeptErsteller.text()},
                 mealReceipt = zubereitungText,
                 chefkochUrl = url,
                 zutatenList = zutatList,
