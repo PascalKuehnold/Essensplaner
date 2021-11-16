@@ -55,15 +55,19 @@ class ExternalLinkHandler(_mContext: Context, _mGerichtPos: Long?) {
                 sendLinkIntent.putExtra("gerichtPos", mGerichtPos)
                 val pendingIntent = PendingIntent.getBroadcast(mContext, 0, sendLinkIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-                builder.setToolbarColor(mContext.resources.getColor(R.color.newBackgroundColor))
                 // Set the action button
                 builder.setSecondaryToolbarViews(remoteViews, clickableIDs , pendingIntent)
-                builder.setShowTitle(true)
                 builder.addMenuItem(mContext.getString(R.string.mealAdd), pendingIntent)
-                builder.setUrlBarHidingEnabled(false)
-                val customTabsIntent: CustomTabsIntent = builder.build()
-                customTabsIntent.launchUrl(mContext, Uri.parse(recipeString))
             }
+
+            builder.setNavigationBarColor(mContext.resources.getColor(R.color.newBackgroundColor))
+            builder.setToolbarColor(mContext.resources.getColor(R.color.newBackgroundColor))
+            builder.setShowTitle(true)
+            builder.setUrlBarHidingEnabled(false)
+
+            val customTabsIntent: CustomTabsIntent = builder.build()
+            customTabsIntent.launchUrl(mContext, Uri.parse(recipeString))
+
         }
         alertDialogBuilder.setNegativeButton("Lieber nicht") { dialog, _ ->
             dialog.dismiss()

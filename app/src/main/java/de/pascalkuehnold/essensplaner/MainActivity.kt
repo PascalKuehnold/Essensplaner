@@ -280,6 +280,7 @@ class MainActivity : AppCompatActivity() {
             WochenplanerDatabase.getDatabase(applicationContext).wochenGerichteDao().delete()
             WochenplanerVeggieDatabase.getDatabase(applicationContext).wochenGerichteVeggieDao().delete()
             EinkaufslisteDatabase.getDatabase(applicationContext).einkaufslisteDao().delete()
+            consentInformation.reset()
             Toast.makeText(this, getString(R.string.allDataDeletedText), Toast.LENGTH_LONG).show()
         }
         alert.setNegativeButton(getString(R.string.cancel)) { dialog: DialogInterface, _: Int ->

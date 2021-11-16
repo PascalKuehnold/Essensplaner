@@ -75,10 +75,6 @@ class GerichtInformationFragment : Fragment() {
         btnOriginalRecipe.apply {
             setOnClickListener{
                 ExternalLinkHandler(container!!.context, null).showWarningExternalLink(chefkochUrl, false)
-                //println(chefkochUrl)
-                //val openURL = Intent(Intent.ACTION_VIEW)
-                //openURL.data = Uri.parse(chefkochUrl)
-                //startActivity(openURL)
             }
         }
 
