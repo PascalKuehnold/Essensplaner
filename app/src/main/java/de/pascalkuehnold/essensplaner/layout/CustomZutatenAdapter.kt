@@ -11,6 +11,8 @@ import androidx.core.view.isVisible
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.activities.GerichtActivity
 import de.pascalkuehnold.essensplaner.activities.GerichtEditierenActivity
+import de.pascalkuehnold.essensplaner.activities.GerichtHinzufuegenActivity
+import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
 import java.util.*
 
@@ -58,7 +60,7 @@ class CustomZutatenAdapter(context: Context, zutaten: ArrayList<Zutat>, callback
 
 
         btnZutatBearbeiten?.setOnClickListener {
-            if(mContext is GerichtEditierenActivity){
+            if(mContext is GerichtEditierenActivity || mContext is GerichtHinzufuegenActivity){
                 Zutat.createChangeZutatDialog(mContext, mZutaten, position, this)
             }
         }
@@ -68,10 +70,11 @@ class CustomZutatenAdapter(context: Context, zutaten: ArrayList<Zutat>, callback
             if(mContext is GerichtEditierenActivity){
                 Zutat.deleteZutat(mContext, mZutaten, position, this)
             }
+
         }
 
         //If the user is in the meal information tab, these buttons are not shown
-        if(mContext is GerichtActivity){
+        if(mContext is GerichtActivity || mContext is GerichtHinzufuegenActivity){
             btnZutatBearbeiten!!.isVisible = false
             btnDeleteZutat!!.isVisible = false
             imageViewZutatChecked!!.isVisible = false

@@ -9,22 +9,21 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ListView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
+import de.pascalkuehnold.essensplaner.layout.CustomZutatenAdapter
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class GerichtHinzufuegenActivity : AppCompatActivity(){
+class GerichtHinzufuegenActivity : AppCompatActivity(), View.OnClickListener{
     private var mealName = ""
     private var mealIsVeggie = false
     private var mealIsForMultipleDays = false
@@ -39,11 +38,13 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
     private var zutaten: ArrayList<Zutat> = ArrayList()
 
     private lateinit var textInputGericht: TextInputEditText
-    private lateinit var btnZutatHinzufuegen: Button
+    private lateinit var btnZutatHinzufuegen: FloatingActionButton
     private lateinit var switchVegetarisch: SwitchCompat
     private lateinit var switchMultipleDays: SwitchCompat
     private lateinit var switchFastPreperation: SwitchCompat
     private lateinit var listViewZutaten: ListView
+    private lateinit var adapter: CustomZutatenAdapter
+    private lateinit var addIngredientHeader: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +59,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         textInputGericht = findViewById(R.id.textInputTextGericht)
         textInputGericht.maxLines = 2
 
-        val btnHinzufuegen = findViewById<Button>(R.id.btnHinzufuegenGericht)
+        val btnHinzufuegen = findViewById<Button>(R.id.btnSubmit)
 
 
         btnHinzufuegen.setOnClickListener {
@@ -96,7 +97,12 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         }
 
 
-        btnZutatHinzufuegen = findViewById(R.id.btnZutatHinzufügen)
+        addIngredientHeader = findViewById(R.id.gerichtBearbeitenZutaten)
+        addIngredientHeader.setOnClickListener{
+            zutatHinzufuegen()
+        }
+
+        btnZutatHinzufuegen = findViewById(R.id.btnAddZutat)
         btnZutatHinzufuegen.setOnClickListener{
             zutatHinzufuegen()
         }
@@ -110,6 +116,12 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
                 hideSoftKeyboard(v)
             }
         }
+
+        //creates the custom adapter
+        adapter = CustomZutatenAdapter(this, zutaten, this)
+
+        //setting the adapter for the listview of ingredients
+        listViewZutaten.adapter = adapter
     }
 
     private fun EditText.showSoftKeyboard(){
@@ -121,45 +133,35 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         val builder = AlertDialog.Builder(this)
         builder.setTitle(getString(R.string.textZutatHinzufuegen))
 
-
         val input = EditText(this)
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.inputType = InputType.TYPE_CLASS_TEXT
         builder.setView(input)
         input.requestFocus()
-        textInputGericht.clearFocus()
 
         builder.setPositiveButton(R.string.hinzuf_gen) { _, _ ->
-            if(!input.text.isNullOrEmpty()){
-                val reg = Regex("\\s*,\\s*")
-                val inputText = input.text.toString().trim().replace(reg, "\n")
-                val items = inputText.lines()
+            //val inputText = input.text.toString().replace(',', ' ').trim()
+            //inputText.split("\\s*,\\s*")
 
+            val reg = Regex("\\s*,\\s*")
+            val inputText = input.text.toString().trim().replace(reg, "\n")
+            val items = inputText.lines()
 
-                for(item in items){
-                    try {
-                        val capItem = item.capitalize(Locale.getDefault())
-                        if(tempZutatenStringArray.contains(capItem)){
-                            Toast.makeText(this, String.format(getString(R.string.eintragItem), capItem)  + getString(R.string.textAlreadyInList), Toast.LENGTH_SHORT).show()
-                        } else {
-                            tempZutatenStringArray.add(capItem)
-                            zutaten.add(Zutat(0, capItem))
-                            Toast.makeText(this, String.format(getString(R.string.eintragItem), capItem)  + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
-                        }
-
-
-                    } catch (e: Exception){
-                        e.printStackTrace()
-                    }
+            for(item in items){
+                try {
+                    zutaten.add(Zutat(0, item.capitalize(Locale.getDefault())))
+                    adapter.notifyDataSetChanged()
+                } catch (e: Exception) {
+                    Toast.makeText(this, "TODO014 $item ist schon vorhanden", Toast.LENGTH_SHORT).show()
                 }
-                zutatHinzufuegen()
-            } else {
-                Toast.makeText(this, R.string.noInputFound, Toast.LENGTH_SHORT).show()
             }
         }
+
         builder.setNegativeButton(R.string.abbrechen) { dialog, _ ->
             dialog.cancel()
         }
+        // Create the AlertDialog object and return it
+
 
         builder.create()
         val alert = builder.show()
@@ -193,6 +195,10 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onClick(v: View?) {
+        Toast.makeText(this, "TODO()009 Nicht implementiert", Toast.LENGTH_SHORT).show()
     }
 
 }
