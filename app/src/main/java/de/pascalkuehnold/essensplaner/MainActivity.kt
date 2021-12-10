@@ -34,12 +34,10 @@ class MainActivity : AppCompatActivity() {
     private var introMessage: RelativeLayout? = null
     private var appContent: LinearLayout? = null
     private var welcomeText: TextView? = null
-    private lateinit var mAdView : AdView
 
     private lateinit var consentInformation: ConsentInformation
     private var consentForm: ConsentForm? = null
 
-    private var clicked = false
     private val welcomeScreenShownPref = "welcomeScreenShown"
     private lateinit var mPrefs: SharedPreferences
 
@@ -59,9 +57,7 @@ class MainActivity : AppCompatActivity() {
 
         val window = this.window
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            window.statusBarColor = ContextCompat.getColor(this, R.color.newBackgroundColor)
-        }
+        window.statusBarColor = ContextCompat.getColor(this, R.color.newBackgroundColor)
 
         if(!welcomeScreenShown && !inAppWelcScreen){
             showWelcomeText()
@@ -228,15 +224,11 @@ class MainActivity : AppCompatActivity() {
 
         when(item.itemId){
             R.id.datenbankLoeschen -> deleteDatabase()
-
         }
 
         when(item.itemId){
             R.id.about -> {
                 startActivity(Intent(this, AboutActivity::class.java))
-                //TODO DEBUG PURPOSE ONLY
-                Log.d("ESSENSPLANER", "CONSENT INFORMATION WAS RESETTED")
-                consentInformation.reset()
             }
         }
 
@@ -281,6 +273,7 @@ class MainActivity : AppCompatActivity() {
             WochenplanerVeggieDatabase.getDatabase(applicationContext).wochenGerichteVeggieDao().delete()
             EinkaufslisteDatabase.getDatabase(applicationContext).einkaufslisteDao().delete()
             consentInformation.reset()
+            createConsentRequest()
             Toast.makeText(this, getString(R.string.allDataDeletedText), Toast.LENGTH_LONG).show()
         }
         alert.setNegativeButton(getString(R.string.cancel)) { dialog: DialogInterface, _: Int ->

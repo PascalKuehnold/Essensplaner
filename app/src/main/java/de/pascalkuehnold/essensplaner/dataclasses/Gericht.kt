@@ -17,18 +17,18 @@ import kotlin.collections.ArrayList
 @Entity
 class Gericht(
 
-        @PrimaryKey(autoGenerate = true) var id: Long,
-        @ColumnInfo(name = "gericht_name") var gerichtName: String,
-        @ColumnInfo(name = "vegetarisch") val isVegetarisch: Boolean,
-        @ColumnInfo(name = "mehrere_tage") val mehrereTage: Boolean,
-        @ColumnInfo(name = "schnelles_gericht") val schnellesGericht: Boolean,
-        @ColumnInfo(name = "ist_chefkoch_gericht") val isChefkochGericht: Boolean,
-        @ColumnInfo(name = "gesamt_kochzeit") val gesamtKochzeit: String,
-        @ColumnInfo(name = "gericht_author") val gerichtAuthor: String,
-        @ColumnInfo(name = "rezept") val gerichtRezept: String,
-        @ColumnInfo(name = "chefkoch_url") val chefkochUrl: String,
-        @ColumnInfo(name = "zutaten") val zutatenList: List<Zutat>,
-        @ColumnInfo(name = "personen_anzahl") val personenAnzahl: Int
+    @PrimaryKey(autoGenerate = true) var id: Long,
+    @ColumnInfo(name = "gericht_name") var gerichtName: String,
+    @ColumnInfo(name = "vegetarisch") val isVegetarisch: Boolean,
+    @ColumnInfo(name = "mehrere_tage") val mehrereTage: Boolean,
+    @ColumnInfo(name = "schnelles_gericht") val schnellesGericht: Boolean,
+    @ColumnInfo(name = "ist_chefkoch_gericht") val isChefkochGericht: Boolean,
+    @ColumnInfo(name = "gesamt_kochzeit") val gesamtKochzeit: String,
+    @ColumnInfo(name = "gericht_author") val gerichtAuthor: String,
+    @ColumnInfo(name = "rezept") var gerichtRezept: String,
+    @ColumnInfo(name = "chefkoch_url") val chefkochUrl: String,
+    @ColumnInfo(name = "zutaten") val zutatenList: List<Zutat>,
+    @ColumnInfo(name = "personen_anzahl") val personenAnzahl: Int
 ){
     companion object{
         //method for saving the meal

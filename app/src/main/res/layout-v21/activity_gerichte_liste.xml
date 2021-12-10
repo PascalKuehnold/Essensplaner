@@ -23,7 +23,7 @@
 
         <SearchView
             android:id="@+id/sbGerichteListe"
-
+            android:contentDescription="@string/search_bar"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="45dp" />

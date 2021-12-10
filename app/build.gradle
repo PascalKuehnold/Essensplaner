@@ -14,10 +14,18 @@ android {
         applicationId "de.pascalkuehnold.essensplaner"
         minSdkVersion 22
         targetSdkVersion 30
-        versionCode 1
-        versionName "0.6.0"
+        versionCode 4
+        versionName "0.6.1"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    kotlinOptions {
+        jvmTarget = 1.8
+    }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
     }
 
     buildTypes {
@@ -26,13 +34,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
-    }
+
+
 }
 
 dependencies {

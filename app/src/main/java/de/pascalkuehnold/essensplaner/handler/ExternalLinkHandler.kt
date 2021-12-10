@@ -27,10 +27,7 @@ class ExternalLinkHandler(_mContext: Context, _mGerichtPos: Long?) {
             inputText = EditText(mContext)
             inputText.hint = "Stichpunkt eingeben"
             inputText.setHintTextColor(mContext.resources.getColor(R.color.lightGreyAlpha75))
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                inputText.textAlignment = View.TEXT_ALIGNMENT_CENTER
-            }
-
+            inputText.textAlignment = View.TEXT_ALIGNMENT_CENTER
         }
         alertDialogBuilder.setPositiveButton("Zu Chefkoch.de") { _, _ ->
             val recipeString: String = if (inputText != null) {
@@ -64,6 +61,7 @@ class ExternalLinkHandler(_mContext: Context, _mGerichtPos: Long?) {
             builder.setToolbarColor(mContext.resources.getColor(R.color.newBackgroundColor))
             builder.setShowTitle(true)
             builder.setUrlBarHidingEnabled(false)
+
 
             val customTabsIntent: CustomTabsIntent = builder.build()
             customTabsIntent.launchUrl(mContext, Uri.parse(recipeString))

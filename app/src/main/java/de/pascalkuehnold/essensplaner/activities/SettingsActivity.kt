@@ -31,8 +31,11 @@ class SettingsActivity : AppCompatActivity(){
         btnWochenplanerEinstellungen = findViewById(R.id.btnWochenplanerEinstellungen)
 
         btnWochenplanerEinstellungen.setOnClickListener {
-            val intent = Intent(this, ScreenSlidePagerActivity::class.java)
-            startActivity(intent)
+            //TODO CHANGE BEHAVIOUR
+            //val intent = Intent(this, ScreenSlidePagerActivity::class.java)
+            //startActivity(intent)
+
+            Toast.makeText(this,"Zur Zeit nicht verfügbar...",Toast.LENGTH_LONG).show()
         }
 
 
