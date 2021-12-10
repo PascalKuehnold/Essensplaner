@@ -11,6 +11,7 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -42,6 +43,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
     private lateinit var switchVegetarisch: SwitchCompat
     private lateinit var switchMultipleDays: SwitchCompat
     private lateinit var switchFastPreperation: SwitchCompat
+    private lateinit var listViewZutaten: ListView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +53,8 @@ class GerichtHinzufuegenActivity : AppCompatActivity(){
         supportActionBar?.setTitle(R.string.mealAdd)
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
 
+
+        listViewZutaten = findViewById(R.id.listViewZutatenlisteGerichtAendern)
         textInputGericht = findViewById(R.id.textInputTextGericht)
         textInputGericht.maxLines = 2
 

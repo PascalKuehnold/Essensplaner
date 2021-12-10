@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.widget.ListView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import com.google.android.material.button.MaterialButton
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.fragments.ScreenSlidePageFragment
 
@@ -30,6 +32,8 @@ class ScreenSlidePagerActivity : AppCompatActivity() {
      */
     private lateinit var viewPager: ViewPager2
     private lateinit var progressBar: ProgressBar
+    private lateinit var listView: ListView
+    private lateinit var btnWeiter: MaterialButton
 
     private lateinit var tvGerichtHinzufuegenHeader: TextView
 
@@ -52,6 +56,8 @@ class ScreenSlidePagerActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.progressBar)
         tvGerichtHinzufuegenHeader = findViewById(R.id.tvGerichtHinzufuegenHeader)
 
+        listView = findViewById(R.id.listViewScreenSlideAddMeal)
+        btnWeiter = findViewById(R.id.btnWeiter)
 
         // The pager adapter, which provides the pages to the view pager widget.
         val pagerAdapter = ScreenSlidePagerAdapter(this)

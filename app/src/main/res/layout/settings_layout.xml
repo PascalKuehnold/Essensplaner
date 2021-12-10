@@ -27,6 +27,6 @@
         android:textAlignment="viewStart"
         android:textAllCaps="false"
         android:textColor="@color/lightGrey"
-        android:enabled="false"
+        android:enabled="true"
         />
 </LinearLayout>
