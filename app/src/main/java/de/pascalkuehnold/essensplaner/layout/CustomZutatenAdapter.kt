@@ -14,6 +14,7 @@ import de.pascalkuehnold.essensplaner.activities.GerichtEditierenActivity
 import de.pascalkuehnold.essensplaner.activities.GerichtHinzufuegenActivity
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
+import org.w3c.dom.Text
 import java.util.*
 
 class CustomZutatenAdapter(context: Context, zutaten: ArrayList<Zutat>, callback: View.OnClickListener?): BaseAdapter(), ListAdapter {
@@ -44,6 +45,26 @@ class CustomZutatenAdapter(context: Context, zutaten: ArrayList<Zutat>, callback
         val row = view?.findViewById<LinearLayout>(R.id.rowClick)
         row?.setOnClickListener(mCallback)
         row?.tag = position
+
+        val menge = view?.findViewById<TextView>(R.id.menge)
+        if(menge != null){
+            if (mZutaten[position].zutatenMenge <= 0.0){
+                menge.text = ""
+            } else {
+                menge.text = mZutaten[position].zutatenMenge.toInt().toString()
+            }
+
+        }
+
+        val mengenEinheit = view?.findViewById<TextView>(R.id.mengenEinheit)
+        if(mengenEinheit != null){
+            if(mZutaten[position].zutatenMengenEinheit.contains("B.")){
+                mengenEinheit.text = "n.B."
+            } else {
+                mengenEinheit.text = mZutaten[position].zutatenMengenEinheit
+            }
+
+        }
 
         val zutatenName = view?.findViewById<TextView>(R.id.zutatenName)
         if (zutatenName != null) {
@@ -80,6 +101,8 @@ class CustomZutatenAdapter(context: Context, zutaten: ArrayList<Zutat>, callback
             imageViewZutatChecked!!.isVisible = false
             zutatenName!!.gravity = Gravity.CENTER
         }
+
+
 
         return view
     }
