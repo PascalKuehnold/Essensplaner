@@ -1,6 +1,5 @@
 package de.pascalkuehnold.essensplaner.activities.ui.gerichtinformationen
 
-import android.media.Image
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater

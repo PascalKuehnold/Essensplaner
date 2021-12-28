@@ -12,9 +12,7 @@ import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.activities.GerichtActivity
 import de.pascalkuehnold.essensplaner.activities.GerichtEditierenActivity
 import de.pascalkuehnold.essensplaner.activities.GerichtHinzufuegenActivity
-import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
-import org.w3c.dom.Text
 import java.util.*
 
 class CustomZutatenAdapter(context: Context, zutaten: ArrayList<Zutat>, callback: View.OnClickListener?): BaseAdapter(), ListAdapter {
