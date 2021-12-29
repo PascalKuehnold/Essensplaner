@@ -2,7 +2,6 @@ package de.pascalkuehnold.essensplaner.dataclasses
 
 import android.content.Context
 import android.content.DialogInterface
-import android.text.InputType
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -19,11 +18,11 @@ import de.pascalkuehnold.essensplaner.layout.CustomZutatenAdapter
 
 @Entity(indices = [Index(value = ["zutaten_name"], unique = true)])
 class Zutat(
-    @PrimaryKey(autoGenerate = true) var id: Long,
-    @ColumnInfo(name = "zutaten_name") var zutatenName: String,
-    @ColumnInfo(name = "checked") var isChecked: Boolean = false,
-    @ColumnInfo(name = "zutaten_einheit") var zutatenMengenEinheit: String = "",
-    @ColumnInfo(name = "zutaten_menge") var zutatenMenge: Double = 0.0
+        @PrimaryKey(autoGenerate = true) var id: Long,
+        @ColumnInfo(name = "zutaten_name") var zutatenName: String,
+        @ColumnInfo(name = "checked") var isChecked: Boolean = false,
+        @ColumnInfo(name = "zutaten_einheit") var zutatenMengenEinheit: String = "",
+        @ColumnInfo(name = "zutaten_menge") var zutatenMenge: Double = 0.0
 
 
 ){
@@ -54,12 +53,12 @@ class Zutat(
 
         //Method for updating the ingredient and refresh the ingredient listview
         private fun updateZutat(
-            mContext: Context,
-            inputText: String,
-            zutaten: ArrayList<Zutat>,
-            position: Int,
-            mengenEinheit: String,
-            menge: Int
+                mContext: Context,
+                inputText: String,
+                zutaten: ArrayList<Zutat>,
+                position: Int,
+                mengenEinheit: String,
+                menge: Int
         ){
             val tempZutat = zutaten[position]
 
@@ -70,17 +69,17 @@ class Zutat(
             (mContext as GerichtEditierenActivity).changeGericht(zutaten)
 
             Toast.makeText(
-                mContext,
-                ("TODO()004 $tempZutat wurde erfolgreich zu $inputText bearbeitet."),
-                Toast.LENGTH_SHORT
+                    mContext,
+                    ("TODO()004 $tempZutat wurde erfolgreich zu $inputText bearbeitet."),
+                    Toast.LENGTH_SHORT
             ).show()
         }
 
         fun deleteZutat(
-            mContext: Context,
-            mZutaten: ArrayList<Zutat>,
-            position: Int,
-            customZutatenAdapter: CustomZutatenAdapter
+                mContext: Context,
+                mZutaten: ArrayList<Zutat>,
+                position: Int,
+                customZutatenAdapter: CustomZutatenAdapter
         ){
             val tempZutat = mZutaten[position]
 
@@ -90,9 +89,9 @@ class Zutat(
                 mZutaten.removeAt(position)
                 (mContext as GerichtEditierenActivity).changeGericht(mZutaten)
                 Toast.makeText(
-                    mContext,
-                    ("TODO()002 $tempZutat was deleted successfully."),
-                    Toast.LENGTH_SHORT
+                        mContext,
+                        ("TODO()002 $tempZutat was deleted successfully."),
+                        Toast.LENGTH_SHORT
                 ).show()
                 customZutatenAdapter.notifyDataSetChanged()
             }
@@ -106,20 +105,17 @@ class Zutat(
 
         //Method that creates a dialog for changing an ingredient
         fun createChangeZutatDialog(
-            mContext: Context,
-            zutatenNew: ArrayList<Zutat>,
-            position: Int,
-            customZutatenAdapter: CustomZutatenAdapter
+                mContext: Context,
+                zutatenNew: ArrayList<Zutat>,
+                position: Int,
+                customZutatenAdapter: CustomZutatenAdapter
         ) {
 
-            val builder = AlertDialog.Builder(mContext)
+            val builder = AlertDialog.Builder(mContext, R.style.Theme_Essensplaner_DialogTheme)
 
-            val v: View = View.inflate(mContext,R.layout.edit_ingredient_layout, null)
+            val v: View = View.inflate(mContext, R.layout.edit_ingredient_layout, null)
 
             builder.setView(v)
-
-            // Create the AlertDialog object and return it
-            val alert = builder.create()
 
             val editTextZutatenName = v.findViewById<EditText>(R.id.editTextZutatenName)
             editTextZutatenName?.hint = zutatenNew[position].zutatenName
@@ -151,17 +147,16 @@ class Zutat(
                 }
 
                 updateZutat(
-                    mContext,
-                    zutatenName,
-                    zutatenNew,
-                    position,
-                    zutatenMengenEinheit,
-                    Integer.parseInt(
-                        zutatenMenge
-                    )
+                        mContext,
+                        zutatenName,
+                        zutatenNew,
+                        position,
+                        zutatenMengenEinheit,
+                        Integer.parseInt(
+                                zutatenMenge
+                        )
                 )
                 customZutatenAdapter.notifyDataSetChanged()
-
             }
 
             val btnDeleteIngredient = v.findViewById<Button>(R.id.btnDeleteZutat)
@@ -169,9 +164,8 @@ class Zutat(
                 deleteZutat(mContext, zutatenNew, position, customZutatenAdapter)
             }
 
-            val btnCancel = v.findViewById<Button>(R.id.cancel_button)
-            btnCancel?.setOnClickListener{
-                alert.cancel()
+            builder.setNegativeButton("Schließen") { dialog, _ ->
+                dialog.dismiss()
             }
 
             builder.show()
@@ -197,7 +191,6 @@ class Zutat(
             }
             return zutaten
         }
-
     }
 
     override fun toString(): String {

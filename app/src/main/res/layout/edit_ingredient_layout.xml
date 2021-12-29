@@ -96,22 +96,13 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextZutatenEinheit" />
 
     <Button
-        android:id="@+id/cancel_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/cancel"
-        android:background="@color/lightGreyAlpha75"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnChangeIngredient" />
-
-    <Button
         android:id="@+id/btnDeleteZutat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Zutat löschen"
         android:background="@color/lightGreyAlpha75"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cancel_button" />
+        app:layout_constraintTop_toBottomOf="@+id/btnChangeIngredient" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
