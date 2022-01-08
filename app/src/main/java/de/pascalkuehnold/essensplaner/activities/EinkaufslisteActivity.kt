@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.ads.AdRequest
@@ -230,6 +231,8 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
         val zutat =  einkaufsliste[v?.tag as Int]
         val tmpZutatName = zutat.zutatenName
         var mIsChecked = zutat.isChecked
+        val zutatMenge = zutat.zutatenMenge
+        val zutatMengenEinheit = zutat.zutatenMengenEinheit
 
         if (zutatTextview != null) {
 
@@ -244,7 +247,7 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
             }
 
 
-            val tmpZutat = Zutat(zutat.id, tmpZutatName, isChecked = mIsChecked)
+            val tmpZutat = Zutat(zutat.id, tmpZutatName, isChecked = mIsChecked,zutatMengenEinheit, zutatMenge)
 
             createConnection().update(zutat = tmpZutat)
 
@@ -262,6 +265,8 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
 
         }
     }
+
+
 
 
     private fun deleteList(){
@@ -291,7 +296,7 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
     }
 
 
-    inner class CustomZutatenAdapterEinkaufsliste(context: Context, zutaten: ArrayList<Zutat>, callback: View.OnClickListener): BaseAdapter(), ListAdapter {
+    inner class CustomZutatenAdapterEinkaufsliste(context: Context, zutaten: ArrayList<Zutat>, callback: View.OnClickListener?): BaseAdapter(), ListAdapter {
         private val mZutaten = zutaten
         private val mContext = context
         private val mCallback = callback
@@ -318,11 +323,7 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
                 view = inflater.inflate(R.layout.custom_list_item_zutat, null)
             }
 
-            //Changing the height of the single positions in the shopping list
-            val zutatLayout = view?.findViewById<LinearLayout>(R.id.zutatLayout)
-            if (zutatLayout != null){
-                zutatLayout.layoutParams.height = resources.getDimensionPixelSize(R.dimen.positionShoppinglistSize)
-            }
+
 
 
             val imageViewZutatChecked = view?.findViewById<ImageView>(R.id.imageViewCheckedZutat)
@@ -351,6 +352,26 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
                 }
             }
 
+            val menge = view?.findViewById<TextView>(R.id.menge)
+            if(menge != null){
+                if (mZutaten[position].zutatenMenge <= 0.0){
+                    menge.text = ""
+                } else {
+                    menge.text = mZutaten[position].zutatenMenge.toInt().toString()
+                }
+
+            }
+
+            val mengenEinheit = view?.findViewById<TextView>(R.id.mengenEinheit)
+            if(mengenEinheit != null){
+                if(mZutaten[position].zutatenMengenEinheit.contains("B.")){
+                    mengenEinheit.text = "n.B."
+                } else {
+                    mengenEinheit.text = mZutaten[position].zutatenMengenEinheit
+                }
+
+            }
+
 
             val btnDeleteZutat = view?.findViewById<Button>(R.id.btnDeleteZutat)
             btnDeleteZutat?.setOnClickListener{
@@ -359,9 +380,20 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
                 }
             }
 
+            val btnZutatBearbeiten = view?.findViewById<Button>(R.id.btnZutatBearbeiten)
+            btnZutatBearbeiten?.setOnClickListener {
+                if(mContext is EinkaufslisteActivity){
+                    Zutat.createChangeZutatDialog(mContext, mZutaten, position, this)
+                }
+            }
+
 
             return view
         }
+
+
+
+
 
 
         private fun deleteZutat(position: Int){
@@ -386,6 +418,8 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
 
 
     }
+
+
 
     override fun onScrollStateChanged(view: AbsListView?, scrollState: Int) {
 

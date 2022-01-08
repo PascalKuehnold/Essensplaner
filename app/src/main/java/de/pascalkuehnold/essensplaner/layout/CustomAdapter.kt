@@ -124,7 +124,7 @@ class CustomAdapter(
             } else {
                 for(zutat in alleZutatenList){
                     val zutatClean = zutat.zutatenName.removePrefix("`").removeSuffix("´")
-                    tempZutat = Zutat(0, zutatClean)
+                    tempZutat = Zutat(0, zutatClean, false, zutat.zutatenMengenEinheit, zutat.zutatenMenge)
 
                     einkauflisteDao.insertAll(tempZutat)
                 }

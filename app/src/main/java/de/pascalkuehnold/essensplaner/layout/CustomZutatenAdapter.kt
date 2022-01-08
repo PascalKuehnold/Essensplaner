@@ -44,6 +44,7 @@ class CustomZutatenAdapter(context: Context, zutaten: ArrayList<Zutat>, callback
         row?.setOnClickListener(mCallback)
         row?.tag = position
 
+
         val menge = view?.findViewById<TextView>(R.id.menge)
         if(menge != null){
             if (mZutaten[position].zutatenMenge <= 0.0){

@@ -26,6 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Zutaten Name ändern:"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ingredientChangeHeader"
@@ -39,6 +40,7 @@
         android:ems="10"
         android:inputType="text"
         android:hint="Zutatenname"
+        android:textColorHint="@color/lightGreyAlpha75"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,6 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Zutaten Menge ändern:"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextZutatenName" />
@@ -59,6 +62,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="50"
+        android:textColorHint="@color/lightGreyAlpha75"
         android:inputType="number"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -70,6 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Zutaten Mengeneinheit ändern:"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextMenge" />
@@ -81,6 +86,7 @@
         android:ems="10"
         android:inputType="text"
         android:hint="ml"
+        android:textColorHint="@color/lightGreyAlpha75"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,18 +97,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ändern"
-        android:background="@color/lightGreyAlpha75"
+        android:backgroundTint="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextZutatenEinheit" />
-
-    <Button
-        android:id="@+id/btnDeleteZutat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Zutat löschen"
-        android:background="@color/lightGreyAlpha75"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnChangeIngredient" />
+    />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

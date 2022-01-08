@@ -12,7 +12,9 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import de.pascalkuehnold.essensplaner.R
+import de.pascalkuehnold.essensplaner.activities.EinkaufslisteActivity
 import de.pascalkuehnold.essensplaner.activities.GerichtEditierenActivity
+import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
 import de.pascalkuehnold.essensplaner.layout.CustomZutatenAdapter
 
 
@@ -27,29 +29,6 @@ class Zutat(
 
 ){
     companion object{
-        fun createNewZutatenString(zutaten: List<String>): String {
-            val newZutaten = zutaten.toMutableList()
-
-            val stringBuilder = StringBuilder()
-            for (element: String in newZutaten) {
-                if(element.startsWith("`") && element.endsWith("´")){
-                    stringBuilder.append(element)
-                }
-
-            }
-            if (stringBuilder.endsWith(",")) {
-                stringBuilder.deleteCharAt(stringBuilder.length - 1)
-            }
-            return stringBuilder.toString()
-        }
-
-        fun allIngredientsAsList(alleZutaten: String): List<String> {
-            return if (alleZutaten.startsWith("`")) {
-                alleZutaten.split("´")
-            } else {
-                alleZutaten.split(",")
-            }
-        }
 
         //Method for updating the ingredient and refresh the ingredient listview
         private fun updateZutat(
@@ -163,6 +142,69 @@ class Zutat(
             btnDeleteIngredient?.setOnClickListener{
                 deleteZutat(mContext, zutatenNew, position, customZutatenAdapter)
             }
+
+            builder.setNegativeButton("Schließen") { dialog, _ ->
+                dialog.dismiss()
+            }
+
+            builder.show()
+
+
+        }
+
+        fun createChangeZutatDialog(
+            mContext: Context,
+            zutatenNew: ArrayList<Zutat>,
+            position: Int,
+            customZutatenAdapter: EinkaufslisteActivity.CustomZutatenAdapterEinkaufsliste
+        ) {
+
+            val builder = AlertDialog.Builder(mContext, R.style.Theme_Essensplaner_DialogTheme)
+
+            val v: View = View.inflate(mContext, R.layout.edit_ingredient_layout, null)
+
+            builder.setView(v)
+
+            val editTextZutatenName = v.findViewById<EditText>(R.id.editTextZutatenName)
+            editTextZutatenName?.hint = zutatenNew[position].zutatenName
+
+            val editTextZutatenMenge = v.findViewById<EditText>(R.id.editTextMenge)
+            editTextZutatenMenge?.hint = zutatenNew[position].zutatenMenge.toInt().toString()
+
+            val editTextZutatenMengenEinheit = v.findViewById<EditText>(R.id.editTextZutatenEinheit)
+            editTextZutatenMengenEinheit?.hint = zutatenNew[position].zutatenMengenEinheit
+
+            val btnChangeIngredient = v.findViewById<Button>(R.id.btnChangeIngredient)
+            btnChangeIngredient?.setOnClickListener {
+                val zutatenName = if(editTextZutatenName?.text.isNullOrEmpty()){
+                    zutatenNew[position].zutatenName
+                } else {
+                    editTextZutatenName?.text.toString()
+                }
+
+                val zutatenMenge = if(editTextZutatenMenge?.text.isNullOrEmpty()){
+                    zutatenNew[position].zutatenMenge.toInt().toString()
+                } else {
+                    editTextZutatenMenge?.text.toString()
+                }
+
+                val zutatenMengenEinheit = if(editTextZutatenMengenEinheit?.text.isNullOrEmpty()){
+                    zutatenNew[position].zutatenMengenEinheit
+                } else {
+                    editTextZutatenMengenEinheit?.text.toString()
+                }
+
+
+                val tempZutat = zutatenNew[position]
+                tempZutat.zutatenName = zutatenName
+                tempZutat.zutatenMengenEinheit = zutatenMengenEinheit
+                tempZutat.zutatenMenge = Integer.parseInt(zutatenMenge).toDouble()
+
+                EinkaufslisteDatabase.getDatabase(mContext).einkaufslisteDao().update(tempZutat)
+
+                customZutatenAdapter.notifyDataSetChanged()
+            }
+
 
             builder.setNegativeButton("Schließen") { dialog, _ ->
                 dialog.dismiss()
