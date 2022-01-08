@@ -57,6 +57,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
     private var zutaten: ArrayList<Zutat> = ArrayList()
 
     private var isSaved = false
+    private var nameIsSaved = false
     private var gerichtID: Long = -1
 
     private lateinit var mContext: Context
@@ -81,6 +82,12 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
         mContext = this
 
         btnSubmit.setOnClickListener{
+            if(!inputFieldGericht.text.isNullOrBlank()){
+                mealName = inputFieldGericht.text.toString()
+                changeGericht(zutaten)
+                nameIsSaved = true
+                oldGerichtName.text = mealName
+            }
             if(newGericht == null){
                 Toast.makeText(this, ("Es wurden keine Änderungen vorgenommen."), Toast.LENGTH_SHORT).show()
             } else {
@@ -253,7 +260,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
 
     //Method was modified to alert the user if the changes were not saved
     override fun onBackPressed() {
-        if(!inputFieldGericht.text.isNullOrBlank()){
+        if(!inputFieldGericht.text.isNullOrBlank() && !nameIsSaved){
             mealName = inputFieldGericht.text.toString()
             changeGericht(zutaten)
         }
