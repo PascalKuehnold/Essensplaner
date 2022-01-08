@@ -126,4 +126,8 @@
     <string name="terms_of_service_title">Nutzungsbedingungen</string>
     <string name="search_bar">Suchleiste</string>
     <string name="ad_banner">Werbebanner</string>
+    <string name="schlie_en">Schließen</string>
+    <string name="zutat_erfolgreich_bearbeitet">Die Zutat wurde erfolgreich bearbeitet.</string>
+    <string name="eingabe_nicht_gespeichert">Änderungen wurden nicht gespeichert.</string>
+    <string name="aenderungen_speichern">Änderungen speichern?</string>
 </resources>

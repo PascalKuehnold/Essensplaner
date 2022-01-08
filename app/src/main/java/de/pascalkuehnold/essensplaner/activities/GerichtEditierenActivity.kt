@@ -260,8 +260,8 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
 
         if (newGericht != null && !isSaved){
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("TODO()003 Eingabe wurde nicht gespeichert.")
-            builder.setMessage("TODO()004 Sollen die Änderungen gespeichert werden?")
+            builder.setTitle(R.string.eingabe_nicht_gespeichert)
+            builder.setMessage(R.string.aenderungen_speichern)
             builder.setIcon(android.R.drawable.ic_dialog_alert)
 
             builder.setPositiveButton(R.string.yes) { _, _ ->

@@ -25,8 +25,6 @@ class Zutat(
         @ColumnInfo(name = "checked") var isChecked: Boolean = false,
         @ColumnInfo(name = "zutaten_einheit") var zutatenMengenEinheit: String = "",
         @ColumnInfo(name = "zutaten_menge") var zutatenMenge: Double = 0.0
-
-
 ){
     companion object{
 
@@ -49,7 +47,7 @@ class Zutat(
 
             Toast.makeText(
                     mContext,
-                    ("TODO()004 $tempZutat wurde erfolgreich zu $inputText bearbeitet."),
+                    ("$tempZutat wurde erfolgreich zu $inputText bearbeitet."),
                     Toast.LENGTH_SHORT
             ).show()
         }
@@ -63,13 +61,13 @@ class Zutat(
             val tempZutat = mZutaten[position]
 
             val alert = AlertDialog.Builder(mContext)
-            alert.setMessage("TODO()001 Delete?")
+            alert.setMessage(R.string.delete)
             alert.setPositiveButton(R.string.yes){ _: DialogInterface, _: Int ->
                 mZutaten.removeAt(position)
                 (mContext as GerichtEditierenActivity).changeGericht(mZutaten)
                 Toast.makeText(
                         mContext,
-                        ("TODO()002 $tempZutat was deleted successfully."),
+                        ("$tempZutat was deleted successfully."),
                         Toast.LENGTH_SHORT
                 ).show()
                 customZutatenAdapter.notifyDataSetChanged()
@@ -159,7 +157,7 @@ class Zutat(
             customZutatenAdapter: EinkaufslisteActivity.CustomZutatenAdapterEinkaufsliste
         ) {
 
-            val builder = AlertDialog.Builder(mContext, R.style.Theme_Essensplaner_DialogTheme)
+            val builder = AlertDialog.Builder(mContext, R.style.Theme_Essensplaner_DialogTheme).create()
 
             val v: View = View.inflate(mContext, R.layout.edit_ingredient_layout, null)
 
@@ -200,39 +198,25 @@ class Zutat(
                 tempZutat.zutatenMengenEinheit = zutatenMengenEinheit
                 tempZutat.zutatenMenge = Integer.parseInt(zutatenMenge).toDouble()
 
+                Toast.makeText(mContext, R.string.zutat_erfolgreich_bearbeitet, Toast.LENGTH_SHORT).show()
+
                 EinkaufslisteDatabase.getDatabase(mContext).einkaufslisteDao().update(tempZutat)
 
                 customZutatenAdapter.notifyDataSetChanged()
+
+                builder.dismiss()
+
             }
 
-
-            builder.setNegativeButton("Schließen") { dialog, _ ->
-                dialog.dismiss()
+            val btnClose = v.findViewById<Button>(R.id.btnClose)
+            btnClose.setOnClickListener {
+                builder.dismiss()
             }
 
             builder.show()
 
-
         }
 
-        fun generateIngredientsList(mealIngredients: String): ArrayList<String> {
-            var zutaten: ArrayList<String>
-            try {
-                zutaten = if (mealIngredients.startsWith("`")) {
-                    mealIngredients.split("´") as ArrayList<String>
-                } else {
-                    mealIngredients.split(",") as ArrayList<String>
-                }
-
-                zutaten.removeAll(listOf(null, ""))
-            } catch (e: Exception) {
-                zutaten = ArrayList()
-                if (mealIngredients.isNotEmpty()) {
-                    zutaten.add(mealIngredients)
-                }
-            }
-            return zutaten
-        }
     }
 
     override fun toString(): String {

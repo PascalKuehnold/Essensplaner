@@ -127,4 +127,8 @@
     <string name="terms_of_service_title">Terms of Service</string>
     <string name="search_bar">Searchbar</string>
     <string name="ad_banner">Ad banner</string>
+    <string name="schlie_en">Close</string>
+    <string name="zutat_erfolgreich_bearbeitet">The ingredient was successfully edited.</string>
+    <string name="eingabe_nicht_gespeichert">Changes were not changed.</string>
+    <string name="aenderungen_speichern">Save the changes?</string>
 </resources>
