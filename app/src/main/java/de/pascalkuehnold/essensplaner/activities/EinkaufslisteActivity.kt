@@ -406,6 +406,8 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
                 mZutaten.removeAt(position)
                 einkaufslisteDao.delete(tempZutat)
                 notifyDataSetChanged()
+                loadEinkaufsliste()
+                generateListOnScreen()
 
                 Toast.makeText(mContext, ("TODO()002 $tempZutat was deleted successfully."), Toast.LENGTH_SHORT).show()
             }

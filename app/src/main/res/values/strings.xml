@@ -61,7 +61,7 @@
         </div>
         <div><a href="https://www.chefkoch.de" title="www.chefkoch.de">\n\nChefkoch.de</a></div>
     </string>
-    <string name="welcomeText">v0.6.3.1\nHey, thanks a lot for testing my App!\n
+    <string name="welcomeText">v0.6.3.2\nHey, thanks a lot for testing my App!\n
         \nThe App is still in development and it could be possible that you may run into problems.\n
         \nIf so, I would appreciate it if you could tell me where this problem occurred.\n
         \nShould you come across serious errors, such as the app crashing, please send me a message as well.\n
@@ -70,7 +70,7 @@
         \nWhich may mean that the App needs to be reinstalled.\n
         \nAll previously entered data will be deleted.\n
         \nPlease be aware of this.\n\n
-        \nIf you have any suggestions or ideas to improve the App, please feel free to contact me.(This includes usability and appearance as well)\n\n
+        \nIf you have any suggestions or ideas to improve the App, please feel free to contact me.\n\n
         \nThe app is currently using Chefkoch.de as a way to add meals.\nThat means that you need to have an Internet-connection(WLAN recommended because of data use) and should be aware that you are directed to an external link.\n\n
         \nHave fun testing!\n
         \nPascal
