@@ -1,24 +1,30 @@
 package de.pascalkuehnold.essensplaner.handler
 
-import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
+
 import android.view.View
+
 import android.widget.EditText
+
 import android.widget.RemoteViews
+
 import androidx.appcompat.app.AlertDialog
 import androidx.browser.customtabs.CustomTabsIntent
+
+
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.activities.GerichteListeActivity
+import de.pascalkuehnold.essensplaner.activities.WebViewActivity
+import java.lang.Exception
 
 class ExternalLinkHandler(_mContext: Context, _mGerichtPos: Long?) {
     private val mContext = _mContext
     private val mGerichtPos = _mGerichtPos
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+
     fun showWarningExternalLink(url: String, input: Boolean) {
         var inputText: EditText? = null
 
@@ -64,7 +70,20 @@ class ExternalLinkHandler(_mContext: Context, _mGerichtPos: Long?) {
 
 
             val customTabsIntent: CustomTabsIntent = builder.build()
-            customTabsIntent.launchUrl(mContext, Uri.parse(recipeString))
+            customTabsIntent.intent.setPackage("com.android.chrome")
+
+            try {
+                customTabsIntent.launchUrl(mContext, Uri.parse(recipeString))
+            } catch (e: Exception){
+                e.stackTraceToString()
+                //Launch custom webview
+                val intent = Intent(mContext, WebViewActivity::class.java)
+                intent.putExtra("recipeString", recipeString)
+                intent.putExtra("gerichtPos", mGerichtPos)
+
+                mContext.startActivity(intent)
+            }
+
 
         }
         alertDialogBuilder.setNegativeButton("Lieber nicht") { dialog, _ ->
@@ -75,10 +94,17 @@ class ExternalLinkHandler(_mContext: Context, _mGerichtPos: Long?) {
             R.string.desiredMeal)}
 
         val alert = alertDialogBuilder.create()
+
+
         alert.setTitle(mContext.getString(R.string.externalLinkTitle))
         alert.setMessage(message)
         alert.setIcon(R.drawable.ic_info)
         alert.setView(inputText)
         alert.show()
     }
+
+
+
+
+
 }

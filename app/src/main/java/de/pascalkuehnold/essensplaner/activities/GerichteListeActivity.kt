@@ -7,23 +7,23 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.*
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.ChefkochMeal
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.handler.ExternalLinkHandler
-import de.pascalkuehnold.essensplaner.interfaces.GerichtDao
 import de.pascalkuehnold.essensplaner.layout.CustomAdapter
 
 class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
@@ -266,8 +266,9 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
         startActivity(intent)
     }
 
-    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+
     fun addMealByChefkoch(view: View){
+        alert?.dismiss()
         ExternalLinkHandler(this, null).showWarningExternalLink("https://www.chefkoch.de/rs/s0/", true)
     }
 
@@ -313,6 +314,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
 
 
     }
+
 
     companion object{
         var urlList: ArrayList<String> = ArrayList()

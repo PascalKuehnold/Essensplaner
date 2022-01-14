@@ -8,24 +8,17 @@
     android:gravity="bottom|center"
     android:orientation="horizontal"
     android:background="@color/newBackgroundColor"
+    android:paddingVertical="10dp"
+    android:id="@+id/layout_btn_custom_tab_add_meal"
     >
 
-    <LinearLayout
-        android:id="@+id/layout_btn_custom_tab_add_meal"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:paddingHorizontal="50dp"
-        android:paddingVertical="10dp"
-        android:orientation="vertical"
-        >
 
-        <ImageView
-            android:id="@+id/btn_custom_tab_add_meal"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            app:srcCompat="@drawable/ic_add_to_shoppinglist"
-            android:contentDescription="Add Meal to your list"
-            />
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/btn_custom_tab_add_meal"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:srcCompat="@drawable/ic_add_to_shoppinglist"
+        android:contentDescription="Add Meal to your list" />
+
 
 </LinearLayout>
