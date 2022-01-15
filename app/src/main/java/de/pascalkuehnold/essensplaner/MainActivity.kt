@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         MobileAds.initialize(this) {}
 
-
+        consentInformation = UserMessagingPlatform.getConsentInformation(this)
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this)
         val intent = intent

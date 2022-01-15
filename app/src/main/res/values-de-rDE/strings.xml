@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources [
+    <!ENTITY version "v0.6.4.0">
+    ]>
+
+
 <resources>
     <string name="app_name">Essensplaner</string>
     <string name="action_settings">Einstellungen</string>
@@ -62,7 +67,7 @@
 
         <div><a href="https://www.chefkoch.de" title="www.chefkoch.de">\n\nChefkoch.de</a></div>
     </string>
-    <string name="welcomeText">v0.6.3.2\nHey, vielen Dank, dass du meine App testest!\n
+    <string name="welcomeText">&version;\nHey, vielen Dank, dass du meine App testest!\n
         \nDie App befindet sich noch in der Entwicklung, daher ist es möglich, dass du auf Probleme stoßen könntest.\n
         \nFalls dem so ist, würde ich mich freuen, wenn du mir sagen könntest wo dieses Problem aufgetaucht ist.\n
         \nFalls es zu schwerwiegenden Fehlern kommen sollte, wie z.B. der Absturz der App, bitte ich auch um eine Nachricht.\n
@@ -130,4 +135,5 @@
     <string name="zutat_erfolgreich_bearbeitet">Die Zutat wurde erfolgreich bearbeitet.</string>
     <string name="eingabe_nicht_gespeichert">Änderungen wurden nicht gespeichert.</string>
     <string name="aenderungen_speichern">Änderungen speichern?</string>
+    <string name="versionNumber">&version;</string>
 </resources>
