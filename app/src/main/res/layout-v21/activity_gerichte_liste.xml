@@ -18,6 +18,7 @@
         <Spinner
             android:id="@+id/spinner"
             style="@style/Widget.AppCompat.Spinner.DropDown"
+            android:contentDescription="@string/dropdown_menu"
             android:layout_width="160dp"
             android:layout_height="45dp"
             android:spinnerMode="dropdown" />
@@ -27,7 +28,8 @@
             android:contentDescription="@string/search_bar"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="45dp" />
+            android:layout_height="45dp"
+            />
 
 
 

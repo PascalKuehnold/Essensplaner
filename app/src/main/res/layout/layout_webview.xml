@@ -14,6 +14,7 @@
         android:id="@+id/layout_btn_custom_tab_add_meal"
         android:layout_alignParentBottom="true"
         android:visibility="visible"
+        android:contentDescription="@string/mealAddNew"
         >
 
 
@@ -22,7 +23,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             app:srcCompat="@drawable/ic_add_to_shoppinglist"
-            android:contentDescription="Add Meal to your list" />
+            android:contentDescription="@string/add_meal_to_your_list_icon" />
 
 
     </LinearLayout>
@@ -33,6 +34,7 @@
         android:layout_height="match_parent"
         android:layout_above="@id/layout_btn_custom_tab_add_meal"
         android:visibility="visible"
+        android:contentDescription="@string/browser_fenster_mit_chefkoch_de"
         />
 
 

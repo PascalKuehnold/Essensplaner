@@ -2,5 +2,6 @@
     <dimen name="maxFontSize">22sp</dimen>
     <dimen name="positionShoppinglistSize">65dp</dimen>
     <dimen name="bottomNavBar">64dp</dimen>
+    <dimen name="minLayoutHeight">48dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
 </resources>

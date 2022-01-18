@@ -155,6 +155,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:contentDescription="@string/ad_banner"
+                ads:layoutDescription="@string/ad_banner"
                 ads:adSize="BANNER"
                 ads:adUnitId="ca-app-pub-9044567512818908/9696410160"
                 app:layout_constraintBottom_toBottomOf="parent"

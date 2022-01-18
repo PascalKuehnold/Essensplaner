@@ -16,8 +16,7 @@
         android:layout_height="32dp"
         app:srcCompat="@drawable/ic_vegetarian"
         android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:contentDescription="@string/veggie_meal"
+        android:contentDescription="@string/veggie_meal_icon"
         />
 
     <LinearLayout
@@ -43,6 +42,7 @@
                 android:gravity="center"
                 android:alpha="0.8"
                 android:textSize="12sp"
+                android:contentDescription="@string/day_of_the_week"
                 />
 
             <TextView
@@ -79,9 +79,7 @@
             android:layout_height="25dp"
             android:background="@drawable/ic_add_to_shoppinglist_new"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            />
+            android:layout_marginEnd="20dp" />
 
         <android.widget.Button
             android:id="@+id/btnBearbeiten"

@@ -136,4 +136,19 @@
     <string name="eingabe_nicht_gespeichert">Changes were not changed.</string>
     <string name="aenderungen_speichern">Save the changes?</string>
     <string name="versionNumber">&version;</string>
+    <string name="dropdown_menu">Dropdown Menu</string>
+    <string name="browser_fenster_mit_chefkoch_de">Browser Window with Chefkoch.de</string>
+    <string name="veggie_meal_icon">Veggie Meal Icon</string>
+    <string name="day_of_the_week">Day of the Week</string>
+    <string name="inputFieldKeyword">Inputfield for Keyword to search for</string>
+    <string name="enterKeyword">Enter keyword</string>
+    <string name="zutat_bearbeiten">Edit ingredient</string>
+    <string name="zutaten_name_ndern">Change ingredient name:</string>
+    <string name="zutatenname">Ingredient name</string>
+    <string name="zutaten_menge_ndern">Change ingredient count:</string>
+    <string name="numberFiller">50</string>
+    <string name="zutaten_mengeneinheit_ndern">Change ingredient unit:</string>
+    <string name="ingredient_unit_example">ml</string>
+    <string name="change">Change</string>
+    <string name="add_meal_to_your_list_icon">Add Meal to your list icon</string>
 </resources>

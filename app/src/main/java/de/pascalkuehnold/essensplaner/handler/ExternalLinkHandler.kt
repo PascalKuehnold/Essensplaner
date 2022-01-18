@@ -1,24 +1,21 @@
 package de.pascalkuehnold.essensplaner.handler
 
+
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-
 import android.view.View
-
 import android.widget.EditText
-
 import android.widget.RemoteViews
-
 import androidx.appcompat.app.AlertDialog
+import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
-
-
+import androidx.core.content.ContextCompat
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.activities.GerichteListeActivity
 import de.pascalkuehnold.essensplaner.activities.WebViewActivity
-import java.lang.Exception
+
 
 class ExternalLinkHandler(_mContext: Context, _mGerichtPos: Long?) {
     private val mContext = _mContext
@@ -28,12 +25,16 @@ class ExternalLinkHandler(_mContext: Context, _mGerichtPos: Long?) {
     fun showWarningExternalLink(url: String, input: Boolean) {
         var inputText: EditText? = null
 
-        val alertDialogBuilder = AlertDialog.Builder(mContext, R.style.Theme_Essensplaner_DialogTheme)
+        val alertDialogBuilder = AlertDialog.Builder(
+            mContext,
+            R.style.Theme_Essensplaner_DialogTheme
+        )
         if(input){
             inputText = EditText(mContext)
-            inputText.hint = "Stichpunkt eingeben"
-            inputText.setHintTextColor(mContext.resources.getColor(R.color.lightGreyAlpha75))
+            inputText.hint = mContext.getString(R.string.enterKeyword)
+            inputText.setHintTextColor(ContextCompat.getColor(mContext, R.color.lightGreyAlpha75))
             inputText.textAlignment = View.TEXT_ALIGNMENT_CENTER
+            inputText.contentDescription = mContext.getString(R.string.inputFieldKeyword)
         }
         alertDialogBuilder.setPositiveButton("Zu Chefkoch.de") { _, _ ->
             val recipeString: String = if (inputText != null) {
@@ -48,23 +49,42 @@ class ExternalLinkHandler(_mContext: Context, _mGerichtPos: Long?) {
 
             val builder = CustomTabsIntent.Builder()
 
-            val remoteViews = RemoteViews(mContext.packageName, R.layout.customtab_add_meal_bottom_layout)
-            remoteViews.setImageViewResource(R.id.btn_custom_tab_add_meal, R.drawable.ic_add_to_shoppinglist)
+            val remoteViews = RemoteViews(
+                mContext.packageName,
+                R.layout.customtab_add_meal_bottom_layout
+            )
+            remoteViews.setImageViewResource(
+                R.id.btn_custom_tab_add_meal,
+                R.drawable.ic_add_to_shoppinglist
+            )
             val clickableIDs = intArrayOf(R.id.layout_btn_custom_tab_add_meal)
 
             if(mContext is GerichteListeActivity){
-                val sendLinkIntent = Intent(mContext, GerichteListeActivity.ActionBroadcastReceiver::class.java)
+                val sendLinkIntent = Intent(
+                    mContext,
+                    GerichteListeActivity.ActionBroadcastReceiver::class.java
+                )
                 sendLinkIntent.putExtra(Intent.EXTRA_SUBJECT, "This is the link you were exploring")
                 sendLinkIntent.putExtra("gerichtPos", mGerichtPos)
-                val pendingIntent = PendingIntent.getBroadcast(mContext, 0, sendLinkIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                val pendingIntent = PendingIntent.getBroadcast(
+                    mContext,
+                    0,
+                    sendLinkIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT
+                )
 
                 // Set the action button
-                builder.setSecondaryToolbarViews(remoteViews, clickableIDs , pendingIntent)
+                builder.setSecondaryToolbarViews(remoteViews, clickableIDs, pendingIntent)
                 builder.addMenuItem(mContext.getString(R.string.mealAdd), pendingIntent)
             }
 
-            builder.setNavigationBarColor(mContext.resources.getColor(R.color.newBackgroundColor))
-            builder.setToolbarColor(mContext.resources.getColor(R.color.newBackgroundColor))
+            val colorParams = CustomTabColorSchemeParams.Builder()
+                .setNavigationBarColor(ContextCompat.getColor(mContext, R.color.newBackgroundColor))
+                .setToolbarColor(ContextCompat.getColor(mContext, R.color.newBackgroundColor))
+                .build()
+
+
+            builder.setDefaultColorSchemeParams(colorParams)
             builder.setShowTitle(true)
             builder.setUrlBarHidingEnabled(false)
 
@@ -90,8 +110,11 @@ class ExternalLinkHandler(_mContext: Context, _mGerichtPos: Long?) {
             dialog.dismiss()
         }
 
-        val message = if(!input){ mContext.getString(R.string.externalLinkInfo)} else { mContext.getString(R.string.externalLinkInfo) + mContext.getString(
-            R.string.desiredMeal)}
+        val message = if(!input){ mContext.getString(R.string.externalLinkInfo)} else { mContext.getString(
+            R.string.externalLinkInfo
+        ) + mContext.getString(
+            R.string.desiredMeal
+        )}
 
         val alert = alertDialogBuilder.create()
 
