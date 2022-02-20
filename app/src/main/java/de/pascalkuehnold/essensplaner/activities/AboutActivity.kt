@@ -7,6 +7,9 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import de.pascalkuehnold.essensplaner.R
 
+/**
+ * This class is creating the About page in the settings tab
+ */
 class AboutActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,10 +18,7 @@ class AboutActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.about)
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
-
-
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

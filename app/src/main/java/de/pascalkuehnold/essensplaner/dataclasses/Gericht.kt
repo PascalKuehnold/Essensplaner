@@ -39,18 +39,19 @@ class Gericht(
 
         }
 
-        fun addGericht(applicationContext: Context,
-                       mealName: String,
-                       mealIsVeggie: Boolean,
-                       mealIsForMultipleDays: Boolean,
-                       mealIsFastPrepared: Boolean,
-                       mealIsChefkochGericht: Boolean,
-                       mealOverallCooktime: String,
-                       mealAuthor: String,
-                       mealReceipt: String,
-                       chefkochUrl: String,
-                       zutatenList: ArrayList<Zutat>,
-                       personenAnzahl: Int = 1
+        fun addGericht(
+            applicationContext: Context,
+            mealName: String,
+            mealIsVeggie: Boolean,
+            mealIsForMultipleDays: Boolean,
+            mealIsFastPrepared: Boolean,
+            mealIsChefkochGericht: Boolean,
+            mealOverallCooktime: String,
+            mealAuthor: String,
+            mealReceipt: String,
+            chefkochUrl: String,
+            zutatenList: ArrayList<Zutat>,
+            personenAnzahl: Int = 1
                         )
         {
 

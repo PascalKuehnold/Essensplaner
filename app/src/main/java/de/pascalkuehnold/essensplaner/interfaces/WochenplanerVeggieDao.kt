@@ -4,7 +4,7 @@ import androidx.room.*
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 
 @Dao
-interface WochenplanerVeggieDao {
+interface WochenplanerVeggieDao: WochenplanerI {
     @Query("SELECT * FROM gericht")
     fun getAll(): List<Gericht>
 
@@ -19,9 +19,6 @@ interface WochenplanerVeggieDao {
 
     @Delete
     fun delete(gericht: Gericht)
-
-    @Insert
-    suspend fun insert(gericht: Gericht)
 
     @Update
     suspend fun update(gericht: Gericht)

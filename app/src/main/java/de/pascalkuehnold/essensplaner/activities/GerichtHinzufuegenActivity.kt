@@ -71,7 +71,6 @@ class GerichtHinzufuegenActivity : AppCompatActivity(), View.OnClickListener{
             this.mealIsForMultipleDays = switchMultipleDays.isChecked
 
             if (this.mealName.isNotEmpty()) {
-
                 try {
                     Gericht.addGericht(
                             applicationContext,
@@ -92,6 +91,15 @@ class GerichtHinzufuegenActivity : AppCompatActivity(), View.OnClickListener{
                 }
                 cleanInput()
             } else {
+                //debug purpose
+                var tempMealName = "Gericht"
+                val tempZutatenList = this.zutaten
+                for(i in 0 until 200){
+                    Gericht.addGericht(applicationContext, tempMealName + i, false, false, false, false, "","","","",tempZutatenList,1)
+
+                }
+
+
                 Toast.makeText(this, getString(R.string.textErrorAtMealAdd), Toast.LENGTH_SHORT).show()
             }
         }

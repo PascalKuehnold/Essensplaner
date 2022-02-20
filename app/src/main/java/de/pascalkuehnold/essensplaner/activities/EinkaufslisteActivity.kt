@@ -12,14 +12,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.RequestConfiguration
-import com.google.android.ump.*
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
 import de.pascalkuehnold.essensplaner.databinding.ActivityEinkaufslisteBinding
@@ -35,10 +29,6 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
     private lateinit var btnAddItem: Button
     private lateinit var textViewLeftPositions: TextView
     private lateinit var addNewPositionTextField: EditText
-    private lateinit var mAdView : AdView
-
-    private lateinit var consentInformation: ConsentInformation
-    private var consentForm: ConsentForm? = null
 
     private var firstVisibleRow: Int = 0
     private var lastVisibleRow: Int = 0
@@ -55,9 +45,6 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
                 scrollToNextOpenPosition(it)
             }
         }
-
-        loadAds()
-
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.einkaufsliste)
@@ -92,33 +79,6 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
 
         loadEinkaufsliste()
         generateListOnScreen()
-    }
-
-    private fun loadAds() {
-        /*val testDeviceIds = Arrays.asList("2FE31AA7C088CFDF640E6FA10264809E")
-
-        val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
-
-        MobileAds.setRequestConfiguration(configuration)
-
-        mAdView = findViewById(R.id.adView)
-        val adRequest = AdRequest.Builder().build()
-        adRequest.isTestDevice(this)
-        mAdView.loadAd(adRequest)*/
-
-
-            //val testDeviceIds = Arrays.asList("2FE31AA7C088CFDF640E6FA10264809E")
-
-            //val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
-
-            //MobileAds.setRequestConfiguration(configuration)
-
-
-            val adRequest: AdRequest = AdRequest.Builder().build()
-            mAdView = findViewById(R.id.adView)
-            //adRequest.isTestDevice(this)
-            mAdView.loadAd(adRequest)
-
     }
 
     private fun hideSoftKeyboard(view: View) {

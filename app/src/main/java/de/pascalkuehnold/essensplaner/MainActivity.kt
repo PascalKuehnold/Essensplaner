@@ -17,17 +17,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.RequestConfiguration
-import com.google.android.ump.*
 import de.pascalkuehnold.essensplaner.activities.*
 import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerVeggieDatabase
-import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -35,18 +29,12 @@ class MainActivity : AppCompatActivity() {
     private var appContent: LinearLayout? = null
     private var welcomeText: TextView? = null
 
-    private lateinit var consentInformation: ConsentInformation
-    private var consentForm: ConsentForm? = null
 
     private val welcomeScreenShownPref = "welcomeScreenShown"
     private lateinit var mPrefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        MobileAds.initialize(this) {}
-
-        consentInformation = UserMessagingPlatform.getConsentInformation(this)
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this)
         val intent = intent
@@ -81,14 +69,11 @@ class MainActivity : AppCompatActivity() {
     fun dismissWelcomeMessageBox(view: View?) {
         introMessage!!.visibility = View.INVISIBLE
         appContent!!.visibility = View.VISIBLE
-
         showMainLayout()
     }
 
     private fun showMainLayout() {
         setContentView(R.layout.activity_main)
-
-        createConsentRequest()
 
         val btnAlleGerichteAnzeigen = findViewById<Button>(R.id.btnAlleGerichteAnzeigen)
         btnAlleGerichteAnzeigen.setOnClickListener {
@@ -98,8 +83,10 @@ class MainActivity : AppCompatActivity() {
 
         val btnWochenplaner = findViewById<Button>(R.id.btnWochenplaner)
         btnWochenplaner.setOnClickListener {
+
             val intent = Intent(this, Wochenplaner::class.java)
             startActivity(intent)
+
         }
 
         val btnEinkaufsliste = findViewById<Button>(R.id.btnEinkaufsliste)
@@ -108,108 +95,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
-    private fun createConsentRequest(){
-        val debugSettings = ConsentDebugSettings.Builder(this)
-            .setDebugGeography(ConsentDebugSettings.DebugGeography.DEBUG_GEOGRAPHY_EEA)
-            .addTestDeviceHashedId("2FE31AA7C088CFDF640E6FA10264809E")
-            .build()
-        // Set tag for underage of consent. false means users are not underage.
-        // Set tag for underage of consent. false means users are not underage.
-        val params = ConsentRequestParameters.Builder()
-            .setTagForUnderAgeOfConsent(false)
-            .setConsentDebugSettings(debugSettings)
-            .build()
-
-        consentInformation = UserMessagingPlatform.getConsentInformation(this)
-        consentInformation.requestConsentInfoUpdate(
-            this,
-            params,
-            {
-                // The consent information state was updated.
-                // You are now ready to check if a form is available.
-                if (consentInformation.isConsentFormAvailable) {
-                    loadForm();
-                }
-            },
-            {
-                // Handle the error.
-            })
-
-
-    }
-
-    private fun loadForm(){
-        UserMessagingPlatform.loadConsentForm(this, { consentForm ->
-            this@MainActivity.consentForm = consentForm
-            if (consentInformation.consentStatus == ConsentInformation.ConsentStatus.REQUIRED) {
-                consentForm.show(
-                    this@MainActivity
-                ) { // Handle dismissal by reloading form.
-                    loadForm()
-                }
-            }
-            if (consentInformation.consentStatus == ConsentInformation.ConsentStatus.UNKNOWN) {
-                consentForm.show(
-                    this@MainActivity
-                ) { // Handle dismissal by reloading form.
-                    loadForm()
-                }
-            }
-
-            if (consentInformation.consentStatus == ConsentInformation.ConsentStatus.OBTAINED) {
-                Log.d("ESSENSPLANER ADS", "PERSONALIZED LOADED")
-                //loadAds()
-            }
-
-        }
-        ) {
-            /// Handle Error.
-        }
-    }
-
-    /*private fun loadAds(){
-        //val testDeviceIds = Arrays.asList("2FE31AA7C088CFDF640E6FA10264809E")
-
-        //val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
-
-        //MobileAds.setRequestConfiguration(configuration)
-
-
-        val adRequest: AdRequest = AdRequest.Builder().build()
-        mAdView = findViewById(R.id.adView)
-        //adRequest.isTestDevice(this)
-        mAdView.loadAd(adRequest)
-    }*/
-
-//    private fun loadAds(isPersonalized: Boolean) {
-//        val testDeviceIds = Arrays.asList("33BE2250B43518CCDA7DE426D04EE231")
-//
-//        val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
-//
-//        MobileAds.setRequestConfiguration(configuration)
-//
-//        mAdView = findViewById(R.id.adView)
-//        val adRequest: AdRequest
-//
-//
-//        if(isPersonalized){
-//            adRequest = AdRequest.Builder().build()
-//        } else {
-//            val bundle = Bundle()
-//            bundle.putString("npa", "1")
-//
-//            adRequest = AdRequest.Builder()
-//                .addNetworkExtrasBundle(AdMobAdapter::class.java, bundle)
-//                .build()
-//        }
-//
-//
-//
-//        adRequest.isTestDevice(this)
-//        mAdView.loadAd(adRequest)
-//    }
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -238,19 +123,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        when(item.itemId){
-            R.id.menu_privacy_policy -> {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/essensplaner-privacy-policy/deutsch"))
-                startActivity(browserIntent)
-            }
-        }
-
-        when(item.itemId){
-            R.id.menu_terms_of_service -> {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/essensplaner-terms-conditions/deutsch"))
-                startActivity(browserIntent)
-            }
-        }
+        //Datenschutzerklärung und Nutzungsbedingungen
+//        when(item.itemId){
+//            R.id.menu_privacy_policy -> {
+//                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/essensplaner-privacy-policy/deutsch"))
+//                startActivity(browserIntent)
+//            }
+//        }
+//
+//        when(item.itemId){
+//            R.id.menu_terms_of_service -> {
+//                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/essensplaner-terms-conditions/deutsch"))
+//                startActivity(browserIntent)
+//            }
+//        }
 
 
         return when (item.itemId) {
@@ -272,8 +158,6 @@ class MainActivity : AppCompatActivity() {
             WochenplanerDatabase.getDatabase(applicationContext).wochenGerichteDao().delete()
             WochenplanerVeggieDatabase.getDatabase(applicationContext).wochenGerichteVeggieDao().delete()
             EinkaufslisteDatabase.getDatabase(applicationContext).einkaufslisteDao().delete()
-            consentInformation.reset()
-            createConsentRequest()
             Toast.makeText(this, getString(R.string.allDataDeletedText), Toast.LENGTH_LONG).show()
         }
         alert.setNegativeButton(getString(R.string.cancel)) { dialog: DialogInterface, _: Int ->

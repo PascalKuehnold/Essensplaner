@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -24,9 +25,12 @@ import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerVeggieDatabase
 import de.pascalkuehnold.essensplaner.dataclasses.Gericht
 import de.pascalkuehnold.essensplaner.dataclasses.Zutat
+import de.pascalkuehnold.essensplaner.interfaces.WochenplanerI
 import de.pascalkuehnold.essensplaner.layout.CustomZutatenAdapter
+import kotlinx.coroutines.runBlocking
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.random.Random
 
 class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var inputFieldGericht: TextInputEditText
@@ -297,7 +301,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
                 onBackPressed()
                 return true
             }
-            R.id.deleteMealButton -> {
+            R.id.deleteMealButton -> runBlocking{
                 deleteMeal()
             }
 
@@ -316,7 +320,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
         return super.onCreateOptionsMenu(menu)
     }
 
-    private fun deleteMeal() {
+    private fun deleteMeal()  {
         val alert = AlertDialog.Builder(this)
         alert.setTitle(getString(R.string.deleteGericht))
         alert.setIcon(R.drawable.ic_delete)
@@ -328,16 +332,33 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
 
                     val wochenPlanerDao = WochenplanerDatabase.getDatabase(applicationContext).wochenGerichteDao()
                     val wochenPlanerVeggieDao = WochenplanerVeggieDatabase.getDatabase(applicationContext).wochenGerichteVeggieDao()
-
+                    val weeksGerichte = wochenPlanerDao.getAll() as ArrayList<Gericht>
+                    val veggieWeeksGerichte = wochenPlanerVeggieDao.getAll() as ArrayList<Gericht>
 
                     tempDao.delete(tempGericht)
-                    wochenPlanerDao.delete(tempGericht)
-                    wochenPlanerVeggieDao.delete(tempGericht)
 
-                    if(wochenPlanerDao.getAll().size <= 7){
+                    for(mTempGericht in weeksGerichte){
+                        if(mTempGericht.gerichtName == tempGericht.gerichtName){
+                            generateRandomGericht(weeksGerichte, wochenPlanerDao, false)
+                            wochenPlanerDao.delete(tempGericht)
+                            Log.d("GerichteEditierenAct", "deleteMeal() wochenplaner gericht wurde entfernt")
+                        }
+                    }
+
+                    for(mTempGericht in veggieWeeksGerichte){
+                        if(mTempGericht.gerichtName == tempGericht.gerichtName){
+                            generateRandomGericht(veggieWeeksGerichte, wochenPlanerVeggieDao, true)
+                            wochenPlanerVeggieDao.delete(tempGericht)
+                            Log.d("GerichteEditierenAct", "deleteMeal() wochenplaner gericht wurde entfernt")
+                        }
+
+                    }
+
+
+                    if(tempDao.getAll().size < 7){
                         Toast.makeText(this, "TODO()007 Not enough meals for 7 days...", Toast.LENGTH_SHORT).show()
                     }
-                    if(wochenPlanerVeggieDao.getAll().size <= 7){
+                    if(wochenPlanerVeggieDao.getAll().size < 7){
                         Toast.makeText(this, "TODO()007 Not enough veggie meals for 7 days...", Toast.LENGTH_SHORT).show()
                     }
 
@@ -350,5 +371,39 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
         alert.create()
         alert.show()
     }
+
+    private fun generateRandomGericht(weeksGerichte: ArrayList<Gericht>, wochenPlaner: WochenplanerI, isVeggie: Boolean) = runBlocking {
+        var tempGericht: Gericht
+        val tempDao = AppDatabase.getDatabase(applicationContext).gerichtDao()
+        val gerichteListe = tempDao.getAll()
+
+        var rnd = Random.nextInt(0, gerichteListe.lastIndex + 1)
+
+        tempGericht = gerichteListe[rnd]
+
+
+        for(mGericht in weeksGerichte){
+            if(mGericht.gerichtName == tempGericht.gerichtName){
+                rnd = Random.nextInt(0, gerichteListe.lastIndex + 1)
+                tempGericht = gerichteListe[rnd]
+            } else {
+                if(!isVeggie){
+                    wochenPlaner.insert(tempGericht)
+                } else {
+                    if(tempGericht.isVegetarisch){
+                        wochenPlaner.insert(tempGericht)
+                    } else {
+                        rnd = Random.nextInt(0, gerichteListe.lastIndex + 1)
+                        tempGericht = gerichteListe[rnd]
+                    }
+                }
+            }
+        }
+
+
+        Log.d("WOCHENPLANER", "Ein neues Gericht wurde hinzugefügt, anstelle des Gelöschten Gerichtes")
+
+    }
+
 
 }

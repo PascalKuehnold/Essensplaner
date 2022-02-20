@@ -10,10 +10,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.multidex.MultiDexApplication
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.activities.GerichtEditierenActivity
-import de.pascalkuehnold.essensplaner.activities.GerichteListeActivity
 import de.pascalkuehnold.essensplaner.activities.Wochenplaner
 import de.pascalkuehnold.essensplaner.activities.WochenplanerVeggieActivity
 import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
@@ -66,18 +64,22 @@ class CustomAdapter(
         row?.tag = position
 
         val weekOfDay = view?.findViewById<TextView>(R.id.dayOfTheWeek)
-        if(context is GerichteListeActivity || context is MultiDexApplication){
-            if (weekOfDay != null) {
-                weekOfDay.visibility = View.INVISIBLE
-            }
-        }
+        val gerichtName = view?.findViewById<TextView>(R.id.gerichtName)
+        val isVegetarianView = view?.findViewById<ImageView>(R.id.imageViewVegetarian)
+        val btnGerichtZurEinkaufslisteHinzufuegen = view?.findViewById<Button>(R.id.btnHinzufuegenZurEinkaufsliste)
+        val btnGerichtBearbeiten = view?.findViewById<Button>(R.id.btnBearbeiten)
+
         if(context is Wochenplaner || context is WochenplanerVeggieActivity) {
             if (weekOfDay != null) {
                 weekOfDay.text = weekDays[position]
             }
+        } else {
+            if (weekOfDay != null) {
+                weekOfDay.visibility = View.INVISIBLE
+            }
         }
 
-        val gerichtName = view?.findViewById<TextView>(R.id.gerichtName)
+
         if (gerichtName != null) {
             gerichtName.text = selectedGericht.gerichtName
         }
@@ -103,7 +105,7 @@ class CustomAdapter(
         }
         */
 
-        val isVegetarianView = view?.findViewById<ImageView>(R.id.imageViewVegetarian)
+
         if (isVegetarianView != null) {
             if(selectedGericht.isVegetarisch){
                 isVegetarianView.visibility = View.VISIBLE
@@ -112,7 +114,7 @@ class CustomAdapter(
             }
         }
 
-        val btnGerichtZurEinkaufslisteHinzufuegen = view?.findViewById<Button>(R.id.btnHinzufuegenZurEinkaufsliste)
+
         btnGerichtZurEinkaufslisteHinzufuegen?.setOnClickListener{
 
             lateinit var tempZutat: Zutat
@@ -124,7 +126,13 @@ class CustomAdapter(
             } else {
                 for(zutat in alleZutatenList){
                     val zutatClean = zutat.zutatenName.removePrefix("`").removeSuffix("´")
-                    tempZutat = Zutat(0, zutatClean, false, zutat.zutatenMengenEinheit, zutat.zutatenMenge)
+                    tempZutat = Zutat(
+                        0,
+                        zutatClean,
+                        false,
+                        zutat.zutatenMengenEinheit,
+                        zutat.zutatenMenge
+                    )
 
                     einkauflisteDao.insertAll(tempZutat)
                 }
@@ -159,15 +167,26 @@ class CustomAdapter(
         }
 
 
-        val btnGerichtBearbeiten = view?.findViewById<Button>(R.id.btnBearbeiten)
-        btnGerichtBearbeiten?.setOnClickListener {
-            val intent = Intent(parent?.context, GerichtEditierenActivity::class.java).apply{
-                putExtra("ID", gerichte[position].id)
+
+        if(context is Wochenplaner || context is WochenplanerVeggieActivity){
+            //btnGerichtBearbeiten!!.background = ContextCompat.getDrawable(context, R.drawable.ic_refresh)
+
+            //btnGerichtBearbeiten.setOnClickListener{
+                //Wochenplaner().refreshGericht(position, gerichte)
+            //}
+
+
+        } else {
+            btnGerichtBearbeiten?.setOnClickListener {
+                val intent = Intent(parent?.context, GerichtEditierenActivity::class.java).apply{
+                    putExtra("ID", gerichte[position].id)
+                }
+                println("Btn gericht bearbeiten wurde gedrückt")
+                parent?.context?.startActivity(intent)
             }
-            println("Btn gericht bearbeiten wurde gedrückt")
-            parent?.context?.startActivity(intent)
         }
 
+        //makes a animation that the user clicked the button
         btnGerichtBearbeiten?.setOnTouchListener { mView, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 mView.background.clearColorFilter()
@@ -178,7 +197,6 @@ class CustomAdapter(
             }
             false
         }
-
 
 
         return view

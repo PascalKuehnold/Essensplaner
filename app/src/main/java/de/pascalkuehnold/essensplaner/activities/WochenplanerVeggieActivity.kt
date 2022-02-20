@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
@@ -51,7 +52,7 @@ open class WochenplanerVeggieActivity :Wochenplan(),AdapterView.OnItemSelectedLi
 
         weeksGerichte = getWeeksGerichte()
 
-        if(weeksGerichte.isEmpty()){
+        if(weeksGerichte.isEmpty() || weeksGerichte.size < 7){
             generateList()
             generateListOnScreen()
         } else {
@@ -90,7 +91,17 @@ open class WochenplanerVeggieActivity :Wochenplan(),AdapterView.OnItemSelectedLi
     override fun onResume() {
         super.onResume()
         weeksGerichte = getWeeksGerichte()
-        generateListOnScreen()
+
+        if(weeksGerichte.size != daysToGenerate){
+            val alert = AlertDialog.Builder(this)
+                .setTitle("Es ist ein Fehler aufgetreten")
+                .setMessage("Bei der Erstellung oder beim Laden des Wochenplaners ist ein Fehler aufgetreten.\nEin neuer Wochenplaner wurde erstellt.\n\n")
+                .setPositiveButton(getString(R.string.textOK), DialogInterface.OnClickListener(function = positiveButtonClick))
+
+            alert.show()
+            generateList()
+            generateListOnScreen()
+        }
     }
 
     private val positiveButtonClick = { _: DialogInterface, _: Int ->

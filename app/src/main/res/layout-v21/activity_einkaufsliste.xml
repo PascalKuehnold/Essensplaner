@@ -123,7 +123,7 @@
                 android:id="@+id/viewLayout"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@id/adView"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/inputLayout">
@@ -140,32 +140,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/transparent"
-                app:layout_constraintBottom_toTopOf="@id/adView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/adView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:contentDescription="@string/ad_banner"
-                ads:layoutDescription="@string/ad_banner"
-                ads:adSize="BANNER"
-                ads:adUnitId="ca-app-pub-9044567512818908/9696410160"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

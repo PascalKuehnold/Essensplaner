@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
@@ -30,52 +31,53 @@ open class Wochenplaner : Wochenplan(),AdapterView.OnItemSelectedListener, View.
     private var weeksGerichte = ArrayList<Gericht>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_wochenplaner)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_wochenplaner)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
-        supportActionBar!!.setCustomView(R.layout.wochenplan_title)
-        supportActionBar!!.setDisplayShowCustomEnabled(true)
-
-
-        listOfTitles = arrayOf(getString(R.string.wochenplaner), getString(R.string.wochenplanerveggie))
-
-        dropdownTitleSpinner = supportActionBar!!.customView.findViewById(R.id.spinnerWochenplanerTitle)
-        dropdownTitleSpinner.onItemSelectedListener = this
-        val dropdownAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listOfTitles)
-
-        dropdownTitleSpinner.adapter = dropdownAdapter
+            supportActionBar!!.setBackgroundDrawable(ColorDrawable(Color.parseColor("#266799")))
+            supportActionBar!!.setCustomView(R.layout.wochenplan_title)
+            supportActionBar!!.setDisplayShowCustomEnabled(true)
 
 
+            listOfTitles = arrayOf(getString(R.string.wochenplaner), getString(R.string.wochenplanerveggie))
 
-        listWochenplaner = findViewById(R.id.listViewWochenplan)
+            dropdownTitleSpinner = supportActionBar!!.customView.findViewById(R.id.spinnerWochenplanerTitle)
+            dropdownTitleSpinner.onItemSelectedListener = this
+            val dropdownAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listOfTitles)
 
-        weeksGerichte = getWeeksGerichte()
+            dropdownTitleSpinner.adapter = dropdownAdapter
 
-        if(weeksGerichte.isEmpty() || weeksGerichte.size < 7){
-            generateList()
-            generateListOnScreen()
-        } else {
-            loadWeekgerichte()
-            generateListOnScreen()
-        }
 
-        val btnNeuerPlan = findViewById<Button>(R.id.btnNeuerPlan)
-        btnNeuerPlan.setOnClickListener{
-            if(weeksGerichte.isEmpty()){
+
+            listWochenplaner = findViewById(R.id.listViewWochenplan)
+
+            weeksGerichte = getWeeksGerichte()
+
+            if(weeksGerichte.isEmpty() || weeksGerichte.size < 7){
                 generateList()
                 generateListOnScreen()
             } else {
-                println("Wochenplaner >> AlertBox start")
-                val builder = AlertDialog.Builder(this)
-                        .setTitle(getString(R.string.textCreateNewPlan))
-                        .setMessage(getString(R.string.textWarningLosingOldPlan))
-                        .setPositiveButton(getString(R.string.textOK), DialogInterface.OnClickListener(function = positiveButtonClick))
-
-                builder.show()
+                loadWeekgerichte()
+                generateListOnScreen()
             }
-        }
+
+            val btnNeuerPlan = findViewById<Button>(R.id.btnNeuerPlan)
+            btnNeuerPlan.setOnClickListener{
+                if(weeksGerichte.isEmpty()){
+                    generateList()
+                    generateListOnScreen()
+                } else {
+                    println("Wochenplaner >> AlertBox start")
+                    val builder = AlertDialog.Builder(this)
+                            .setTitle(getString(R.string.textCreateNewPlan))
+                            .setMessage(getString(R.string.textWarningLosingOldPlan))
+                            .setPositiveButton(getString(R.string.textOK), DialogInterface.OnClickListener(function = positiveButtonClick))
+
+                    builder.show()
+                }
+            }
+
     }
 
     override fun onItemSelected(arg0: AdapterView<*>, arg1: View, position: Int, id: Long) {
@@ -120,7 +122,18 @@ open class Wochenplaner : Wochenplan(),AdapterView.OnItemSelectedListener, View.
     override fun onResume() {
         super.onResume()
         weeksGerichte = getWeeksGerichte()
-        generateListOnScreen()
+
+        if(weeksGerichte.size != daysToGenerate){
+            val alert = AlertDialog.Builder(this)
+                .setTitle("Es ist ein Fehler aufgetreten")
+                .setMessage("Bei der Erstellung oder beim Laden des Wochenplaners ist ein Fehler aufgetreten.\nEin neuer Wochenplaner wurde erstellt.\n\n")
+                .setPositiveButton(getString(R.string.textOK), DialogInterface.OnClickListener(function = positiveButtonClick))
+
+            alert.show()
+            generateList()
+            generateListOnScreen()
+        }
+
     }
 
     private val positiveButtonClick = { _: DialogInterface, _: Int ->
@@ -168,11 +181,12 @@ open class Wochenplaner : Wochenplan(),AdapterView.OnItemSelectedListener, View.
 
 
     private fun generateListOnScreen(){
-        val adapter =  CustomAdapter(weeksGerichte, this, this)
-        listWochenplaner.adapter = adapter
 
-        adapter.notifyDataSetChanged()
-        println("Wochenplaner >> generateListOnScreen() -> Daten wurden an den Screen übergeben")
+            val adapter =  CustomAdapter(weeksGerichte, this, this)
+            listWochenplaner.adapter = adapter
+
+            adapter.notifyDataSetChanged()
+            println("Wochenplaner >> generateListOnScreen() -> Daten wurden an den Screen übergeben")
     }
 
 
@@ -197,6 +211,7 @@ open class Wochenplaner : Wochenplan(),AdapterView.OnItemSelectedListener, View.
         return AppDatabase.getDatabase(applicationContext).gerichtDao()
     }
 
+
     private fun generateRandomGerichte(gerichte: List<Gericht>) {
         weeksGerichte.clear()
         while(weeksGerichte.size < daysToGenerate){
@@ -210,8 +225,10 @@ open class Wochenplaner : Wochenplan(),AdapterView.OnItemSelectedListener, View.
         }
     }
 
+
     private fun getWeeksGerichte(): ArrayList<Gericht> {
-        return createConnection().getAll() as ArrayList<Gericht>
+        weeksGerichte = createConnection().getAll() as ArrayList<Gericht>
+        return weeksGerichte
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

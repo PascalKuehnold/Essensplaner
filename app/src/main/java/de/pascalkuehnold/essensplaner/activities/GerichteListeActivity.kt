@@ -12,12 +12,9 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.database.AppDatabase
@@ -148,7 +145,7 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>) {
-                // write code to perform some action
+                refreshGerichteListe()
             }
         }
         refreshGerichteListe()

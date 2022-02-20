@@ -19,7 +19,7 @@
 
     </group>
 
-    <group>
+    <!--<group>
         <item
             android:id="@+id/menu_privacy_policy"
             android:orderInCategory="2"
@@ -31,7 +31,7 @@
             android:orderInCategory="3"
             android:title="@string/terms_of_service_title" />
     </group>
-
+    -->
 
     <item
         android:orderInCategory="3"
