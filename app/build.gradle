@@ -13,8 +13,8 @@ android {
         applicationId "de.pascalkuehnold.essensplaner"
         minSdkVersion 22
         targetSdkVersion 30
-        versionCode 11
-        versionName "0.6.4.1"
+        versionCode 12
+        versionName "0.6.4.2"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

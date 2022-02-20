@@ -338,17 +338,19 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
                     tempDao.delete(tempGericht)
 
                     for(mTempGericht in weeksGerichte){
-                        if(mTempGericht.gerichtName == tempGericht.gerichtName){
-                            generateRandomGericht(weeksGerichte, wochenPlanerDao, false)
+                        if(mTempGericht.id == tempGericht.id){
                             wochenPlanerDao.delete(tempGericht)
+                            generateRandomGericht(weeksGerichte, wochenPlanerDao, false)
+
                             Log.d("GerichteEditierenAct", "deleteMeal() wochenplaner gericht wurde entfernt")
                         }
                     }
 
                     for(mTempGericht in veggieWeeksGerichte){
-                        if(mTempGericht.gerichtName == tempGericht.gerichtName){
-                            generateRandomGericht(veggieWeeksGerichte, wochenPlanerVeggieDao, true)
+                        if(mTempGericht.id == tempGericht.id){
                             wochenPlanerVeggieDao.delete(tempGericht)
+                            generateRandomGericht(veggieWeeksGerichte, wochenPlanerVeggieDao, true)
+
                             Log.d("GerichteEditierenAct", "deleteMeal() wochenplaner gericht wurde entfernt")
                         }
 
@@ -383,7 +385,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
 
 
         for(mGericht in weeksGerichte){
-            if(mGericht.gerichtName == tempGericht.gerichtName){
+            if(mGericht.id == tempGericht.id){
                 rnd = Random.nextInt(0, gerichteListe.lastIndex + 1)
                 tempGericht = gerichteListe[rnd]
             } else {

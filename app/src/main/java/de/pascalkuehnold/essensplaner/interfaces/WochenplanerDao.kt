@@ -20,8 +20,10 @@ interface WochenplanerDao : WochenplanerI {
     @Delete
     fun delete(gericht: Gericht)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    override suspend fun insert(gericht: Gericht)
 
     @Update
-    suspend fun update(gericht: Gericht)
+    override suspend fun update(gericht: Gericht)
 
 }
