@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE resources [
-    <!ENTITY version "v0.6.4.2">
+    <!ENTITY version "v0.6.4.2.1">
     ]>
 <resources>
     <string name="app_name">Mealplanner</string>
@@ -151,4 +151,8 @@
     <string name="ingredient_unit_example">ml</string>
     <string name="change">Change</string>
     <string name="add_meal_to_your_list_icon">Add Meal to your list icon</string>
+    <string name="einkaufsliste_loeschen">Shopping List will be deleted. Continue?</string>
+    <string name="deletedSuccessfully">was deleted successful.</string>
+    <string name="ingredientsFromMealWasAddedSuccessful">Ingredients from %1$s were successfully added to the shopping list."</string>
+    <string name="addedSuccessfullToShoppingList">%1$s was added successful to the shoppinglist.</string>
 </resources>

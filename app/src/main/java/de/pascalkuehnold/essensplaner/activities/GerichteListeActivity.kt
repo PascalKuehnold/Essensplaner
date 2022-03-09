@@ -74,7 +74,29 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
             setOnQueryTextListener(object: SearchView.OnQueryTextListener{
 
                 override fun onQueryTextSubmit(query: String?): Boolean {
+                    //arraylist to hold selected cosmic bodies
+                    val data = ArrayList<Gericht>()
+                    if (!searchView.isEnabled) {
+                        refreshGerichteListe()
+                    } else {
+                        //filter by id
+                        for (gericht in getGerichteListe()) {
 
+                            val tempZutatenList = gericht.zutatenList.toString()
+
+                            if (tempZutatenList.contains(query.toString(), true) || gericht.gerichtName.contains(query.toString(), true)) {
+                                data.add(gericht)
+                            }
+
+                        }
+                        //instatiate adapter a
+                        adapter = CustomAdapter(data, mContext,null)
+                    }
+                    //set the adapter to GridView
+                    listView.adapter = adapter
+                    adapter?.notifyDataSetChanged()
+
+                    searchView.clearFocus()
                     return false
                 }
 
@@ -149,8 +171,6 @@ class GerichteListeActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
         refreshGerichteListe()
-
-
 
     }
 

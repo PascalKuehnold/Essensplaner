@@ -3,6 +3,7 @@ package de.pascalkuehnold.essensplaner.layout
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.PorterDuff
 import android.os.Handler
 import android.view.LayoutInflater
@@ -116,6 +117,8 @@ class CustomAdapter(
 
 
         btnGerichtZurEinkaufslisteHinzufuegen?.setOnClickListener{
+            var res = this.context.resources
+
 
             lateinit var tempZutat: Zutat
             val einkauflisteDao = EinkaufslisteDatabase.getDatabase(parent!!.context).einkaufslisteDao()
@@ -141,13 +144,13 @@ class CustomAdapter(
             if(alleZutatenList.size > 1){
                 Toast.makeText(
                     parent.context,
-                    "TODO() -> Zutaten von Gericht ${selectedGericht.gerichtName} wurden zur Einkaufsliste hinzugefügt",
+                    String.format(res.getString(R.string.ingredientsFromMealWasAddedSuccessful), selectedGericht.gerichtName),
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
                 Toast.makeText(
                     parent.context,
-                    "TODO() -> ${selectedGericht.gerichtName} wurde zur Einkaufsliste hinzugefügt",
+                    String.format(res.getString(R.string.addedSuccessfullToShoppingList), selectedGericht.gerichtName),
                     Toast.LENGTH_SHORT
                 ).show()
             }

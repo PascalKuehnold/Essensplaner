@@ -160,7 +160,7 @@ class GerichtHinzufuegenActivity : AppCompatActivity(), View.OnClickListener{
                     zutaten.add(Zutat(0, item.capitalize(Locale.getDefault())))
                     adapter.notifyDataSetChanged()
                 } catch (e: Exception) {
-                    Toast.makeText(this, "TODO014 $item ist schon vorhanden", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this,item + " " + getString(R.string.textAlreadyInList), Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -205,8 +205,9 @@ class GerichtHinzufuegenActivity : AppCompatActivity(), View.OnClickListener{
         return super.onOptionsItemSelected(item)
     }
 
+    //TODO Click auf Zutat -> soll was passieren?
     override fun onClick(v: View?) {
-        Toast.makeText(this, "TODO()009 Nicht implementiert", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, "TODO()009 Nicht implementiert", Toast.LENGTH_SHORT).show()
     }
 
 }

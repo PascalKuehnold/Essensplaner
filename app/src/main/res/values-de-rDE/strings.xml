@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE resources [
-    <!ENTITY version "v0.6.4.2">
+    <!ENTITY version "v0.6.4.2.1">
     ]>
 
 
@@ -151,4 +151,8 @@
     <string name="ingredient_unit_example">ml</string>
     <string name="change">Ändern</string>
     <string name="add_meal_to_your_list_icon">Gericht hinzufügen Icon</string>
+    <string name="einkaufsliste_loeschen">Einkaufsliste wird gelöscht. Fortfahren?</string>
+    <string name="deletedSuccessfully">wurde erfolgreich gelöscht.</string>
+    <string name="ingredientsFromMealWasAddedSuccessful">Zutaten von %1$s wurden erfolgreich der Einkaufsliste hinzugefügt."</string>
+    <string name="addedSuccessfullToShoppingList">%1$s wurde erfolgreich zur Einkaufsliste hinzugefügt.</string>
 </resources>

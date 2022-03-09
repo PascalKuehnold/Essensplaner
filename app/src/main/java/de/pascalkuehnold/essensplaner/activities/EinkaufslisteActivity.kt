@@ -109,7 +109,7 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
 
 
         } else {
-            Toast.makeText(this, "TODO()005 Keine Eingabe...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.noInputFound), Toast.LENGTH_SHORT).show()
         }
 
         addNewPositionTextField.clearFocus()
@@ -232,7 +232,7 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
     private fun deleteList(){
         val alert = AlertDialog.Builder(this)
         alert.setTitle(getString(R.string.delete))
-        alert.setMessage("TODO()010 -> Einkaufsliste wird gelöscht. Fortfahren?")
+        alert.setMessage(getString(R.string.einkaufsliste_loeschen))
         alert.setPositiveButton(getString(R.string.yes)) { _: DialogInterface, _: Int ->
             createConnection().delete()
             loadEinkaufsliste()
@@ -361,7 +361,7 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
             val einkaufslisteDao = createConnection()
 
             val alert = AlertDialog.Builder(mContext)
-            alert.setMessage("TODO()001 Delete?")
+            alert.setMessage(getString(R.string.delete))
             alert.setPositiveButton(R.string.yes){ _: DialogInterface, _: Int ->
                 mZutaten.removeAt(position)
                 einkaufslisteDao.delete(tempZutat)
@@ -369,7 +369,7 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
                 loadEinkaufsliste()
                 generateListOnScreen()
 
-                Toast.makeText(mContext, ("TODO()002 $tempZutat was deleted successfully."), Toast.LENGTH_SHORT).show()
+                Toast.makeText(mContext, (tempZutat.zutatenName + " " + getString(R.string.deletedSuccessfully)), Toast.LENGTH_SHORT).show()
             }
             alert.setNegativeButton(R.string.no){ dialog: DialogInterface, _: Int ->
                 dialog.cancel()

@@ -128,7 +128,7 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
                         adapter.notifyDataSetChanged()
                         Toast.makeText(this, getString(R.string.zutat) + " " + inputText + " " + getString(R.string.addedSuccessfully), Toast.LENGTH_SHORT).show()
                     } catch (e: Exception) {
-                        Toast.makeText(this, "TODO014 $item ist schon vorhanden", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, item + " " +getString(R.string.textAlreadyInList), Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -309,8 +309,9 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
         return super.onOptionsItemSelected(item)
     }
 
+    //TODO Click auf Zutat -> soll was passieren?
     override fun onClick(v: View?) {
-        Toast.makeText(this, "TODO()009 Nicht implementiert", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, "TODO()009 Nicht implementiert", Toast.LENGTH_SHORT).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -356,15 +357,14 @@ class GerichtEditierenActivity : AppCompatActivity(), View.OnClickListener {
 
                     }
 
+                    Toast.makeText(this, tempGericht.gerichtName + " " + getString(R.string.deletedSuccessfully), Toast.LENGTH_SHORT).show()
 
                     if(tempDao.getAll().size < 7){
-                        Toast.makeText(this, "TODO()007 Not enough meals for 7 days...", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.textNotEnoughMeals), Toast.LENGTH_SHORT).show()
                     }
                     if(wochenPlanerVeggieDao.getAll().size < 7){
-                        Toast.makeText(this, "TODO()007 Not enough veggie meals for 7 days...", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.textNotEnoughMealsVeggie), Toast.LENGTH_SHORT).show()
                     }
-
-                    Toast.makeText(this, "TODO()000 Gericht was successfully deleted", Toast.LENGTH_SHORT).show()
                     waitForToastShortThread.start()
                 }
                 .setNegativeButton(R.string.cancel) { dialog: DialogInterface, _: Int ->
