@@ -11,6 +11,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.google.android.material.textfield.TextInputEditText
 import de.pascalkuehnold.essensplaner.R
 import de.pascalkuehnold.essensplaner.activities.EinkaufslisteActivity
 import de.pascalkuehnold.essensplaner.activities.GerichtEditierenActivity
@@ -42,6 +43,7 @@ class Zutat(
             zutaten[position].zutatenName = inputText
             zutaten[position].zutatenMengenEinheit = mengenEinheit
             zutaten[position].zutatenMenge = menge.toDouble()
+
 
             (mContext as GerichtEditierenActivity).changeGericht(zutaten)
 
@@ -88,14 +90,14 @@ class Zutat(
                 customZutatenAdapter: CustomZutatenAdapter
         ) {
 
-            val builder = AlertDialog.Builder(mContext, R.style.Theme_Essensplaner_DialogTheme)
+            val builder = AlertDialog.Builder(mContext, R.style.Theme_Essensplaner_DialogTheme).create()
 
             val v: View = View.inflate(mContext, R.layout.edit_ingredient_layout, null)
 
             builder.setView(v)
 
-            val editTextZutatenName = v.findViewById<EditText>(R.id.editTextZutatenName)
-            editTextZutatenName?.hint = zutatenNew[position].zutatenName
+            val editTextZutatenName = v.findViewById<TextInputEditText>(R.id.editTextZutatenName)
+            editTextZutatenName?.setText(zutatenNew[position].zutatenName)
 
             val editTextZutatenMenge = v.findViewById<EditText>(R.id.editTextMenge)
             editTextZutatenMenge?.hint = zutatenNew[position].zutatenMenge.toInt().toString()
@@ -141,8 +143,9 @@ class Zutat(
                 deleteZutat(mContext, zutatenNew, position, customZutatenAdapter)
             }
 
-            builder.setNegativeButton("Schließen") { dialog, _ ->
-                dialog.dismiss()
+            val btnClose = v.findViewById<Button>(R.id.btnClose)
+            btnClose.setOnClickListener {
+                builder.dismiss()
             }
 
             builder.show()
@@ -163,14 +166,14 @@ class Zutat(
 
             builder.setView(v)
 
-            val editTextZutatenName = v.findViewById<EditText>(R.id.editTextZutatenName)
-            editTextZutatenName?.hint = zutatenNew[position].zutatenName
+            val editTextZutatenName = v.findViewById<TextInputEditText>(R.id.editTextZutatenName)
+            editTextZutatenName?.setText(zutatenNew[position].zutatenName)
 
-            val editTextZutatenMenge = v.findViewById<EditText>(R.id.editTextMenge)
-            editTextZutatenMenge?.hint = zutatenNew[position].zutatenMenge.toInt().toString()
+            val editTextZutatenMenge = v.findViewById<TextInputEditText>(R.id.editTextMenge)
+            editTextZutatenMenge?.setText(zutatenNew[position].zutatenMenge.toInt().toString())
 
-            val editTextZutatenMengenEinheit = v.findViewById<EditText>(R.id.editTextZutatenEinheit)
-            editTextZutatenMengenEinheit?.hint = zutatenNew[position].zutatenMengenEinheit
+            val editTextZutatenMengenEinheit = v.findViewById<TextInputEditText>(R.id.editTextZutatenEinheit)
+            editTextZutatenMengenEinheit?.setText(zutatenNew[position].zutatenMengenEinheit)
 
             val btnChangeIngredient = v.findViewById<Button>(R.id.btnChangeIngredient)
             btnChangeIngredient?.setOnClickListener {

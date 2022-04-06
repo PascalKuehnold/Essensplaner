@@ -3,13 +3,17 @@ package de.pascalkuehnold.essensplaner.activities
 import android.database.sqlite.SQLiteConstraintException
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.opengl.Visibility
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import android.widget.AdapterView.OnItemClickListener
+import android.widget.AdapterView.VISIBLE
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
@@ -56,6 +60,8 @@ class GerichtHinzufuegenActivity : AppCompatActivity(), View.OnClickListener{
 
 
         listViewZutaten = findViewById(R.id.listViewZutatenlisteGerichtAendern)
+
+
         textInputGericht = findViewById(R.id.textInputTextGericht)
         textInputGericht.maxLines = 2
 
@@ -73,32 +79,50 @@ class GerichtHinzufuegenActivity : AppCompatActivity(), View.OnClickListener{
             if (this.mealName.isNotEmpty()) {
                 try {
                     Gericht.addGericht(
-                            applicationContext,
-                            this.mealName,
-                            this.mealIsVeggie,
-                            this.mealIsForMultipleDays,
-                            this.mealIsFastPrepared,
-                            this.mealIsByChefkoch ,
-                            this.mealCooktime,
-                            this.mealAuthor,
-                            this.mealReceipt,
-                            this.mealChefkochUrl,
-                            this.zutaten
+                        applicationContext,
+                        this.mealName,
+                        this.mealIsVeggie,
+                        this.mealIsForMultipleDays,
+                        this.mealIsFastPrepared,
+                        this.mealIsByChefkoch,
+                        this.mealCooktime,
+                        this.mealAuthor,
+                        this.mealReceipt,
+                        this.mealChefkochUrl,
+                        this.zutaten
                     )
 
                 } catch (e: SQLiteConstraintException) {
-                    Toast.makeText(this, this.mealName + " " + getString(R.string.textAlreadyInList), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        this.mealName + " " + getString(R.string.textAlreadyInList),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 cleanInput()
             } else {
+                /*
                 //debug purpose
                 var tempMealName = "Gericht"
                 val tempZutatenList = this.zutaten
                 for(i in 0 until 200){
-                    Gericht.addGericht(applicationContext, tempMealName + i, false, false, false, false, "","","","",tempZutatenList,1)
+                    Gericht.addGericht(
+                        applicationContext,
+                        tempMealName + i,
+                        false,
+                        false,
+                        false,
+                        false,
+                        "",
+                        "",
+                        "",
+                        "",
+                        tempZutatenList,
+                        1
+                    )
 
                 }
-
+                */
 
                 Toast.makeText(this, getString(R.string.textErrorAtMealAdd), Toast.LENGTH_SHORT).show()
             }
@@ -124,6 +148,8 @@ class GerichtHinzufuegenActivity : AppCompatActivity(), View.OnClickListener{
                 hideSoftKeyboard(v)
             }
         }
+
+
 
         //creates the custom adapter
         adapter = CustomZutatenAdapter(this, zutaten, this)
@@ -160,7 +186,11 @@ class GerichtHinzufuegenActivity : AppCompatActivity(), View.OnClickListener{
                     zutaten.add(Zutat(0, item.capitalize(Locale.getDefault())))
                     adapter.notifyDataSetChanged()
                 } catch (e: Exception) {
-                    Toast.makeText(this,item + " " + getString(R.string.textAlreadyInList), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        item + " " + getString(R.string.textAlreadyInList),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -190,6 +220,9 @@ class GerichtHinzufuegenActivity : AppCompatActivity(), View.OnClickListener{
         switchMultipleDays.isChecked = false
         switchFastPreperation.isChecked = false
         tempZutatenStringArray.removeAll(ArrayList())
+        zutaten.clear()
+
+        adapter.notifyDataSetChanged()
 
         textInputGericht.requestFocus()
         textInputGericht.showSoftKeyboard()
@@ -205,9 +238,71 @@ class GerichtHinzufuegenActivity : AppCompatActivity(), View.OnClickListener{
         return super.onOptionsItemSelected(item)
     }
 
+
+
     //TODO Click auf Zutat -> soll was passieren?
     override fun onClick(v: View?) {
-        //Toast.makeText(this, "TODO()009 Nicht implementiert", Toast.LENGTH_SHORT).show()
+
+        val position = v?.tag as Int
+        val zutat = zutaten[position]
+
+        val builder = AlertDialog.Builder(this, R.style.Theme_Essensplaner_DialogTheme).create()
+
+        val view: View = View.inflate(this, R.layout.edit_ingredient_layout, null)
+
+        builder.setView(view)
+
+        val editTextZutatenName = view.findViewById<TextInputEditText>(R.id.editTextZutatenName)
+        editTextZutatenName?.setText(zutaten[position].zutatenName)
+
+        val editTextZutatenMenge = view.findViewById<EditText>(R.id.editTextMenge)
+        editTextZutatenMenge?.hint = zutaten[position].zutatenMenge.toInt().toString()
+
+        val editTextZutatenMengenEinheit = view.findViewById<EditText>(R.id.editTextZutatenEinheit)
+        editTextZutatenMengenEinheit?.hint = zutaten[position].zutatenMengenEinheit
+
+        val btnDeleteIngredient = view.findViewById<Button>(R.id.btnDeleteZutat)
+        btnDeleteIngredient.visibility = VISIBLE
+        btnDeleteIngredient?.setOnClickListener{
+            zutaten.remove(zutat)
+            adapter.notifyDataSetChanged()
+            Toast.makeText(this,zutat.zutatenName + " " + getString(R.string.deletedSuccessfully),Toast.LENGTH_SHORT).show()
+            builder.dismiss()
+        }
+
+        val btnChangeIngredient = view.findViewById<Button>(R.id.btnChangeIngredient)
+        btnChangeIngredient?.setOnClickListener {
+            val zutatenName = if(editTextZutatenName?.text.isNullOrEmpty()){
+                zutaten[position].zutatenName
+            } else {
+                editTextZutatenName?.text.toString()
+            }
+
+            val zutatenMenge = if(editTextZutatenMenge?.text.isNullOrEmpty()){
+                zutaten[position].zutatenMenge.toInt().toString()
+            } else {
+                editTextZutatenMenge?.text.toString()
+            }
+
+            val zutatenMengenEinheit = if(editTextZutatenMengenEinheit?.text.isNullOrEmpty()){
+                zutaten[position].zutatenMengenEinheit
+            } else {
+                editTextZutatenMengenEinheit?.text.toString()
+            }
+
+            val tempZutat = Zutat(0, zutatenName, false, zutatenMengenEinheit, zutatenMenge.toDouble())
+
+            zutaten[position] = tempZutat
+
+            adapter.notifyDataSetChanged()
+        }
+
+        val btnClose = view.findViewById<Button>(R.id.btnClose)
+        btnClose.setOnClickListener {
+            builder.dismiss()
+        }
+
+        builder.show()
     }
 
 }

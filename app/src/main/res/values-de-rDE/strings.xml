@@ -146,7 +146,7 @@
     <string name="zutaten_name_ndern">Zutaten Name ändern:</string>
     <string name="zutatenname">Zutatenname</string>
     <string name="zutaten_menge_ndern">Zutaten Menge ändern:</string>
-    <string name="numberFiller">50</string>
+    <string name="numberFiller">0</string>
     <string name="zutaten_mengeneinheit_ndern">Zutaten Mengeneinheit ändern:</string>
     <string name="ingredient_unit_example">ml</string>
     <string name="change">Ändern</string>
