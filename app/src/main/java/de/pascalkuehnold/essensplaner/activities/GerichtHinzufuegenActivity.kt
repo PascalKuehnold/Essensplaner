@@ -294,6 +294,8 @@ class GerichtHinzufuegenActivity : AppCompatActivity(), View.OnClickListener{
 
             zutaten[position] = tempZutat
 
+            Toast.makeText(this, tempZutat.zutatenName + getString(R.string.ingredientWasSuccessfullyChanged),Toast.LENGTH_SHORT).show()
+
             adapter.notifyDataSetChanged()
         }
 
