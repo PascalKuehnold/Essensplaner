@@ -17,6 +17,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.view.forEach
 import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -25,12 +26,14 @@ import de.pascalkuehnold.essensplaner.database.AppDatabase
 import de.pascalkuehnold.essensplaner.database.EinkaufslisteDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerDatabase
 import de.pascalkuehnold.essensplaner.database.WochenplanerVeggieDatabase
+import de.pascalkuehnold.essensplaner.handler.BottomNavHandler
+import de.pascalkuehnold.essensplaner.handler.DatabaseHandler
 
 class NewMainMenu2022 : AppCompatActivity(){
-    private lateinit var layoutMainMealList: RelativeLayout
-    private lateinit var layoutMainWeeklyplanner: RelativeLayout
-    private lateinit var layoutMainShoppingList: RelativeLayout
-    private lateinit var layoutMainGroup: RelativeLayout
+    private lateinit var layoutMainMealList: LinearLayout
+    private lateinit var layoutMainWeeklyplanner: LinearLayout
+    private lateinit var layoutMainShoppingList: LinearLayout
+    private lateinit var layoutMainGroup: LinearLayout
     private lateinit var layoutMainMenu: BottomNavigationView
 
     private var introMessage: RelativeLayout? = null
@@ -86,37 +89,40 @@ class NewMainMenu2022 : AppCompatActivity(){
     private fun showMainLayout() {
         setContentView(R.layout.activity_new_main_menu2022)
 
+        createMainMenuOnClickListeners()
+    }
+
+    private fun createMainMenuOnClickListeners() {
         layoutMainMenu = findViewById(R.id.mainMenuBottomNav)
         layoutMainMenu.itemIconTintList = null
 
+        BottomNavHandler(this, layoutMainMenu).createBottomNavHandler()
 
         layoutMainMealList = findViewById(R.id.layoutMainMealList)
         layoutMainMealList.setOnClickListener {
-                val intent = Intent(this, GerichteListeActivity::class.java)
-                startActivity(intent)
-            }
+            val intent = Intent(this, GerichteListeActivity::class.java)
+            startActivity(intent)
+        }
 
 
         layoutMainWeeklyplanner = findViewById(R.id.layoutMainWeeklyplanner)
         layoutMainWeeklyplanner.setOnClickListener {
-                val intent = Intent(this, Wochenplaner::class.java)
-                startActivity(intent)
-            }
+            val intent = Intent(this, Wochenplaner::class.java)
+            startActivity(intent)
+        }
 
 
         layoutMainShoppingList = findViewById(R.id.layoutMainShoppingList)
         layoutMainShoppingList.setOnClickListener {
-                val intent = Intent(this, EinkaufslisteActivity::class.java)
-                startActivity(intent)
-            }
+            val intent = Intent(this, EinkaufslisteActivity::class.java)
+            startActivity(intent)
+        }
 
 
         layoutMainGroup = findViewById(R.id.layoutMainGroup)
         layoutMainGroup.setOnClickListener {
-                //TODO CREATE GROUP ACTIVITY
-            }
-
-
+            //TODO CREATE GROUP ACTIVITY
+        }
     }
 
 
@@ -147,6 +153,8 @@ class NewMainMenu2022 : AppCompatActivity(){
             }
         }
 
+
+
         //Datenschutzerklärung und Nutzungsbedingungen
 //        when(item.itemId){
 //            R.id.menu_privacy_policy -> {
@@ -173,23 +181,7 @@ class NewMainMenu2022 : AppCompatActivity(){
     private fun deleteDatabase(){
         println("Datenbank löschen gedrückt")
 
-
-        val alert = AlertDialog.Builder(this)
-        alert.setTitle(getString(R.string.deleteDataFromPhone))
-        alert.setMessage(getString(R.string.deleteDataFromPhoneMessage))
-        alert.setPositiveButton(getString(R.string.delete)) { _: DialogInterface, _: Int ->
-            AppDatabase.getDatabase(applicationContext).gerichtDao().delete()
-            WochenplanerDatabase.getDatabase(applicationContext).wochenGerichteDao().delete()
-            WochenplanerVeggieDatabase.getDatabase(applicationContext).wochenGerichteVeggieDao().delete()
-            EinkaufslisteDatabase.getDatabase(applicationContext).einkaufslisteDao().delete()
-            Toast.makeText(this, getString(R.string.allDataDeletedText), Toast.LENGTH_LONG).show()
-        }
-        alert.setNegativeButton(getString(R.string.cancel)) { dialog: DialogInterface, _: Int ->
-            dialog.cancel()
-        }
-        alert.show()
-
-
+        DatabaseHandler(this, applicationContext).deleteAllDatabases()
 
         println("Datenbank wurde gelöscht")
     }

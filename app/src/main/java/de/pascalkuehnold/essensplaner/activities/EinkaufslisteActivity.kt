@@ -74,7 +74,6 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
 
         btnAddItem.setOnClickListener{
             addNewItem()
-            hideSoftKeyboard(it)
         }
 
         loadEinkaufsliste()
@@ -112,7 +111,7 @@ class EinkaufslisteActivity : AppCompatActivity(), View.OnClickListener, AbsList
             Toast.makeText(this, getString(R.string.noInputFound), Toast.LENGTH_SHORT).show()
         }
 
-        addNewPositionTextField.clearFocus()
+        addNewPositionTextField.requestFocus()
 
     }
 
