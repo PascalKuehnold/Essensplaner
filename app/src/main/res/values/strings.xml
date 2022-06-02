@@ -1,7 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE resources [
-    <!ENTITY version "v0.6.4.3.1">
-    ]>
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE resources [<!ENTITY version "v0.6.4.3.1">]>
 <resources>
     <string name="app_name">Mealplanner</string>
     <string name="action_settings">Settings</string>
@@ -157,4 +154,5 @@
     <string name="addedSuccessfullToShoppingList">%1$s was added successful to the shoppinglist.</string>
     <string name="ingredientWasSuccessfullyChanged"> was changed successful.</string>
     <string name="wocheneinstellung">"Week Settings"</string>
+    <string name="group">Group</string>
 </resources>

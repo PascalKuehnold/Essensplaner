@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navMealList"
+        android:icon="@drawable/ic_meal"
+        android:title="Gerichte Liste"/>
+
+    <item
+        android:id="@+id/navWeeklyPlanner"
+        android:icon="@drawable/ic_schedule"
+        android:title="Wochenplaner" />
+
+    <item
+        android:id="@+id/navShoppingList"
+        android:icon="@drawable/ic_shopping_list"
+        android:title="Einkaufsliste" />
+
+    <item
+        android:id="@+id/navGroup"
+        android:icon="@drawable/ic_team"
+        android:title="Gruppe" />
+
+
+</menu>

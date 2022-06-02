@@ -12,9 +12,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Essensplaner"
-        >
-
+        android:theme="@style/Theme.Essensplaner">
         <activity
             android:name=".activities.GerichtActivity"
             android:label="@string/title_activity_gericht"
@@ -32,15 +30,13 @@
         <activity
             android:name=".activities.AboutActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.Essensplaner.NoActionBar"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/Theme.Essensplaner.NoActionBar" />
         <activity
             android:name=".activities.SettingsActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.Essensplaner.NoActionBar"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/Theme.Essensplaner.NoActionBar" />
         <activity
             android:name=".activities.GerichtEditierenActivity"
             android:configChanges="orientation"
@@ -72,7 +68,8 @@
                 android:name="android.app.default_searchable"
                 android:value=".SearchableActivity" />
         </activity>
-        <activity android:name=".activities.WebViewActivity"
+        <activity
+            android:name=".activities.WebViewActivity"
             android:configChanges="orientation"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
@@ -83,18 +80,25 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activities.WeekSettingsActivity"
+        <activity
+            android:name=".activities.WeekSettingsActivity"
             android:configChanges="orientation"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Essensplaner.NoActionBar">
+
+        </activity>
+        <activity android:name=".activities.NewMainMenu2022"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Essensplaner.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -102,11 +106,10 @@
             </intent-filter>
         </activity>
 
+
         <receiver
             android:name=".activities.GerichteListeActivity$ActionBroadcastReceiver"
             android:enabled="true" />
-
-
     </application>
 
 </manifest>

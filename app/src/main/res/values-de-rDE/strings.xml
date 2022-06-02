@@ -157,4 +157,5 @@
     <string name="addedSuccessfullToShoppingList">%1$s wurde erfolgreich zur Einkaufsliste hinzugefügt.</string>
     <string name="ingredientWasSuccessfullyChanged"> wurde erfolgreich geändert.</string>
     <string name="wocheneinstellung">"Wocheneinstellungen"</string>
+    <string name="group">Gruppe</string>
 </resources>
