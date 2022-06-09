@@ -95,4 +95,11 @@ dependencies {
 
     implementation 'com.android.support:multidex:1.0.3'
 
+    //firebase
+    implementation platform('com.google.firebase:firebase-bom:30.1.0')
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
+
 }
+//apply firebase google services
+apply plugin: 'com.google.gms.google-services'
